@@ -1,0 +1,9 @@
+{
+  "name": "nfd-deploy",
+  "version": "1.0.0",
+  "description": "Custom deploy command for NFD CLI to deploy to Vercel.",
+  "bin": {
+    "n-f-d_deploy": "./nfd_deploy.js"
+  },
+  "dependencies": {}
+}

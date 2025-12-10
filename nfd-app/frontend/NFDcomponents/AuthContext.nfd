@@ -1,0 +1,399 @@
+import { useState, useEffect, useContext } from "react";
+import PropTypes from "prop-types";
+import UserContext from "./UserContext.nfd";
+import CryptoJS from "crypto-js";
+import { v4 as uuidv4 } from "uuid"; // Import uuidv4 for generating unique values
+import apiRequest from '../NFDLib/apiRequest.js';
+
+// ensure axios wrapper will send credentials by default
+try { if (apiRequest && apiRequest.defaults) apiRequest.defaults.withCredentials = true; } catch (e) {}
+
+// helper to build auth URL (avoid accidental /api/api)
+const apiBase = import.meta.env.VITE_API_URL || (apiRequest && apiRequest.defaults && apiRequest.defaults.baseURL) || '';
+const buildAuthUrl = (path) => {
+  const p = path.replace(/^\/+/, '');
+  if (!apiBase) return `/api/${p}`;
+  return `${apiBase.replace(/\/$/, '')}/${p}`;
+};
+
+const SECRET_KEY = import.meta.env.VITE_SECRET_KEY || "default-secret-key"; // Use environment variable
+
+const AuthContextProvider = ({ children }) => {
+  const encryptData = (data) => CryptoJS.AES.encrypt(JSON.stringify(data), SECRET_KEY).toString();
+  const decryptData = (encryptedData) => {
+    try {
+      const bytes = CryptoJS.AES.decrypt(encryptedData, SECRET_KEY);
+      return JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    } catch {
+      return null;
+    }
+  };
+
+  const padValueToLength = (value, length) => {
+    while (value.length < length) {
+      const padding = `${uuidv4()}`; // Use uuidv4 for padding
+      value += padding.slice(0, Math.min(length - value.length, padding.length)); // Append padding up to the required length
+    }
+    return value;
+  };
+
+  const saveToLocalStorage = (keys, data) => {
+    const uniqueKeys = new Set(); // Track unique keys
+    keys.forEach((key) => {
+      let encryptedValue = encryptData(data[key] || "");
+      if (uniqueKeys.has(key)) {
+        encryptedValue = uuidv4(); // Use uuidv4 for duplicates
+      }
+      uniqueKeys.add(key); // Add to the set
+      if (
+        key === "Broke_people_Whats_up_with_that" ||
+        key === "Freedom_Idom_Medom" ||
+        key === "Wheres_your_Wedom" ||
+        key === "This_world_needs_a_brand_new_Redom" ||
+        key === "Wedom_the_key" ||
+        key === "Wedom_the_keydom_to_life" ||
+        key === "Lets_be_dem" ||
+        key === "Wedom_smart_phones" ||
+        key === "Dont_be_dumb"
+      ) {
+        encryptedValue = padValueToLength(encryptedValue, 678); // Ensure at least 678 characters
+      }
+      localStorage.setItem(key, encryptedValue); // Save to localStorage
+    });
+  };
+
+  const clearFromLocalStorage = (keys) => {
+    keys.forEach((key) => {
+      localStorage.removeItem(key); // Remove from localStorage
+    });
+  };
+
+  const refreshKeys = () => {
+    // Refresh all critical tokens (ensure presence & rotate these short-lived markers)
+    const keysToRefresh = criticalTokens.slice(); // copy full critical list
+    keysToRefresh.forEach((key) => {
+      try {
+        const newValue = uuidv4();
+        const encryptedValue = encryptData(newValue);
+        localStorage.setItem(key, encryptedValue);
+      } catch (e) {
+        // avoid throwing during refresh; continue refreshing other keys
+        console.warn('refreshKeys failed for', key, e);
+      }
+    });
+    // Note: HttpOnly cookies must still be set server-side if required.
+  };
+
+  // deduplicated list of keys that must exist in localStorage
+  const criticalTokens = [
+    "Love_wins_Whats_up_with_that",
+    "Log_in_with_love",
+    "Silence_your_ads",
+    "We_are_login_the_patch_notes",
+    "Power_doesn't_sleep_fetchUser_",
+    "The_now_and_the_never",
+    "Legacy_whats_it_mean",
+    "Joy_in_the_cracks",
+    "Talk_back_to_the_past",
+    "We_dont_sleep_we_dream",
+    "The_questions_stay_louder",
+    "We_made_it_this_far",
+    "Can_a_moment_last",
+  ];
+
+  const [currentUser, setCurrentUser] = useState(() => decryptData(localStorage.getItem("user")) || null);
+  const [accountChooser, setAccountChooser] = useState(() => {
+    const encryptedToken = localStorage.getItem("Love_wins_Whats_up_with_that");
+    return encryptedToken ? decryptData(encryptedToken) : null; // Decrypt the token
+  });
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const storedUser = decryptData(localStorage.getItem("user"));
+    const userKey = storedUser ? `isDarkMode_${storedUser.username}` : "isDarkMode_default";
+    const storedDarkMode = localStorage.getItem(userKey);
+    return storedDarkMode ? decryptData(storedDarkMode) : true; // Default to true if no value is found
+  });
+  const [currentTrack, setCurrentTrack] = useState(() => decryptData(localStorage.getItem("currentTrack")) || null);
+  const [currentTime, setCurrentTime] = useState(() => decryptData(localStorage.getItem("currentTime")) || 0);
+
+  const login = (user, token) => {
+    setCurrentUser(user);
+    // Keep token in localStorage encrypted for client-side usage, but DO NOT create large cookies
+    const encryptedToken = encryptData(token);
+    localStorage.setItem("Love_wins_Whats_up_with_that", encryptedToken);
+
+    // store only small local markers in localStorage; do NOT call document.cookie for large auth tokens
+    criticalTokens.forEach((key) => {
+      const value = encryptData(`${key}_${user.id}_${uuidv4()}`);
+      localStorage.setItem(key, value);
+    });
+
+    setAccountChooser(token);
+    localStorage.setItem("user", encryptData(user));
+    localStorage.setItem("currentTrack", encryptData(currentTrack)); // Save currentTrack during login
+    localStorage.setItem("currentTime", encryptData(currentTime)); // Save currentTime during login
+    // Ensure per-user dark mode preference exists and load it into state.
+    const userKey = user && user.username ? `isDarkMode_${user.username}` : `isDarkMode_default`;
+    const storedPref = localStorage.getItem(userKey);
+    if (storedPref) {
+      try {
+        const pref = decryptData(storedPref);
+        setIsDarkMode(pref);
+      } catch (e) {
+        // if decryption fails just keep existing state and overwrite below
+        console.warn('Failed to load stored dark mode pref for', userKey, e);
+      }
+    } else {
+      // initialize the key with current preference
+      try { localStorage.setItem(userKey, encryptData(isDarkMode)); } catch (e) { /* ignore */ }
+    }
+
+    const keysToSave = [
+    
+      "Thisssss_world_needs_a_brand_new_Redom",
+     
+      
+    ];
+    saveToLocalStorage(keysToSave, user); // Save specified keys to localStorage
+
+    const cookieNames = [
+      "Thisssss_world_needs_a_brand_new_Redom",
+    ];
+
+    const uniqueCookieValues = new Set(); // Track unique values
+    cookieNames.forEach((name, index) => {
+      let value = `Value_${user.id}_TRYING_${index}`;
+      if (uniqueCookieValues.has(name)) {
+        value = uuidv4(); // Use uuidv4 for duplicates
+      }
+      uniqueCookieValues.add(name); // Add to the set
+      // do not set cookies here; keep localStorage only
+      localStorage.setItem(name, encryptData(value));
+    });
+  };
+
+  // Call backend to authenticate and then use local login to persist encrypted token/user
+
+  const loginWithCredentials = async (identifier, password) => {
+    try {
+      const { data } = await apiRequest.post(buildAuthUrl('auth/login'), { identifier, password }, { withCredentials: true });
+      const { user, token } = data;
+      login(user, token);
+      return { ok: true, user };
+    } catch (err) {
+      console.error('loginWithCredentials error', err);
+      const message = err?.response?.data?.error || err.message || 'Login failed';
+      return { ok: false, error: message };
+    }
+  };
+
+  const registerWithCredentials = async (userData) => {
+    try {
+      const { data } = await apiRequest.post(buildAuthUrl('auth/register'), userData, { withCredentials: true });
+      const { user, token } = data;
+      // Auto-login after successful registration
+      login(user, token);
+      return { ok: true, user, token };
+    } catch (err) {
+      console.error('registerWithCredentials error', err);
+      const message = err?.response?.data?.error || err.message || 'Register failed';
+      return { ok: false, error: message };
+    }
+  };
+
+  // Call backend to clear server cookie and then clear local state
+  const logoutRemote = async () => {
+    try {
+        if (apiRequest && apiRequest.post) {
+            // Use the project's axios wrapper so baseURL and interceptors apply.
+            // Avoid duplicating `/api` when apiRequest.defaults.baseURL already contains it.
+            let logoutPath = '/api/auth/logout';
+            try {
+              const base = apiRequest.defaults && apiRequest.defaults.baseURL ? String(apiRequest.defaults.baseURL) : '';
+              if (base.match(/\/api(\/|$)/)) {
+                // base already ends with /api or contains /api segment — use shorter path
+                logoutPath = '/auth/logout';
+              }
+            } catch (e) {
+              /* ignore and use default logoutPath */
+            }
+            await apiRequest.post(logoutPath, {}, { withCredentials: true });
+          } else {
+          // Fallback to fetch when apiRequest isn't available
+          const logoutUrl = buildAuthUrl('/api/auth/logout');
+          await fetch(logoutUrl, { method: 'POST', credentials: 'include' });
+        }
+    } catch (err) {
+      console.warn('logoutRemote network error', err);
+    }
+    logout();
+  };
+
+  const updateUser = (user) => {
+    const updatedUser = { ...currentUser, ...user };
+    setCurrentUser(updatedUser);
+    localStorage.setItem("user", encryptData(updatedUser));
+  };
+
+  const logout = () => {
+    // Clear local user state / localStorage markers
+    setCurrentUser(null);
+    setAccountChooser(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("Love_wins_Whats_up_with_that");
+    criticalTokens.forEach((key) => localStorage.removeItem(key));
+
+    try { logoutRemote(); } catch (e) { /* ignore network errors */ }
+
+    window.location.href = "/Login";
+  };
+
+  const setCurrentTrackAndSave = (track) => {
+    setCurrentTrack(track);
+    localStorage.setItem("currentTrack", encryptData(track)); // Save to localStorage
+  };
+
+  const setCurrentTimeAndSave = (time) => {
+    setCurrentTime(time);
+    localStorage.setItem("currentTime", encryptData(time)); // Save to localStorage
+  };
+
+  const setIsDarkModeAndSave = (darkMode) => {
+    setIsDarkMode(darkMode);
+    const storedUser = decryptData(localStorage.getItem("user"));
+    const userKey = storedUser ? `isDarkMode_${storedUser.username}` : "isDarkMode_default";
+    localStorage.setItem(userKey, encryptData(darkMode)); // Save the dark mode preference
+  };
+
+  useEffect(() => {
+    // Call refreshKeys on page load to ensure values are updated
+    refreshKeys();
+
+    // Check tokens on page load — attempt a refresh before forcing logout.
+    const checkCriticalTokens = async () => {
+      const missingToken = criticalTokens.find((key) => !localStorage.getItem(key));
+      if (!missingToken) return;
+
+      console.warn(`Critical token "${missingToken}" is missing — attempting refresh before logout.`);
+      // Try to refresh tokens immediately and re-check shortly after
+      try { refreshKeys(); } catch (e) { console.warn('refreshKeys failed', e); }
+
+      // Re-check after a short delay. Only logout if tokens still missing.
+      setTimeout(() => {
+        const stillMissing = criticalTokens.find((k) => !localStorage.getItem(k));
+        if (stillMissing) {
+          console.error(`Critical token "${stillMissing}" still missing after refresh. Logging out for security.`);
+          // avoid forcing logout if already on Login page (prevents loops)
+          if (typeof window !== 'undefined' && window.location && window.location.pathname !== '/Login') {
+            logout();
+          } else {
+            console.warn('On Login page — skipped forced logout to avoid navigation loop.');
+          }
+        }
+      }, 600); // small retry window (600ms) — enough for local writes
+    };
+    checkCriticalTokens();
+
+    const storedUser = decryptData(localStorage.getItem("user"));
+    if (storedUser) {
+      setCurrentUser(storedUser);
+      const userKey = `isDarkMode_${storedUser.username}`;
+      const storedDarkMode = localStorage.getItem(userKey);
+      if (storedDarkMode) {
+        setIsDarkMode(decryptData(storedDarkMode)); // Load the user's dark mode preference
+      }
+    } else {
+      // Keep this silent in production; expose as debug-only message
+      if (import.meta.env && import.meta.env.VITE_DEBUG_AUTH === 'true') {
+        console.debug("AuthContext: no stored user found (app may be in dev or fresh state)");
+      }
+    }
+
+    const storedAccountChooser = localStorage.getItem("Love_wins_Whats_up_with_that");
+    if (storedAccountChooser) {
+      setAccountChooser(decryptData(storedAccountChooser)); // Decrypt the token
+    } else {
+      if (import.meta.env && import.meta.env.VITE_DEBUG_AUTH === 'true') {
+        console.debug('AuthContext: no account preference token present in localStorage');
+      }
+    }
+
+    const storedTrack = decryptData(localStorage.getItem("currentTrack"));
+    if (storedTrack) {
+      setCurrentTrack(storedTrack);
+    }
+
+    const storedTime = decryptData(localStorage.getItem("currentTime"));
+    if (storedTime) {
+      setCurrentTime(storedTime);
+    }
+
+    // Monitor localStorage changes
+    const handleStorageChange = (event) => {
+      if (criticalTokens.includes(event.key) && !event.newValue) {
+        console.warn(`Critical token "${event.key}" was removed. Logging out for security.`);
+        logout();
+      } else if (event.key && event.newValue) {
+        if (event.key.startsWith("isDarkMode_")) {
+          setIsDarkMode(decryptData(event.newValue));
+        } else if (event.key === "currentTrack") {
+          setCurrentTrack(decryptData(event.newValue));
+        } else if (event.key === "currentTime") {
+          setCurrentTime(decryptData(event.newValue));
+        }
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Refresh the keys periodically (every 60s). Keep interval modest to avoid churn.
+    const interval = setInterval(() => {
+      try { refreshKeys(); } catch (e) { console.warn('periodic refreshKeys failed', e); }
+    }, 60000); // 60 seconds
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, []);
+
+  // NOTE: Removed the client-side cookie polling/watchdog because it caused
+  // false-positive logouts (HttpOnly cookies are not visible to JS and server-side
+  // cookie lifecycle can create race conditions). We rely on localStorage + server
+  // logout for robust session handling.
+
+  return (
+    <UserContext.Provider
+      value={{
+        currentUser,
+        accountChooser,
+  login,
+  loginWithCredentials,
+  registerWithCredentials,
+  logout,
+  logoutRemote,
+        updateUser,
+        isDarkMode,
+        setIsDarkMode: setIsDarkModeAndSave, // Use the updated function
+        currentTrack,
+        setCurrentTrack: setCurrentTrackAndSave, // Use the updated function
+        currentTime,
+        setCurrentTime: setCurrentTimeAndSave,   // Use the updated function
+      }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
+};
+
+AuthContextProvider.propTypes = { children: PropTypes.node.isRequired };
+
+export { UserContext, AuthContextProvider };
+export default UserContext;
+
+// Convenience hook used by pages/components to access auth context
+export function useAuth() {
+  return useContext(UserContext);
+}

@@ -1,0 +1,138 @@
+/* Centralized @property declarations to avoid invalid/duplicate rules in component scss
+   Define minimal, valid @property for variables used by Tailwind-like utilities
+   Note: `syntax` must follow CSS Syntax Level 3; use broad types like "<number>", "<length>", "<percentage>", or "*".
+*/
+
+/* Font weight: numeric (100-900) */
+@property --tw-font-weight {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 700;
+}
+
+/* Rotation/skew/translate can be any <angle> or <number> depending on usage; use * to be permissive */
+@property --tw-rotate-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0deg;
+}
+@property --tw-rotate-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0deg;
+}
+@property --tw-rotate-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0deg;
+}
+@property --tw-skew-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0deg;
+}
+@property --tw-skew-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* Generic numeric/percentage variables */
+@property --tw-opacity {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+/* Duration/time */
+@property --tw-duration {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0s;
+}
+
+/* Misc: drop-shadow alpha expects a percentage */
+@property --tw-drop-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+
+/* Fallback: allow any remaining tween vars to be permissive */
+@property --tw-ordinal {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-slashed-zero {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-numeric-figure {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-numeric-spacing {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-numeric-fraction {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-outline-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: none;
+}
+@property --tw-blur {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --tw-brightness {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-contrast {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-grayscale {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-hue-rotate {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0deg;
+}
+@property --tw-invert {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-saturate {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-sepia {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-drop-shadow-size {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0px;
+}
+
+/* Ensure this file is loaded early by importing it from `main.js` */

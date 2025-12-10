@@ -1,0 +1,26 @@
+// eslint-disable-next-line no-unused-vars
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { CNav, CNavItem } from '@coreui/react';
+
+const AppHomeHeaderNav = () => {
+  // Define the nav items for the header
+  const navItems = [
+    { name: 'ClinicHomepage', to: '/ClinicHomepage' },
+  
+  ];
+
+  return (
+    <CNav>
+      {navItems.map((item, index) => (
+        <CNavItem key={index}>
+          <Link to={item.to} className="nav-link">
+            {item.name}
+          </Link>
+        </CNavItem>
+      ))}
+    </CNav>
+  );
+};
+
+export default AppHomeHeaderNav;

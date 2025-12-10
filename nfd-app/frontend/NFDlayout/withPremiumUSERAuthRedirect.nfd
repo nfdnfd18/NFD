@@ -1,0 +1,22 @@
+/* eslint-disable react/display-name */
+import { useContext, useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import UserContext from "../NFDcomponents/UserContext.nfd";
+
+const withUSERAuthRedirect = (Component) => {
+  return (props) => {
+    const { currentUser } = useContext(UserContext);
+
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (!currentUser && !token) {
+        window.location.href = "/LoginUsers";
+      }
+    }, [currentUser]);
+
+    if (!currentUser) return <Navigate to="/LoginUsers" />;
+    return <Component {...props} />;
+  };
+};
+
+export default withUSERAuthRedirect;

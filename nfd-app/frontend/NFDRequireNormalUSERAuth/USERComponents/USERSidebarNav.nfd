@@ -1,0 +1,127 @@
+import  { useEffect, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { ChevronRight } from 'react-feather';
+
+export const USERSidebarNav = ({ items }) => {
+  const location = useLocation();
+  const [openGroup, setOpenGroup] = useState(null);
+  const [openSubGroup, setOpenSubGroup] = useState({});
+  const [selectedPage, setSelectedPage] = useState(location.pathname);
+
+  // Detect small screens
+
+ // Update open group and subgroup based on the current path
+useEffect(() => {
+  const findGroupAndSubGroup = (items, path) => {
+    for (const group of items) {
+      if (Array.isArray(group.items)) {
+        for (const item of group.items) {
+          if (item.to === path) {
+            setOpenGroup(group.name);
+            return;
+          }
+          if (Array.isArray(item.items)) {a
+            for (const subItem of item.items) {
+              if (subItem.to === path) {
+                setOpenGroup(group.name);
+                setOpenSubGroup({ [group.name]: item.name });
+                return;
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+  findGroupAndSubGroup(items, location.pathname);
+}, [location.pathname, items]);
+
+const toggleGroup = (groupName) => {
+  setOpenGroup((prevGroup) => (prevGroup === groupName ? null : groupName));
+  setOpenSubGroup({});
+};
+
+const toggleSubGroup = (mainGroupName, subGroupName) => {
+  setOpenSubGroup((prevOpenSubGroup) => ({
+    [mainGroupName]: prevOpenSubGroup[mainGroupName] === subGroupName ? null : subGroupName,
+  }));
+};
+
+const handleLinkClick = (path) => {
+  setSelectedPage(path);
+};
+
+  const renderNavLink = (name, path, Icon) => (
+    <NavLink
+      key={name}
+      to={path}
+      className={`NAVFONT block py-2 transition roundednavlink ${
+        selectedPage === path
+          ? 'bg-navlink  font-semibold'
+          : 'text-blacky '
+      } flex items-center justify-center text-end `}
+      onClick={() => handleLinkClick(path)}
+    >
+      {Icon && <Icon className="mr-2" />}
+      {name}
+    </NavLink>
+  );
+
+  const renderGroup = (group, index) => (
+    <div key={index} className="mb-3">
+      <h3
+        onClick={() => toggleGroup(group.name)}
+        className="flex items-center justify-between p-2 mb-2 text-xs font-bold rounded cursor-pointer"
+      >
+        <span className="flex items-center">{group.name}</span>
+        <ChevronRight
+          aria-hidden="true"
+          className={`ml-2 transform transition-transform duration-200 ${
+            openGroup === group.name ? 'rotate-90' : ''
+          }`}
+        />
+      </h3>
+      {openGroup === group.name && (
+        <div className="pl-4 space-y-1">
+          {group.items.map((item, idx) =>
+            item.items
+              ? renderSubGroup(item, `${index}-${idx}`, group.name)
+              : renderNavLink(item.name, item.to)
+          )}
+        </div>
+      )}
+    </div>
+  );
+
+  const renderSubGroup = (subGroup, index, mainGroupName) => (
+    <div key={index} className="mb-2">
+      <h4
+        onClick={() => toggleSubGroup(mainGroupName, subGroup.name)}
+        className="flex items-center justify-between p-2 mb-2 text-xs font-semibold rounded cursor-pointer sidebar"
+      >
+        <span className="flex items-center">{subGroup.name}</span>
+        <ChevronRight
+          aria-hidden="true"
+          className={`ml-2 transform transition-transform duration-200 ${
+            openSubGroup[mainGroupName] === subGroup.name ? 'rotate-90' : ''
+          }`}
+        />
+      </h4>
+      {openSubGroup[mainGroupName] === subGroup.name && (
+        <div className="pl-4 space-y-1">
+          {subGroup.items.map((item) => renderNavLink(item.name, item.to))}
+        </div>
+      )}
+    </div>
+  );
+
+  return <div className="space-y-4">{items.map((group, index) => renderGroup(group, index))}</div>;
+};
+
+USERSidebarNav.propTypes = {
+  items: PropTypes.array.isRequired,
+  closeSidebar: PropTypes.func, // Add PropTypes for closeSidebar
+};
+
+export default USERSidebarNav;

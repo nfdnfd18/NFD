@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "RequireNormalUSERAuth": "Пользователь",
+    "myProfile": "Мой профиль",
+    "myBooking": "Мои бронирования",
+    "support": "Поддержка",
+    "NFDSocialMedia": "NFD Соцсети",
+    "blog": "Блог",
+    "friends": "Друзья",
+    "live": "В эфире"
+  },
+  "sidebar": {
+    "partnersNotOfficial": "Партнёры (пока не официально)",
+    "navigation": "Навигация"
+  },
+  "buttons": {
+    "closeSidebar": "Закрыть"
+  },
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "es-ES": "Español",
+    "pt-BR": "Português",
+    "zh-CN": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "ar-MA": "العربية",
+    "de": "Deutsch"
+  }
+}

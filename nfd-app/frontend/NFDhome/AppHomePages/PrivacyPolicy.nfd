@@ -1,0 +1,176 @@
+import { useEffect,useState } from "react";
+import { HeroType } from "../../content/svg/SvgComponents.nfd";
+import ScrollReveal from '../../content/TextAnimations/ScrollReveal/ScrollReveal.nfd';
+import { AiOutlinePlusCircle } from "react-icons/ai";
+import FadeContent from "../../content/Animations/FadeContent/FadeContent.nfd";
+import AnimatedContent from "../../content/Animations/AnimatedContent/AnimatedContent.nfd";
+import { useMediaQuery } from "react-haiku";
+import { Link } from 'react-router-dom';
+import ScrollFloat from '../../content/TextAnimations/ScrollFloat/ScrollFloat.nfd';
+import FlowingMenu from '../../content/Components/FlowingMenu/FlowingMenu.nfd';
+import logo from "./reactbits-logo.svg";
+
+
+
+const PrivacyPolicy = () => {
+  const isMobile = useMediaQuery("(max-width: 1024px)");
+  const [isLoaded, setIsLoaded] = useState(false); // Define setIsLoaded here
+
+
+
+
+  const demoItems = [
+    { link: '/Rewards', text: 'Mojave', image: 'https://picsum.photos/600/400?random=1' },
+    { link: '#', text: 'Sonoma', image: 'https://picsum.photos/600/400?random=2' },
+    { link: '#', text: 'Monterey', image: 'https://picsum.photos/600/400?random=3' },
+    { link: '#', text: 'Sequoia', image: 'https://picsum.photos/600/400?random=4' }
+  ];
+  const showcaseItems = [
+    {
+      name: 'Devraj',
+      url: 'https://www.reactbits.dev/',
+      using: '<CountUp />'
+    },
+    {
+      name: 'Abdullah Shafiq',
+      url: 'https://resume-tex.vercel.app',
+      using: '<Squares />'
+    },
+    {
+      name: 'Oscar Hernandez',
+      url: 'https://oscarhernandez.vercel.app',
+      using: '<LetterGlitch />'
+    },
+    {
+      name: 'Afaq Razaq',
+      url: 'https://www.evolvion.io/',
+      using: '<SpotlightCard />'
+    } 
+  ];
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    setTimeout(() => {
+      setIsLoaded(true);
+      if (isLoaded) {
+        return <div>Component is loaded</div>;
+      } else {
+        return <div>Loading...</div>;
+      }
+    }, 1000)
+  }, [isLoaded])
+  return (
+    <section className="showcase-wrapper rewards-container  container  py-36 flex flex-col items-center">
+  
+
+    <div>
+ 
+
+    <div className="type-logo">
+        <AnimatedContent initialOpacity={isMobile ? 0 : 1} scale={1} reverse={isMobile}>
+          <HeroType />
+        </AnimatedContent>
+      </div>
+
+      <FadeContent blur duration={1000}>
+        <div className="title">Built with  </div>
+      </FadeContent>    
+
+      <FadeContent blur duration={1000}>
+        <div className="title-logo" src={logo} />
+      </FadeContent>
+    </div>
+    <FadeContent blur duration={1000}>
+      <div className="sub-text">Discover how other developers are using React Bits to build awesome user experiences</div>
+    </FadeContent>    
+    
+   
+
+
+
+    <FadeContent blur duration={1000} className="fade-grid">
+  <div className="grid-container">
+    <Link to="https://docs.google.com/forms/d/e/1FAIpQLSdlzugJovfr5HPon3YAi8YYSSRuackqX8XIXSeeQmSQypNc7w/viewform?usp=dialog" target="_blank" rel='noreferrer' className="grid-item add-yours">
+      <AiOutlinePlusCircle className="add-icon" />
+      <div>Submit New Project</div>
+    </Link>
+
+    {showcaseItems.map((item, index) =>
+      <Link to={item.url} rel="noreferrer" target="_blank" className="grid-item" key={item.url}>
+        <img className="showcase-img" src={`https://davidhaz.com/react-bits-showcase/showcase-${index + 1}.webp`} alt={`Showcase website submitted by: ${item.name ? item.name : 'Anonymous'}`} />
+        <div className="showcase-info">
+          {item.name && <div className="author">{item.name}</div>}
+          <div className="using">Using {item.using}</div>
+        </div>
+      </Link>
+    )}
+    {showcaseItems.map((item, index) =>
+      <Link to={item.url} rel="noreferrer" target="_blank" className="grid-item" key={item.url}>
+        <img className="showcase-img" src={`https://davidhaz.com/react-bits-showcase/showcase-${index + 1}.webp`} alt={`Showcase website submitted by: ${item.name ? item.name : 'Anonymous'}`} />
+        <div className="showcase-info">
+          {item.name && <div className="author">{item.name}</div>}
+          <div className="using">Using {item.using}</div>
+        </div>
+      </Link>
+    )}
+    {showcaseItems.map((item, index) =>
+      <Link to={item.url} rel="noreferrer" target="_blank" className="grid-item" key={item.url}>
+        <img className="showcase-img" src={`https://davidhaz.com/react-bits-showcase/showcase-${index + 1}.webp`} alt={`Showcase website submitted by: ${item.name ? item.name : 'Anonymous'}`} />
+        <div className="showcase-info">
+          {item.name && <div className="author">{item.name}</div>}
+          <div className="using">Using {item.using}</div>
+        </div>
+      </Link>
+    )}
+    {showcaseItems.map((item, index) =>
+      <Link to={item.url} rel="noreferrer" target="_blank" className="grid-item" key={item.url}>
+        <img className="showcase-img" src={`https://davidhaz.com/react-bits-showcase/showcase-${index + 1}.webp`} alt={`Showcase website submitted by: ${item.name ? item.name : 'Anonymous'}`} />
+        <div className="showcase-info">
+          {item.name && <div className="author">{item.name}</div>}
+          <div className="using">Using {item.using}</div>
+        </div>
+      </Link>
+    )}
+   
+
+
+  </div>
+
+
+</FadeContent> 
+
+
+
+ <ScrollFloat
+  animationDuration={1}
+  ease='back.inOut(2)'
+  scrollStart='center bottom+=80%'
+  scrollEnd='bottom bottom-=80%'
+  stagger={0.1}
+  Duration={122}
+>
+  reactbits
+</ScrollFloat>
+ <ScrollReveal
+  baseOpacity={50}
+  enableBlur={true}
+  baseRotation={18}
+  blurStrength={60}
+>
+  When does a man die? When he is hit by a bullet? No! When he suffers a disease?
+  No! When he ate a soup made out of a poisonous mushroom?
+  No! A man dies when he is forgotten!
+</ScrollReveal>
+
+
+<div style={{ width: '4000px', height: '600px', position: 'relative' }}>
+  <FlowingMenu items={demoItems} />
+</div> 
+  </section >
+  );
+};
+
+
+
+export default PrivacyPolicy;

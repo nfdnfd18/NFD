@@ -1,0 +1,116 @@
+/* Modern, fluid styles for the Rental Homepage */
+:root {
+	--accent: #ff6b35; /* warm accent */
+	--accent-2: #0bb; /* secondary accent */
+	--muted: #6b7280;
+}
+
+.modern-homepage {
+	font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+	color: #0b1724;
+}
+
+.container {
+	width: 100%;
+	max-width: var(--container);
+	margin: 0 auto;
+	padding: 0 0rem;
+}
+
+.hero-section {
+	position: relative;
+	min-height: 72vh;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+
+	.hero-video {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		z-index: 0;
+		filter: brightness(0.55) saturate(1.05);
+		transform: translateZ(0);
+	}
+
+	.hero-overlay {
+		position: relative;
+		z-index: 2;
+		width: 100%;
+		padding: 4rem 0;
+
+		.hero-inner {
+			display: grid;
+			grid-template-columns: 1fr min(520px, 46%);
+			gap: 2rem;
+			align-items: center;
+		}
+
+		.hero-left {
+			color: #fff;
+
+			h1 { font-size: clamp(1.8rem, 3.6vw, 2.8rem); margin: 0 0 0.6rem; line-height:1.05; }
+			.subtitle { color: rgba(255,255,255,0.92); margin-bottom: 1rem; max-width: 52ch; }
+			.hero-ctas { display:flex; gap:0.8rem; margin-top:1rem; }
+		}
+
+		.hero-right { display:flex; justify-content:flex-end; }
+	}
+}
+
+.booking-card {
+	background: linear-gradient(180deg, rgba(255,255,255,0.95), #ffffff);
+	padding: 1.2rem;
+	border-radius: 12px;
+	box-shadow: 0 8px 30px rgba(2,6,23,0.22);
+	width: 100%;
+
+	h3 { margin:0 0 0.75rem 0; font-size:1.1rem; }
+
+	.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem; }
+
+	label { display:flex; flex-direction:column; font-size:0.9rem; color:var(--muted); }
+	input, select { margin-top:0.35rem; padding:0.6rem; border-radius:8px; border:1px solid #e6e9ee; font-size:0.95rem; }
+
+	.card-actions { margin-top:0.85rem; }
+}
+
+.btn { display:inline-flex; align-items:center; justify-content:center; gap:0.5rem; border-radius:8px; padding:0.6rem 1rem; cursor:pointer; text-decoration:none; }
+.btn-primary { background:var(--accent); color:white; border:none; }
+.btn-primary:hover { filter:brightness(0.95); }
+.btn-outline { background:transparent; color:white; border:1px solid rgba(255,255,255,0.18); }
+.full { width:100%; }
+
+.section-padding { padding: 3.2rem 0; }
+
+.testimonials { background: #fff; }
+.reviews-row { display: grid; grid-template-columns: 1fr 320px; gap: 1.2rem; align-items:start; }
+.tp-placeholder { background:#f4f6f8; padding:1.5rem; border-radius:10px; color:var(--muted); text-align:center; }
+.google-card { background:linear-gradient(180deg,#fff,#fbfcff); padding:1rem; border-radius:10px; box-shadow:0 6px 18px rgba(9,30,63,0.06); }
+.google-card .stars { color:#ffb400; font-size:1.15rem; margin-bottom:0.6rem; }
+
+.faq { background: #fafbfd; }
+.faq-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1rem; }
+.faq-item { background: #fff; border-radius:10px; padding:0.8rem; box-shadow: 0 4px 14px rgba(2,6,23,0.05); }
+.faq-q { width:100%; text-align:left; background:transparent; border:none; font-weight:600; padding:0; cursor:pointer; }
+.faq-a { margin-top:0.6rem; color:var(--muted); }
+
+.tips { margin-top:1rem; list-style:disc; padding-left:1.2rem; color:var(--muted); }
+
+
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+	.hero-inner { grid-template-columns: 1fr; }
+	.reviews-row { grid-template-columns: 1fr; }
+	.container { padding: 0 1rem; }
+}
+
+@media (max-width: 520px) {
+	.hero-left h1 { font-size: 1.6rem; }
+	.hero-left .subtitle { font-size: 1rem; }
+	.grid { grid-template-columns: 1fr; }
+}
+

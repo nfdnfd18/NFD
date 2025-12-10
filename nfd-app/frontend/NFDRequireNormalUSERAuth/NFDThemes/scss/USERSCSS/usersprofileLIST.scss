@@ -1,0 +1,26 @@
+.list-contausersiner {
+z-index: 1000;
+
+  width: 100vw; // Full width of the viewport
+  height: 100vh; // Full height of the viewport
+overflow: auto;
+display: flex;
+flex-direction: column;
+gap: 16px;
+  }
+  .view-profile-button {
+    background-color: #001eff58;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
+    z-index: 1000;
+
+    &:hover {
+      background-color: #0048ff97;
+      color: #ffffff;
+    }
+  }

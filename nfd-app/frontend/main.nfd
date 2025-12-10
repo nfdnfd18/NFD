@@ -1,0 +1,133 @@
+import React from "react";
+import ReactDOM from "react-dom/client";
+import 𝙉𝙁𝘿 from "./𝙉𝙁𝘿.nfd";
+import ConsoleWarning from "./NFDhelp/ConsoleWarning.nfd";
+import "./NFDThemes/🅢🅒🅢🅢.scss";
+import { AuthContextProvider } from './NFDcomponents/AuthContext.nfd'; // Import the custom AuthContextProvider for authentication context
+import SocketContextProvider from './NFDcomponents/SOCKETCONTEXT.nfd'; // Ensure correct path
+import { Provider } from 'react-redux'; // Import Provider to pass Redux store to the app
+import store from './NFDstore/store'; // Import the Redux store
+import './i18n.jsx'; // Import the i18n configuration for internationalization (translation)
+import 'core-js'; // Import core-js for polyfills to ensure compatibility across different environments
+import { v4 as uuidv4 } from 'uuid'; // Import UUID for generating unique values
+import apiRequest from "./NFDLib/apiRequest.js"; // Import apiRequest
+
+
+
+const setSecureCookie = (name, value, maxAge, options = {}) => {
+  // Note: HttpOnly cannot be set from client-side JS; servers must set HttpOnly cookies via Set-Cookie.
+  let cookieString = `${name}=${value}; Secure; SameSite=Lax; Max-Age=${maxAge}; path=/; Priority=High;`;
+
+  if (options.partitionKey) {
+    cookieString += `; Partitioned=${options.partitionKey}`;
+  }
+
+  document.cookie = cookieString;
+};
+
+const tokenFromCookie = document.cookie
+  .split("; ")
+  .find((row) => row.startsWith("Love_wins_Whats_up_with_that="))
+  ?.split("=")[1];
+
+const tokenFromStorage = localStorage.getItem("Love_wins_Whats_up_with_that");
+
+if (tokenFromCookie || tokenFromStorage) {
+  const token = tokenFromCookie || tokenFromStorage;
+  localStorage.setItem("Love_wins_Whats_up_with_that", token);
+  apiRequest.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  setSecureCookie("Love_wins_Whats_up_with_that", token, 3600); // 1 hour in seconds
+} else if (window.location.pathname !== "/Login") {
+  window.location.href = "/Login"; // Redirect to login
+}
+
+// Generate dynamic values for tokens (simplified to avoid parser issues)
+const adminToken = `ADMINS_PANNELS_${uuidv4()}`;
+const superAdminToken = `SuperAdmins_PANNELS_${uuidv4()}`;
+const Love_wins_Whats_up_with_that = `LW_${uuidv4()}`;
+
+// Add CAKE_TOKEN and SUPER_CAKE_TOKEN tokens to cookies with secure flags and max age
+setSecureCookie("ADMINS_PANNELS", adminToken, 450);
+setSecureCookie("SuperAdmins_PANNELS", superAdminToken, 450);
+
+// Small account-chooser token set (kept short and valid)
+const accountChooserTokens = [
+  `${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1`,
+  `${uuidv4()}-ac2,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1`,
+  `${uuidv4()}-ac3,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1,${uuidv4()}-ac1`
+];
+
+const cookieNames = [
+  "ACCOUNT_CHOOSER1",
+  "ACCOUNT_CHOOSER2",
+  "ACCOUNT_CHOOSER3"
+];
+
+accountChooserTokens.forEach((value, index) => {
+  setSecureCookie(cookieNames[index], value, 450, { partitionKey: "site" });
+  localStorage.removeItem(cookieNames[index]);
+});
+
+// store minimal tokens in localStorage
+localStorage.setItem("ADMINS_PANNELS", adminToken);
+localStorage.setItem("SuperAdmins_PANNELS", superAdminToken);
+localStorage.setItem("Love_wins_Whats_up_with_that", Love_wins_Whats_up_with_that);
+
+const criticalTokens = [
+  "Love_wins_Whats_up_with_that",
+  "Log_in_with_love",
+  "Silence_your_ads",
+  "We_are_login_the_patch_notes",
+  "Power_doesn't_sleep_fetchUser_",
+  "The_now_and_the_never",
+  "Legacy_whats_it_mean",
+  "Joy_in_the_cracks",
+  "Talk_back_to_the_past",
+  "We_dont_sleep_we_dream",
+  "The_questions_stay_louder",
+  "We_made_it_this_far",
+  "Can_a_moment_last",
+];
+
+criticalTokens.forEach((key) => {
+  if (!localStorage.getItem(key)) {
+    const token = `${key}_${uuidv4()}`;
+    localStorage.setItem(key, token);
+    // Set client-visible cookie (Priority is High). Again: HttpOnly can't be set from JS.
+    document.cookie = `${key}=${token}; Secure; SameSite=Lax; Max-Age=450; path=/; Priority=High;`;
+  }
+});
+
+// Create or reuse the React root to avoid calling createRoot on the same container multiple times
+const container = document.getElementById("root");
+let root = (typeof window !== 'undefined' && window.__REACT_ROOT__) || null;
+if (!root) {
+  root = ReactDOM.createRoot(container);
+  if (typeof window !== 'undefined') window.__REACT_ROOT__ = root;
+}
+root.render(
+  <React.StrictMode>
+    <React.Fragment>
+      <Provider store={store}>
+        <AuthContextProvider>
+          <SocketContextProvider>
+            <𝙉𝙁𝘿 />
+          </SocketContextProvider>
+        </AuthContextProvider>
+      </Provider>
+
+      <ConsoleWarning />
+    </React.Fragment>
+  </React.StrictMode>
+);
+
+// remove the static initial loader shortly after React mount so app UI takes over
+setTimeout(() => {
+  try {
+    const l = document.getElementById('initial-loader');
+    if (l && l.parentNode) l.parentNode.removeChild(l);
+    const s = document.getElementById('initial-inline-style');
+    // keep style removal optional — removing avoids leftover inline rules; keep if you prefer
+    if (s && s.parentNode) s.parentNode.removeChild(s);
+  } catch (e) {}
+}, 1200);

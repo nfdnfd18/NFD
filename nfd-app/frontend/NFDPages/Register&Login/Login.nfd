@@ -1,0 +1,93 @@
+import  { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import UserContext from '../../NFDcomponents/AuthContext.nfd';
+import { useTranslation } from 'react-i18next';
+import './Login.scss';
+
+import SocialLoginButtons from '../../NFDcomponents/SocialLoginButtons.nfd';
+
+const Login = () => {
+  const navigate = useNavigate();
+  const { loginWithCredentials, login: authLogin } = useContext(UserContext) || {};
+  const [form, setForm] = useState({ identifier: '', password: '' });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const { t, i18n } = useTranslation();
+  // detect RTL for auth pages (Arabic)
+  const isRtl = i18n.language === 'ar-MA' || t('auth.dir') === 'rtl';
+  const handleChange = (e) => setForm((s) => ({ ...s, [e.target.name]: e.target.value }));
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    if (!form.identifier || !form.password) {
+      setError('Please fill email/username and password');
+      return;
+    }
+    setLoading(true);
+    try {
+      const { ok, error, user } = await (loginWithCredentials
+        ? loginWithCredentials(form.identifier, form.password)
+        : { ok: false, error: 'Auth provider missing' });
+      if (!ok) throw new Error(error || 'Login failed');
+
+      const isPremium = user?.isPremium || (user?.userType && String(user.userType).toUpperCase() !== 'NORMAL');
+      if (isPremium) {
+        navigate('/RequirePremiumUSERAuth');
+      } else {
+        navigate('/RequireNormalUSERAuth');
+      }
+    } catch (err) {
+      setError(err.message || 'Login error');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className={`NFD-Auth ${isRtl ? 'rtl' : ''}`} dir={isRtl ? 'rtl' : 'ltr'}>
+      <div className="container">
+        <div className="auth-card">
+          <h2 className="auth-title NAVFONT">{t('auth.signInTitle')}</h2>
+
+          <SocialLoginButtons />
+
+          <form className="auth-form" onSubmit={handleSubmit}>
+            {error && <div className="auth-error">{error}</div>}
+
+            <label className="auth-label">
+              <span>{t('auth.emailOrUsername')}</span>
+              <input name="identifier" value={form.identifier} onChange={handleChange} placeholder={t('auth.emailOrUsernamePlaceholder')} />
+            </label>
+
+            <label className="auth-label">
+              <span>{t('auth.password')}</span>
+              <input name="password" type="password" value={form.password} onChange={handleChange} placeholder={t('auth.passwordPlaceholder')} />
+            </label>
+
+            <button className="auth-submit" type="submit" disabled={loading}>{loading ? t('auth.signing') : t('auth.signIn')}</button>
+          </form>
+
+          <div className="auth-footer">
+            <span>{t('auth.needAccount')}</span>
+            <button className="auth-link NAVFONT" onClick={() => navigate('/Register')}> {t('auth.createOne')}</button>
+          </div>
+
+          {/* Google continue button */}
+          <a href="/api/auth/google/start" role="button" style={{zIndex: 9999, display: 'inline-flex', alignItems: 'center', padding: '10px 14px', border: '1px solid #dcdcdc', borderRadius: '4px', background: '#fff', color: '#202124', textDecoration: 'none', fontFamily: 'Roboto,Arial,sans-serif' }}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.5 544.3" style={{ width: '18px', height: '18px', marginRight: '10px' }}>
+              <path fill="#4285f4" d="M533.5 278.4c0-18.7-1.5-37-4.4-54.6H272v103.4h147.3c-6.4 34.4-26 63.6-55.9 83.3l90.2 70.1c52.7-48.6 84-119.9 84-202.2z"/>
+              <path fill="#34a853" d="M272 544.3c73.7 0 135.7-24.4 181-66.3l-90.2-70.1c-25 16.9-57 26.9-90.8 26.9-69.7 0-128.8-47-150-110.1l-93.6 72.4c41.5 82 124.2 147.2 243.4 147.2z"/>
+              <path fill="#fbbc04" d="M122 332.7c-10.9-32.6-10.9-67.7 0-100.3l-93.6-72.4C4.9 195.2 0 232.8 0 272s4.9 76.8 28.4 112l93.6-72.4z"/>
+              <path fill="#ea4335" d="M272 109.7c39.9 0 75.8 13.7 104 40.6l78-78C403.3 23.8 344.8 0 272 0 153 0 70.3 65.2 28.8 147.2l93.6 72.4C143.2 156.6 202.3 109.7 272 109.7z"/>
+            </svg>
+            Continue with Google
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;

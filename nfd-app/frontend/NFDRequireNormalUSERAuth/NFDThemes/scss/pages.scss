@@ -1,0 +1,38 @@
+@use "./media" as *; // Import media mixins
+.listCarsPage {
+    .car-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+  
+      .car-card {
+        padding: 20px;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  
+        h3 {
+          font-size: 1.5rem;
+        }
+  
+        .buttons {
+          margin-top: 10px;
+          text-align: center;
+        }
+      }
+    }
+  }
+  .listCarsPage .loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .listCarsPage .loading-container p {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: #6c757d;
+  }

@@ -1,0 +1,17 @@
+@use "../media.scss" as *; // Import media mixins
+
+
+
+.cardlogin {
+    background: linear-gradient(120deg, transparent, #ffffff, transparent);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 10px rgb(0, 0, 0);
+    padding: 2rem;
+    text-align: center;
+    width: 1000px;
+      max-width: 1000px;
+      -webkit-backdrop-filter: blur(3px);
+      backdrop-filter: blur(3px);
+    
+  }
+  

@@ -1,0 +1,41 @@
+// SocialLoginButtons.nfd
+// Lightweight social login buttons that redirect to provider auth URLs defined in Vite env.
+const SocialLoginButtons = () => {
+  const providers = [
+    { id: 'bsky', label: 'Continue with Bluesky', env: 'VITE_AUTH_BSKY' },
+    { id: 'instagram', label: 'Continue with Instagram', env: 'VITE_AUTH_INSTAGRAM' },
+    { id: 'apple', label: 'Continue with Apple', env: 'VITE_AUTH_APPLE' },
+    { id: 'google', label: 'Continue with Google', env: 'VITE_AUTH_GOOGLE' },
+  ];
+
+  function openAuth(envKey) {
+    // Vite exposes variables on import.meta.env
+    const url = import.meta?.env?.[envKey];
+    if (!url) {
+      // eslint-disable-next-line no-alert
+      alert(`Missing ${envKey} - configure your frontend .env`);
+      return;
+    }
+    // full-page redirect to start OAuth flow
+    window.location.assign(url);
+  }
+
+  return (
+    <div className="social-login-buttons1" role="group" aria-label="Social login">
+      {providers.map((p) => (
+        <button
+          key={p.id}
+          type="button"
+          className={`social-btn social-${p.id}`}
+          onClick={() => openAuth(p.env)}
+        >
+          {p.label}
+        </button>
+      ))}
+
+      
+    </div>
+  );
+};
+
+export default SocialLoginButtons;

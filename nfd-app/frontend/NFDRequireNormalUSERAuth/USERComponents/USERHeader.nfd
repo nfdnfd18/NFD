@@ -1,0 +1,90 @@
+import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import { MdOutlineMenuOpen, MdClose } from "react-icons/md";
+import { RiMenuFold4Line } from "react-icons/ri";
+
+
+Header.propTypes = {
+  handleSidebarClick: PropTypes.func.isRequired,
+  showHeader: PropTypes.bool.isRequired,
+  isLeftSidebarOpen: PropTypes.bool.isRequired,
+  isRightSidebarOpen: PropTypes.bool.isRequired,
+};
+
+export default function Header({
+  handleSidebarClick,
+  showHeader,
+  isLeftSidebarOpen,
+  isRightSidebarOpen,
+}) {
+   const [headerOutOfView, setHeaderOutOfView] = useState(false);
+
+
+  useEffect(() => {
+    const headerElement = document.querySelector("header");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setHeaderOutOfView(!entry.isIntersecting);
+        });
+      },
+      { root: null, threshold: 0 }
+    );
+
+    if (headerElement) {
+      observer.observe(headerElement);
+    }
+
+    return () => {
+      if (headerElement) {
+        observer.unobserve(headerElement);
+      }
+    };
+  }, []);
+
+
+
+
+  return (
+    <>
+      <div
+        className={`header-shadow-placeholder ${headerOutOfView ? "active" : ""}`}
+      >  
+      </div>
+
+      <header
+        className={`header  flex  ${showHeader ? "visible" : "hidden"} ${
+          isLeftSidebarOpen ? "left-sidebar-open" : ""
+        } ${isRightSidebarOpen ? "right-sidebar-open" : ""}`}
+      >
+        <button
+          className={`toggle-btn left ${isLeftSidebarOpen ? "open" : ""}`}
+          onClick={() => handleSidebarClick("left")}
+          aria-label={isLeftSidebarOpen ? 'Close Left Sidebar' : 'Open Left Sidebar'}
+        >
+          {isLeftSidebarOpen ? <MdClose /> : <MdOutlineMenuOpen />}
+        </button>
+ 
+
+        <div className="logo" style={{ fontFamily: "Mononokiz" }}>
+          <div className="logo-text">
+            <span className="need">NEED</span>
+            <span className="for">FOR</span>
+            <span className="drive">DRIVE</span>
+          </div>
+        </div>
+
+     
+      
+ <button
+      className={`toggle-btn right ${isRightSidebarOpen ? "open" : ""}`}
+      onClick={() => handleSidebarClick("right")}
+      aria-label={isRightSidebarOpen ? 'Close Right Sidebar' : 'Open Right Sidebar'}
+    >
+      {isRightSidebarOpen ? <MdClose /> : <RiMenuFold4Line />}
+    </button>
+      </header>
+    </>
+  );
+}

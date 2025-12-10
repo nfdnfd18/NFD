@@ -1,0 +1,15 @@
+{
+  "name": "Need For Drive",
+  "short_name": "NFD",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#00ffff",
+  "icons": [
+    {
+      "src": "/NFDFileIcons/icons/nfd-icon.png.jpg",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

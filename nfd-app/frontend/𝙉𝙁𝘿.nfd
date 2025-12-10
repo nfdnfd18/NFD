@@ -1,0 +1,100 @@
+// Import necessary modules from 'react-router-dom' for routing
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+// Import Bootstrap's default CSS to apply general styling across components
+import "bootstrap/dist/css/bootstrap.min.css";
+
+// Import custom layout components for defining routes that require different authentication levels
+
+// Import the ErrorBoundary component to handle errors and display fallback UI if something goes wrong
+import { ErrorBoundary } from 'react-error-boundary';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import "./NFDThemes/🅢🅒🅢🅢.scss";
+import "./NFDRequireNormalUSERAuth/NFDThemes/normalLayout.scss";
+// Import the custom SCSS file for styling the Home component specifically in your project
+import { NFDhome ,RequireNormalUSERAuth,RequirePremiumUSERAuth} from './NFDlayout/layout';
+
+// Simple premium placeholder component (replace with your premium layout/page later)
+
+import 'core-js'; // Import core-js for polyfills to ensure compatibility across different environments
+import './i18n.jsx'; // Import the i18n configuration for internationalization (translation)
+
+
+
+
+// The main App component which serves as the entry point for routing and UI elements
+const App = () => {
+
+
+  // Define the router configuration using createBrowserRouter to handle route paths and components
+  // Opt into the v7 startTransition future flag to silence the v7 warning and opt-in early:
+  // See: https://reactrouter.com/v6/upgrading/future#v7_starttransition
+  const router = createBrowserRouter(
+    [
+    {
+      path: '*',  // Default path for any undefined routes
+      element: <NFDhome />,  // Component to render for the default route
+    },
+
+       {
+      path: '/RequireNormalUSERAuth/*',  // Path for user-authenticated routes
+      element: <RequireNormalUSERAuth />,  // Component for user authentication
+    },
+       {
+      path: '/RequirePremiumUSERAuth/*',  // Path for user-authenticated routes
+      element: <RequirePremiumUSERAuth />,  // Component for user authentication
+    },
+  
+    // Removed BuffaloBlitz and MegawaysSlots routes
+    ],
+    { future: { v7_startTransition: true } }
+  );
+
+  // Debug: print router future flag to help diagnose persistent warning
+  try {
+    // eslint-disable-next-line no-console
+    console.debug('router object (debug):', router);
+    // eslint-disable-next-line no-console
+    console.debug('router.future (should include v7_startTransition):', router && router.future);
+  } catch (e) {}
+
+  // expose to window for in-page debug UI
+  try { window.__NFD_ROUTER_DEBUG = router && router.future; } catch (e) {}
+
+  return (
+
+        <>
+          <RouterProvider router={router} future={{ v7_startTransition: true }}>
+            {/* ErrorBoundary component wraps the UI to catch errors and display fallback content */}
+            <ErrorBoundary fallback={<div>Something went wrong</div>}>
+              {/* ScrollToTop component renders a button for scrolling to the top when clicked */}
+            </ErrorBoundary>
+            <ToastContainer position="top-right" autoClose={4000} />
+            {/* Debug element: shows router.future for troubleshooting startTransition warning */}
+            <pre id="nfd-router-debug" style={{position:'fixed',bottom:0,right:0,background:'#0008',color:'#fff',padding:8,fontSize:12,zIndex:9999}} />
+          </RouterProvider>
+          <script dangerouslySetInnerHTML={{__html: `
+            try {
+              const el = document.getElementById('nfd-router-debug');
+              if (el && window.__NFD_ROUTER_DEBUG) {
+                el.textContent = 'router.future: ' + JSON.stringify(window.__NFD_ROUTER_DEBUG);
+              }
+            } catch (e) {}
+          `}} />
+        </>
+    
+  );
+};
+
+// Export the App component to be rendered by ReactDOM
+export default App;
+
+// NOTE: In this application, all requests made through the routing system (e.g., to components such as 'RequireUSERAuth', 'RequireADMINAuth' , 'RequireSUPERADMINAuth').
+// pass through the company's API Gateway. The API Gateway is the only responsible for handling and routing these requests to appropriate backend services.
+// based on user roles and permissions, ensuring that sensitive data is securely processed while maintaining an efficient routing mechanism across the app.
+
+
+
+
+

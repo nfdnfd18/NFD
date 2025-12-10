@@ -1,0 +1,452 @@
+@use "./media" as *; // Import media mixins
+
+.logoUNLOCKED {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+z-index: 1000;
+  width: auto;
+
+  flex-direction: column;
+  /* Stack the content vertically */
+  width: 100%;
+
+  .logo-text {
+    text-transform: uppercase;
+    font-size: 8rem;
+    margin-left: -11px;
+    letter-spacing: -0.02em;
+z-index: 1000;
+    text-align: center;
+    z-index: 100;
+
+    .need,
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--site-bar-height, 72px);
+      display: flex;
+      align-items: center;
+      z-index: 50;
+      background: var(--bg-color, #fff);
+    }
+
+    .Rental-Car {
+      letter-spacing: -9px;
+      font-weight: bold;
+      margin-left: 410px;
+      margin-top: -1px;
+
+      font-size: 1rem;
+      font-weight: bold;
+      color: #2200ff;
+      opacity: 0.9;
+    }
+
+    .need+.for {
+      margin-left: 13px;
+    }
+
+  }
+}
+
+.logo1 {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+z-index: 610000;
+  width: auto;
+
+  flex-direction: column;
+  /* Stack the content vertically */
+  width: 100%;
+
+  .logo-text {
+    text-transform: uppercase;
+    font-size: 8rem;
+    margin-left: -11px;
+    letter-spacing: -0.02em;
+
+    text-align: center;
+    z-index: 100;
+
+    .need,
+    .drive {
+      letter-spacing: 0.6px;
+      font-weight: bold; margin-left: -7px;
+      text-align: center;
+    }
+
+    .for {
+      font-size: 5rem;
+      text-align: center;
+      position: relative;
+      top: -30px;
+      margin: -8px;
+      font-weight: normal;
+
+    }
+
+    .Rental-Car {
+      letter-spacing: -9px;
+      font-weight: bold;
+      margin-left: 410px;
+      margin-top: -1px;
+
+      font-size: 1rem;
+      font-weight: bold;
+      color: #ff853f;
+      opacity: 0.9;
+    }
+
+    .need+.for {
+      margin-left: 13px;
+    }
+
+  }
+}
+
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -100;
+  width: auto;
+  flex-direction: column;
+  /* Stack the content vertically */
+  width: 100%;
+
+  .logo-text {
+    text-transform: uppercase;
+    font-size: 4rem;
+    margin-left: -11px;
+    letter-spacing: -0.02em;
+
+    text-align: center;
+    z-index: 100;
+
+    .need,
+    .drive {
+      letter-spacing: 0.6px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .for {
+      font-size: 2rem;
+      text-align: center;
+      position: relative;
+      top: -19px;
+      margin: -10px;
+      font-weight: normal;
+
+    }
+
+    .Rental-Car {
+      letter-spacing: -9px;
+      font-weight: bold;
+      margin-left: 410px;
+      margin-top: -1px;
+
+      font-size: 1rem;
+      font-weight: bold;
+      color: #ff853f;
+      opacity: 0.9;
+    }
+
+    .need+.for {
+      margin-left: 7.9px;
+    }
+
+  }
+}
+.logocontract {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -100;
+  width: auto;
+  flex-direction: column;
+  /* Stack the content vertically */
+  width: 100%;
+
+  .logo-text {
+    text-transform: uppercase;
+    font-size: 4rem;
+    margin-left: -11px;
+    letter-spacing: -0.02em;
+
+    text-align: center;
+    z-index: 100;
+
+    .need,
+    .drive {
+      letter-spacing: 0.6px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .for {
+      font-size: 2rem;
+      text-align: center;
+      position: relative;
+      top: -19px;
+      margin: -10px;
+      font-weight: normal;
+
+    }
+
+    .Rental-Car {
+      letter-spacing: -9px;
+      font-weight: bold;
+      margin-left: 410px;
+      margin-top: -1px;
+
+      font-size: 1rem;
+      font-weight: bold;
+      color: #ff853f;
+      opacity: 0.9;
+    }
+
+    .need+.for {
+      margin-left: 7.9px;
+    }
+
+  }
+}
+/* TODO */
+/* LINK */
+/* FIXME */
+/* NOTE */
+/* REVIEW */
+
+
+.header {
+  border-left: 2px solid  #000000;
+  border-right: 2px solid  #000000;
+  border-top: 2px solid  #000000;
+  border-bottom: 2px solid  #000000;
+  box-shadow: 0px 0px 10px 10px  #000000 ; // Shadow applied when footer is hidden
+display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  background: linear-gradient(120deg, transparent, transparent);
+  padding: 15px;
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(5px);
+  z-index:  1000;
+
+  &.hidden {
+    transform: translateY(-100%);
+    /* when hidden, lower stacking so header-shadow-placeholder can be visible */
+    z-index: 20;
+  }
+
+
+/* Header placeholder removed per request; use a single footer placeholder
+  definition in `🅢🅒🅢🅢.scss` instead. */
+
+/* Slide header out of view while keeping a shadow via the placeholder */
+.header {
+  transition: transform 0.32s cubic-bezier(.22,.9,.26,1), opacity 0.22s ease;
+}
+.header.hidden {
+  transform: translateY(-120%); /* fully off-screen */
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Header placeholder selectors removed. */
+  &.visible {
+    transform: translateY(0);
+  }
+
+  .toggle-btn {
+
+    cursor: pointer;
+    font-size: 1.9rem;
+
+
+    &.mode {
+      background-color: #ef0000;
+
+    }
+  }
+
+  .toggle-btn.mode {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+
+
+
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  }
+
+
+
+  .toggle-btn.mode .icon {
+    font-size: 1rem;
+    color: #0303f4;
+    transition: color 0.3s ease-in-out;
+
+  }
+
+  .is-dark-mode .toggle-btn.mode .icon:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #007bff;
+    font-size: 1.9rem;
+
+    color: #03a9f4;
+    /* Cha } {   nge color in dark mode */
+  }
+
+}
+
+/* Theme-specific header placeholder overrides removed. */
+
+.dropdown-menu {
+  padding: 0.5rem;
+}
+
+.dropdown-item {
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #007bff;
+}
+
+.badge {
+  font-size: 0.8rem;
+  padding: 0.2em 0.4em;
+}
+
+@include desktop-up {
+
+  .header {
+
+    box-shadow: 0px 0px 10px 10px  #000000 ; // Shadow applied when footer is hidden
+  border-left: 2px solid  #000000;
+  border-right: 2px solid  #000000;
+  border-top: 2px solid  #000000;
+  border-bottom: 2px solid  #000000;
+
+    .dropdown-menu {
+      padding: 0.5rem;
+    }
+
+    .dropdown-item {
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .dropdown-item:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #007bff;
+    }
+
+    .badge {
+      font-size: 0.8rem;
+      padding: 0.2em 0.4em;
+    }
+
+    transition: margin 0.7s ease,
+    width 0.7s ease;
+
+    &.left-sidebar-open {
+      margin-left: 400px;
+      width: calc(100% - 400px);
+    }
+
+    &.right-sidebar-open {
+      margin-right: 300px;
+      width: calc(100% - 300px);
+    }
+
+    &.left-sidebar-open.right-sidebar-open {
+      margin-left: 400px;
+      margin-right: 400px;
+      width: calc(100% - 700px);
+    }
+  }
+}
+
+//  @include media.desktop-uuupppppppppppppp
+@include mobile {
+  .logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -100;
+    width: auto;
+
+    flex-direction: column;
+    /* Stack the content vertically */
+    width: 100%;
+
+    .logo-text {
+      text-transform: uppercase;
+      font-size: 1rem;
+      margin-left: -19px;
+      letter-spacing: -0.02em;
+
+      text-align: center;
+      z-index: 100;
+
+      .need,
+      .drive {
+        letter-spacing: 0.6px;
+        margin: -6px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .for {
+        font-size: 0.5rem;
+        text-align: center;
+        position: relative;
+        top: -5px;
+        margin: 3.7px;
+        font-weight: normal;
+
+      }
+
+      .Rental-Car {
+        letter-spacing: -9px;
+        font-weight: bold;
+        margin-left: 410px;
+        margin-top: -1px;
+
+        font-size: 1rem;
+        font-weight: bold;
+        color: rgba(255, 133, 63, 0.637);
+        opacity: 0.9;
+      }
+
+      .need+.for {
+        margin-left: 7.9px;
+      }
+
+    }
+  }
+}
+
+

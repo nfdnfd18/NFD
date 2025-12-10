@@ -1,0 +1,79 @@
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { CCard, CForm, CFormInput, CButton, CAlert } from '@coreui/react';
+import UserContext from "../../NFDcomponents/AuthContext.nfd";
+import CryptoJS from "crypto-js";
+import './Register.scss';
+
+const SECRET_KEY = import.meta.env.VITE_SECRET_KEY || "default-secret-key"; // Use environment variable
+
+const encryptData = (data) => CryptoJS.AES.encrypt(data, SECRET_KEY).toString();
+
+function RegisterUsers() {
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const { registerWithCredentials } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    const formData = new FormData(e.target);
+    const payload = {
+      username: formData.get("username"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+      firstName: formData.get("firstName") || undefined,
+      lastName: formData.get("lastName") || undefined,
+      phone: formData.get("phone") || undefined,
+      avatar: formData.get("avatar") || undefined,
+      userType: 'NORMAL',
+      isPremium: false,
+    };
+
+    try {
+      const res = await registerWithCredentials(payload);
+      if (!res.ok) throw new Error(res.error || 'Registration failed');
+      // registerWithCredentials auto-logged-in the user, redirect accordingly
+      const isPremium = res.user?.isPremium || (res.user?.userType && String(res.user.userType).toUpperCase() !== 'NORMAL');
+      if (isPremium) navigate('/premium-layout'); else navigate('/normal-layout');
+    } catch (err) {
+      setError(err.message || "Registration failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <div className="NFD-Auth">
+      <div className="container">
+        <CCard className="auth-card">
+          <h2 className="auth-title">Register</h2>
+
+          <CForm className="auth-form" onSubmit={handleSubmit}>
+            <CFormInput name="username" required minLength={3} maxLength={20} type="text" placeholder="Username" className="mb-3" autoComplete="username" />
+            <CFormInput name="email" required type="email" placeholder="Email" className="mb-3" autoComplete="email" />
+            <CFormInput name="firstName" type="text" placeholder="First name" className="mb-3" />
+            <CFormInput name="lastName" type="text" placeholder="Last name" className="mb-3" />
+            <CFormInput name="password" type="password" required placeholder="Password" className="mb-3" autoComplete="new-password" />
+            <CFormInput name="confirm" type="password" required placeholder="Confirm Password" className="mb-3" autoComplete="new-password" />
+            <CFormInput name="phone" type="tel" placeholder="Phone (optional)" className="mb-3" />
+            <CFormInput name="avatar" type="text" placeholder="Avatar URL (optional)" className="mb-3" />
+            <CButton type="submit" color="primary" disabled={isLoading} className="mb-3 w-100">
+              {isLoading ? "Loading..." : "Register"}
+            </CButton>
+            {error && <CAlert color="danger">{error}</CAlert>}
+          </CForm>
+          <Link to="/Login" className="mt-2 text-center text-rose-950 d-block">
+            Already have an account?
+          </Link>
+        </CCard>
+      </div>
+    </div>
+  );
+}
+
+export default RegisterUsers;

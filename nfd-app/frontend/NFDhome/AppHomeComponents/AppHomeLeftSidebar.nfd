@@ -1,0 +1,144 @@
+import React, { useState, useEffect } from 'react';
+import PropTypes from "prop-types";
+import { AppHomeSidebarNav } from "./AppHomeSidebarNav.nfd";
+import {navigation as navigationSource} from "../AppHome_navbar";
+
+import i18n from '../../i18n.jsx';
+import { useTranslation } from 'react-i18next';
+function AppHomeLeftSidebar({ closeSidebar, onClick }) {
+  const { t } = useTranslation();
+  const stored = (typeof window !== 'undefined' && window.localStorage && window.localStorage.getItem('lang')) || null;
+  const defaultLang = stored || i18n.language || 'en';
+  const [lang, setLang] = useState(defaultLang);
+  const languages = [
+    { code: 'en', label: t('languages.en') },
+    { code: 'fr', label: t('languages.fr') },
+    { code: 'es-ES', label: t('languages.es-ES') },
+    { code: 'pt-BR', label: t('languages.pt-BR') },
+    { code: 'zh-CN', label: t('languages.zh-CN') },
+    { code: 'ru', label: t('languages.ru') },
+    { code: 'ja', label: t('languages.ja') },
+    { code: 'ko', label: t('languages.ko') },
+    { code: 'ar-MA', label: t('languages.ar-MA') },
+    { code: 'de', label: t('languages.de') },
+  ];
+
+  const handleLanguageChange = (e) => {
+    const l = e.target.value;
+    i18n.changeLanguage(l);
+    setLang(l);
+    try { window.localStorage.setItem('lang', l); } catch (e) {}
+  };
+
+  // keep header/footer/sidebar layout LTR; only toggle a body class that applies
+  // RTL to page content/text when Arabic is selected
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    if (lang && lang.startsWith('ar')) {
+      document.body.classList.add('lang-rtl');
+    } else {
+      document.body.classList.remove('lang-rtl');
+    }
+  }, [lang]);
+
+  // small mapping from the navigation item names to i18n keys
+  const navNameMap = {
+    HOME: 'nav.HOME',
+    AUTHENTICATION: 'nav.AUTHENTIFICATION',
+    HomePage: 'nav.homePage',
+    'Available Cars': 'nav.availableCars',
+    PrivacyPolicy: 'nav.privacyPolicy',
+    Blog: 'nav.blog',
+  Live: 'nav.live',
+  Friends: 'nav.friends',
+  Leaderboard: 'nav.leaderboard',
+    Register: 'nav.register',
+    Login: 'nav.login',
+    DualLogin: 'nav.dualLogin',
+  };
+
+  const translateNavigation = (nodes) => {
+    return nodes.map((node) => {
+      const out = { ...node };
+      // translate the group/item name if we have a mapping
+      if (typeof out.name === 'string') {
+        const key = navNameMap[out.name];
+        out.name = key ? i18n.t(key) : i18n.t(out.name) || out.name;
+      }
+      if (Array.isArray(out.items)) {
+        out.items = translateNavigation(out.items);
+      }
+      return out;
+    });
+  };
+
+  // Ensure we get a fresh navigation object (some modules export a function for runtime i18n)
+  const rawNavigation = typeof navigationSource === 'function' ? navigationSource() : navigationSource;
+  const translatedNavigation = translateNavigation(rawNavigation || []);
+
+  return (
+    <aside
+      className="left-sidebar"  data-aos="fade-right"   data-aos-offset="100"   data-aos-easing="ease-in-sine"    onClick={onClick}
+    >
+      <div className="sidebar-headerL  justify-center text-center">
+  <h3>{t('sidebar.navigation') || 'Navigation'}</h3>
+      </div>
+     
+  <div className=" sidebar-content">    <AppHomeSidebarNav items={translatedNavigation} closeSidebar={closeSidebar} />
+      </div>
+     
+     
+     <div className=" justify-center text-center " style={{ marginTop: '0.5rem' }}>
+          <button className="toggle-btn" onClick={closeSidebar} style={{ padding: '0.5rem 0.75rem' }}>
+          {t('buttons.closeSidebar') || 'Close Sidebar'}
+        </button>
+
+  {/* small quick-language buttons added per request */}
+      </div>
+
+      {/* drop-up language selector */}
+      <div className="lang-cta-wrapper">
+        <div style={{display:'inline-block',position:'relative'}}>
+          <button
+            onClick={(e) => { e.stopPropagation(); const el = document.getElementById('lang-dropup'); if (el) el.classList.toggle('open'); }}
+            className="lang-cta"
+            aria-haspopup="true"
+            aria-expanded={false}
+          >
+            🌐 { (i18n.language || 'en').toUpperCase() }
+          </button>
+
+          <div id="lang-dropup" className="lang-dropup">
+            {[
+              {code:'en', flag:'/flags/united-states-of-america-flag-png-large.png'},
+              {code:'fr', flag:'/flags/france-flag-png-large.png'},
+              {code:'es-ES', flag:'/flags/spain-flag-png-large.png'},
+              {code:'pt-BR', flag:'/flags/portugal-flag-400.png'},
+              {code:'zh-CN', flag:'/flags/china-flag-png-large.png'},
+              {code:'ru', flag:'/flags/russia-flag-png-large.png'},
+              {code:'ja', flag:'/flags/japan-flag-png-large.png'},
+              {code:'ko', flag:'/flags/south-korea-flag-png-large.png'},
+              {code:'ar-MA', flag:'/flags/morocco-flag-png-large.png'},
+              {code:'de', flag:'/flags/germany-flag-png-large.png'},
+            ].map((l) => (
+              <button key={l.code} onClick={() => { i18n.changeLanguage(l.code); setLang(l.code); try { window.localStorage.setItem('lang', l.code); } catch(e){}; const el = document.getElementById('lang-dropup'); if (el) el.classList.remove('open'); }} className="lang-item">
+                <img src={l.flag} alt="" />
+                <span style={{flex:1,fontWeight:600}}>{i18n.t(`languages.${l.code}`) || l.code}</span>
+                <span style={{opacity:0.6,fontSize:12}}>{l.code}</span>
+              </button>
+            ))}
+            {/* caret removed per user request - no arrow under lang-dropup */}
+          </div>
+        </div>
+      </div>
+
+      <style>{`.open { display:block !important; }`}</style>
+    </aside>
+  );
+}
+
+export default AppHomeLeftSidebar;
+AppHomeLeftSidebar.propTypes = {
+  closeSidebar: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+};

@@ -1,0 +1,163 @@
+
+import React, { useRef } from "react";
+import "./removebgN.scss";
+
+const removebgN = () => {
+  const wrapperRef = useRef(null);
+
+  const downloadLogo = () => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+
+    // Create canvas sized to the rendered text bounds
+    const span = wrapper.querySelector('.need');
+    if (!span) return;
+
+    // get computed styles to match text rendering
+    const style = window.getComputedStyle(span);
+    const fontSize = parseFloat(style.fontSize) || 220; // fallback
+    const fontFamily = style.fontFamily || 'Mononokiz';
+    const fontWeight = style.fontWeight || '700';
+    const color = style.color || '#000';
+
+  // measure text using advanced metrics when available and create a canvas with generous padding
+  const text = span.textContent || 'N';
+  const measureCanvas = document.createElement('canvas');
+  const mctx = measureCanvas.getContext('2d');
+  const fontSpec = `${fontWeight} ${fontSize}px ${fontFamily}`;
+  mctx.font = fontSpec;
+  const metrics = mctx.measureText(text);
+
+  // compute actual bounds if supported, fallback to width
+  const left = metrics.actualBoundingBoxLeft || 0;
+  const right = metrics.actualBoundingBoxRight || metrics.width || 0;
+  const ascent = metrics.actualBoundingBoxAscent || fontSize * 0.8;
+  const descent = metrics.actualBoundingBoxDescent || fontSize * 0.2;
+
+  const padding = Math.ceil(fontSize * 0.5); // increased padding to avoid clipping
+  const textWidth = Math.ceil(left + right);
+  const textHeight = Math.ceil(ascent + descent);
+
+  const canvasWidth = textWidth + padding * 2;
+  const canvasHeight = textHeight + padding * 2;
+
+  // Create a large 2000x2000 canvas for high-res export
+  const TARGET = 2000;
+  const canvas = document.createElement('canvas');
+  canvas.width = TARGET;
+  canvas.height = TARGET;
+  const ctx = canvas.getContext('2d');
+
+  // transparent background by default
+  ctx.clearRect(0, 0, TARGET, TARGET);
+
+  // Decide scale so text fills most of the TARGET canvas
+  const available = Math.min(TARGET - padding * 2, TARGET - padding * 2);
+  // compute base metrics in px
+  const baseWidth = metrics.width;
+  const baseHeight = ascent + descent;
+  const scale = Math.min(available / baseWidth, available / baseHeight);
+
+  const exportFontSize = Math.floor(fontSize * scale);
+  const exportFontSpec = `${fontWeight} ${exportFontSize}px ${fontFamily}`;
+  ctx.font = exportFontSpec;
+  ctx.fillStyle = color;
+  ctx.textBaseline = 'alphabetic';
+
+  // re-measure at scaled size to center precisely
+  const exportMetrics = ctx.measureText(text);
+  const exAscent = exportMetrics.actualBoundingBoxAscent || exportFontSize * 0.8;
+  const exDescent = exportMetrics.actualBoundingBoxDescent || exportFontSize * 0.2;
+  const textW = exportMetrics.width;
+  const textH = exAscent + exDescent;
+
+  const centerX = Math.round((TARGET - textW) / 2);
+  const centerYBaseline = Math.round((TARGET + textH) / 2 - exDescent);
+
+  ctx.fillText(text, centerX, centerYBaseline - exAscent + exAscent);
+
+    // trigger download
+    const link = document.createElement('a');
+    link.download = 'N-logo.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  };
+
+  const downloadAtRem = async (remValue = 100, fillColor = '#ffffff') => {
+    const wrapper = wrapperRef.current;
+    if (!wrapper) return;
+    const span = wrapper.querySelector('.need');
+    if (!span) return;
+
+    const style = window.getComputedStyle(span);
+    const fontFamily = style.fontFamily || 'Mononokiz';
+    const fontWeight = style.fontWeight || '700';
+    const color = fillColor || '#ffffff';
+
+    // compute target px from rem
+    const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+    const targetPx = Math.round(rootFontSize * remValue);
+
+    const text = span.textContent || 'N';
+
+    // Prepare canvas square of targetPx x targetPx
+    const canvas = document.createElement('canvas');
+    canvas.width = targetPx;
+    canvas.height = targetPx;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const fontSpec = `${fontWeight} ${targetPx}px ${fontFamily}`;
+    // Wait for font if possible to get accurate metrics
+    try {
+      if (document.fonts && document.fonts.load) await document.fonts.load(fontSpec);
+    } catch (e) {}
+
+    ctx.font = fontSpec;
+    ctx.fillStyle = color;
+    ctx.textBaseline = 'alphabetic';
+
+    const metrics = ctx.measureText(text);
+    // Prefer actual bounding boxes when available
+    const left = metrics.actualBoundingBoxLeft ?? (metrics.width * 0.1);
+    const right = metrics.actualBoundingBoxRight ?? (metrics.width * 0.9);
+    const ascent = metrics.actualBoundingBoxAscent ?? (targetPx * 0.8);
+    const descent = metrics.actualBoundingBoxDescent ?? (targetPx * 0.2);
+
+    const glyphWidth = Math.ceil(left + right);
+    const glyphHeight = Math.ceil(ascent + descent);
+
+    // Add padding so glyph never touches edges
+    const pad = Math.max(8, Math.round(targetPx * 0.02));
+
+    // compute drawing x so glyph is centered in the canvas
+    const drawX = Math.round((canvas.width - glyphWidth) / 2 + left);
+    const baseline = Math.round((canvas.height + glyphHeight) / 2 - descent);
+
+    // draw the glyph (white)
+    ctx.fillText(text, drawX, baseline);
+
+    // download
+  const link = document.createElement('a');
+  link.download = `N-logo-${remValue}rem-${color.replace('#','')}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+  };
+
+  return (
+    <div>
+      <div ref={wrapperRef} className="logoREMOVE" style={{ fontFamily: "Mononokiz", zIndex: 1000 }}>
+        <div className="logo-text">
+          <span className="need">N</span>
+        </div>
+      </div>
+      <div style={{ marginTop: 12, display: 'flex', gap: 8 }}>
+        <button type="button" className="download-btn" onClick={downloadLogo}>Download 2000×2000 PNG</button>
+  <button type="button" className="download-btn" onClick={() => downloadAtRem(100)}>Download 100rem PNG (white)</button>
+  <button type="button" className="download-btn" onClick={() => downloadAtRem(100, '#000000')}>Download 100rem PNG (black)</button>
+      </div>
+    </div>
+  );
+};
+
+export default removebgN;

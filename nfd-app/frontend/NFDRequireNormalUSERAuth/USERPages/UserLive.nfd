@@ -1,0 +1,9 @@
+import React from 'react'
+
+const UserLive = () => {
+  return (
+    <div>UserLive</div>
+  )
+}
+
+export default UserLive

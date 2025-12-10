@@ -1,0 +1,22 @@
+{
+  "name": "nfd-file-icon-theme",
+  "displayName": "NFD Icon Theme",
+  "description": "Custom icon theme for .nfd files",
+  "version": "0.0.1",
+  "publisher": "adaligo",
+  "engines": {
+    "vscode": "^1.50.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "contributes": {
+    "iconThemes": [
+      {
+        "id": "nfd-icons",
+        "label": "NFD Icons",
+        "path": "./file-icon-theme.json"
+      }
+    ]
+  }
+}

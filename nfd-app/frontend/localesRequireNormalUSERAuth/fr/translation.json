@@ -1,0 +1,92 @@
+{
+  "notifications": {
+    "title": "Notifications",
+    "no_notifications": "Aucune notification disponible."
+  },
+  "buttons": {
+    "close": "Fermer",
+    "closeSidebar": "Fermer",
+    "logout": "Se déconnecter"
+  },
+  "sidebar": {
+    "navigation": "Navigation",
+    "language": "Choisir la langue",
+    "partners": "Partenaires"
+  },
+  "chat": { "title": "Discussion", "no_messages": "Aucun message disponible." },
+  "music": { "title": "Musique", "play": "Jouer", "pause": "Pause" },
+  "common": {
+    "home": "Accueil",
+    "availableCars": "Voitures disponibles",
+    "bookNow": "Réserver"
+  },
+  "nav": {
+    "homePage": "Accueil",
+    "availableCars": "Voitures disponibles",
+    "privacyPolicy": "confidentialite",
+    "blog": "Blog",
+    "main": "Principal",
+    "live": "Direct",
+    "leaderboard": "Classement",
+    "friends": "Amis",
+    "support": "Support",
+  "HOME": "Accueil",
+  "AUTHENTIFICATION": "Authentification",
+    "register": "S'inscrire",
+    "login": "Se connecter",
+    "dualLogin": "Double connexion"
+  },
+  "homecars": {
+    "sectionTitle": "Voitures disponibles",
+    "bookNow": "Réserver",
+    "notAvailableBadge": "Indisponible",
+    "notAvailableIntro": "Cette voiture n'est pas disponible actuellement et reviendra",
+    "willBeBackAt": "Reviendra le",
+    "alreadyBooked": "Déjà réservé du {{from}} au {{to}}.",
+    "freeDaysNote": "La voiture est libre du {{from}} au {{to}} ({{days}} jours) — réservations acceptées."
+  },
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "es-ES": "Español",
+    "pt-BR": "Português",
+    "zh-CN": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "ar-MA": "العربية",
+    "de": "Deutsch"
+  },
+  "nfdcopy": {
+    "heroSub": "En construction",
+    "heroNote": "Construction d'une application web de location de voitures.",
+    "buildingInfo": "Informations sur la construction",
+    "deploymentTitle": "Détails du déploiement",
+    "deployment": "Déploiement",
+    "timezone": "Fuseau horaire",
+    "addressDomains": "Adresse / Domaines",
+    "tel": "Tél"
+  }
+  ,
+  "auth": {
+    "createAccount": "Créer un compte",
+    "creating": "Création...",
+    "username": "Nom d'utilisateur",
+    "usernamePlaceholder": "Choisissez un nom d'utilisateur",
+    "email": "Email",
+    "emailPlaceholder": "vous@exemple.com",
+    "password": "Mot de passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "confirm": "Confirmer le mot de passe",
+    "confirmPlaceholder": "Répétez votre mot de passe",
+    "signInTitle": "Connectez-vous à votre compte",
+    "emailOrUsername": "Email ou nom d'utilisateur",
+    "emailOrUsernamePlaceholder": "Email ou nom d'utilisateur",
+    "signing": "Connexion...",
+    "signIn": "Se connecter",
+    "alreadyHaveAccount": "Vous avez déjà un compte ?",
+    "needAccount": "Besoin d'un compte ?",
+    "createOne": "En créer un",
+    "dualLogin": "Double connexion"
+  }
+}

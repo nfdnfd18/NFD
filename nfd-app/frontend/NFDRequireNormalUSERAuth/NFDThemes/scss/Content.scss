@@ -1,0 +1,193 @@
+@use "./media" as *; // Import media mixins
+
+
+
+
+.rental-car-page {
+  font-family: "Arial", sans-serif;
+  color: #333;
+
+ 
+
+  top: 0;
+  width: 100%;
+  .hero {
+    position: relative;
+    background: url("/images/rental-hero.jpg") center/cover no-repeat;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 2rem;
+      text-align: center;
+      color: white;
+      border-radius: 10px;
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .cta-btn {
+        background-color: lime;
+        border: none;
+        color: black;
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: all 0.3s;
+
+        &:hover {
+          background-color: darkgreen;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .car-categories {
+    padding: 2rem;
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+    }
+
+    .categories {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      .category {
+        background: white;
+        border: 1px solid #0eff01;
+        border-radius: 10px;
+        text-align: center;
+        overflow: hidden;
+        width: 200px;
+
+        img {
+          width: 100%;
+          height: 150px;
+          object-fit: cover;
+        }
+
+        h3 {
+          padding: 1rem;
+          background-color: rgba(0, 255, 0, 0.729);
+          color: rgb(4, 4, 4);
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .why-choose-us {
+    padding: 2rem;
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+    }
+
+    .features {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+
+      .feature {
+        text-align: center;
+        padding: 1rem;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background: rgba(113, 43, 43, 0.346);
+        width: 250px;
+
+        i {
+          font-size: 2rem;
+          color: lime;
+          margin-bottom: 0.5rem;
+        }
+
+        h3 {
+          margin-bottom: 0.5rem;
+        }
+
+        p {
+          font-size: 0.9rem;
+          color: #666;
+        }
+      }
+    }
+  }
+
+  .footercar {
+    text-align: center;
+    padding: 1rem;
+    background: #222;
+    color: white;
+
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Media queries
+@include desktop-up {
+  .main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden; // Adds vertical scrolling when content overflows
+
+  
+  
+    &.left-open {
+      margin-left: 0rem; /* Fully open sidebar width */
+    }
+
+    &.left-collapsed {
+      margin-left: 0rem; /* Collapsed sidebar width */
+    }
+
+    &.right-open {
+      margin-right: 0rem; /* Adjust this if you have a right sidebar */
+    }
+  }
+}
+
+
+
+
+

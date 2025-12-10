@@ -1,0 +1,149 @@
+@use "../media" as *; // Import media mixins
+
+@layer base {
+  :root {
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+.car-rental {
+  transition: margin 0.7s ease, width 0.7s ease;
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  background:#1aff0044;
+    border-radius: 20px;
+    
+  }
+  
+  .car-rental-header {
+    text-align: center;
+   
+  }
+  
+  .car-rental-header h1 {
+    font-size: 2em;
+    color: #00ff2f;
+  }
+  
+  .car-rental-header p {
+    font-size: 1.2em;
+  }
+  
+  .car-rental-services,
+  .car-rental-why-choose {
+    box-shadow: 0px 0px 5px 5px #00ff00; // Shadow applied when footer is hidden
+       background: linear-gradient(120deg, transparent, #1eff00,transparent);
+
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 12px solid #00ff2ab3;
+    border-radius: 8px;
+  }
+  
+  .car-rental-services h2,
+  .car-rental-why-choose h2 {
+    font-size: 1.5em;
+    color: #00ff2f;
+    margin-bottom: 15px;
+  }
+  
+  .car-rental-services ul,
+  .car-rental-why-choose ol {
+    margin-left: 20px;
+  }
+  
+  .car-rental-services ul li,
+  .car-rental-why-choose ol li {
+    margin-bottom: 10px;
+  }
+  
+  .car-rental-footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 1.1em;
+    color: #555;
+  }
+  
+  .car-rental-footer strong {
+    color: #007BFF;
+  }
+  //  @include media.desktop-uuupppppppppppppp
+@include mobile {
+  .car-rental {
+    transition: margin 0.7s ease, width 0.7s ease;
+  
+      border-radius: 20px;
+      
+    }
+    
+    .car-rental-header {
+      text-align: center;
+     
+    }
+    
+    .car-rental-header h1 {
+      font-size: 2em;
+      color: #00ff2f;
+    }
+    
+    .car-rental-header p {
+      font-size: 1.2em;
+    }
+    
+    .car-rental-services,
+    .car-rental-why-choose {
+      box-shadow: 0px 0px 5px 5px #00ff00; // Shadow applied when footer is hidden
+         background: linear-gradient(120deg, transparent, #1eff00,transparent);
+  
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 12px solid #00ff2ab3;
+      border-radius: 8px;
+    }
+    
+    .car-rental-services h2,
+    .car-rental-why-choose h2 {
+      font-size: 1.5em;
+      color: #00ff2f;
+      margin-bottom: 15px;
+    }
+    
+    .car-rental-services ul,
+    .car-rental-why-choose ol {
+      margin-left: 20px;
+    }
+    
+    .car-rental-services ul li,
+    .car-rental-why-choose ol li {
+      margin-bottom: 10px;
+    }
+    
+    .car-rental-footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 1.1em;
+      color: #555;
+    }
+    
+    .car-rental-footer strong {
+      color: #007BFF;
+    }
+}

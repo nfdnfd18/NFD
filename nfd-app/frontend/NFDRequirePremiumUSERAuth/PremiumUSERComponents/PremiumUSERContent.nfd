@@ -1,0 +1,36 @@
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import routes from "../PremiumUSER_routes";
+import PropTypes from 'prop-types'; // or import { PropTypes } from 'prop-types';
+
+export default function PremiumUSERContent({ isLeftSidebarOpen, isRightSidebarOpen }) {
+  return (
+    <main
+      
+      className={` container
+        ${isLeftSidebarOpen ? "left-open" : "left-collapsed"} 
+        ${isRightSidebarOpen ? "right-open" : "right-collapsed"}
+      `}
+    > 
+
+      <React.Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          {routes.map((route, index) =>
+            route.element ? (
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                element={<route.element />}
+              />
+            ) : null
+          )}
+        </Routes>
+      </React.Suspense>
+    </main>
+  );
+}
+PremiumUSERContent.propTypes = {
+  isLeftSidebarOpen: PropTypes.bool.isRequired,
+  isRightSidebarOpen: PropTypes.bool.isRequired,
+};

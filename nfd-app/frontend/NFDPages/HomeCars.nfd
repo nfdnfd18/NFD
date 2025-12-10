@@ -1,0 +1,204 @@
+import { useEffect, useState } from 'react';
+import i18n from '../i18n.jsx';
+import './HomeCars.scss';
+
+// Use a Cloudinary URL from environment when available (set VITE_CLOUDINARY_IMAGE_URL in Vercel)
+// For quick testing locally or on Preview, this falls back to a public Cloudinary demo image.
+// Replace the demo URL with your Cloudinary image URL or set the Vercel env var.
+const CLOUDINARY_IMAGE_URL = import.meta.env.VITE_CLOUDINARY_IMAGE_URL || 'https://res.cloudinary.com/dqbezy7ge/image/upload/v1756737376/dfaa0848-5f76-43ab-b1cc-1c38d7889877_fzjb7t.jpg';
+const CLOUDINARY_IMAGE_URL2 = import.meta.env.VITE_CLOUDINARY_IMAGE_URL2 || 'https://res.cloudinary.com/dqbezy7ge/image/upload/v1757191759/Dacia-logan-noire-e1720015363842_dyz7lq.png';
+const CLOUDINARY_IMAGE_URL3 = import.meta.env.VITE_CLOUDINARY_IMAGE_URL3 || 'https://res.cloudinary.com/dqbezy7ge/image/upload/v1757191758/f4bb4ff8-5ddc-450b-81d8-57987a72daef_rm1pp7.jpg';
+
+// The fallback list is created inside the component so i18n lookups run at render time.
+
+import { useTranslation } from 'react-i18next';
+
+const HomeCars = () => {
+  const { t } = useTranslation();
+  const fallbackCars = [
+    {
+      make: 'Peugeot',
+      model: '208',
+      year: 2025,
+      color: 'White',
+      licensePlate: 'PEU-002',
+      vin: 'VIN-PEU-0002',
+      category: 'COMPACT',
+      transmission: 'MANUAL',
+      fuelType: 'GASOLINE',
+      seats: 5,
+      doors: 5,
+      mileage: 5594,
+      features: ['AC', 'Bluetooth'],
+      images: [CLOUDINARY_IMAGE_URL || '/PEU-208.jpg'],
+      pricePerDayUSD: 36.05,
+      pricePerDayMAD: 325,
+      pricePerDayEUR: 30.82,
+      isAvailable: false,
+      availableUntil: '2025-09-18T18:00:00',
+  location: t('homecars.location.mainBranch'),
+    },
+    {
+      make: 'DACIA',
+      model: 'LOGANE',
+      year: 2025,
+      color: 'Black',
+      licensePlate: 'Logane-D',
+      vin: 'VIN-dacia-0003',
+      category: 'COMPACT',
+      transmission: 'MANUAL',
+      fuelType: 'GASOLINE',
+      seats: 5,
+      doors: 5,
+      mileage: 5594,
+      features: ['AC', 'Bluetooth'],
+      images: [CLOUDINARY_IMAGE_URL2 || '/PEU-208.jpg'],
+      pricePerDayUSD: 34.05,
+      pricePerDayMAD: 275,
+      pricePerDayEUR: 28.82,
+      isAvailable: false,
+      availableUntil: '2025-09-17T21:30:00',
+  location: t('homecars.location.mainBranch'),
+    },
+     {
+      make: 'DACIA',
+      model: 'SANDERO',
+      year: 2025,
+      color: 'White',
+      licensePlate: '',
+      vin: 'VIN-dacia-0004',
+      category: 'COMPACT',
+      transmission: 'MANUAL',
+      fuelType: 'GASOLINE',
+      seats: 5,
+      doors: 5,
+      mileage: 6694,
+      features: ['AC', 'Bluetooth'],
+      images: [CLOUDINARY_IMAGE_URL3 || '/PEU-208.jpg'],
+      pricePerDayUSD: 36.05,
+      pricePerDayMAD: 300,
+      pricePerDayEUR: 31.82,
+      isAvailable: true,
+  
+  location: t('homecars.location.mainBranch'),
+    },
+  ];
+
+  const [cars, setCars] = useState(fallbackCars);
+  useEffect(() => {
+    // Try to fetch from API (if you later add a backend endpoint). Otherwise fall back to seeded static list.
+    fetch('/api/cars')
+      .then((r) => {
+        if (!r.ok) throw new Error('no api');
+        return r.json();
+      })
+      .then((data) => {
+        // Defensive: API may return an array or an object like { cars: [...] } or another shape.
+        if (Array.isArray(data)) {
+          setCars(data);
+        } else if (data && Array.isArray(data.cars)) {
+          setCars(data.cars);
+        } else {
+          // keep fallback (no-op) — ensure we don't set a non-array value
+          console.warn('Unexpected /api/cars response shape, using fallback list.', data);
+        }
+      })
+      .catch(() => {
+        // keep fallback
+      });
+  }, []);
+
+  return (
+    <div className="NFD-HomeCars">
+      <div className="container">
+  <h1 className="section-title">{t('homecars.sectionTitle')}</h1>
+        <div className="cars-grid">
+          {cars.map((car) => {
+            const waLink = `https://wa.me/212661619230?text=${encodeURIComponent(`Hello, I'm interested in booking the ${car.make} ${car.model} ${car.licensePlate}.`)}`;
+            const isAvailable = car.isAvailable !== false;
+            const availableUntil = car.availableUntil ? new Date(car.availableUntil) : null;
+            // Localized formatting using the current i18n language.
+            const locale = i18n.language || 'en-US';
+            const availableUntilText = availableUntil
+              ? new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' }).format(availableUntil)
+              : null;
+
+            const bookedFrom = car.bookedFrom ? new Date(car.bookedFrom) : null;
+            const bookedUntil = car.bookedUntil ? new Date(car.bookedUntil) : null;
+            const bookedFromText = bookedFrom
+              ? new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric', year: 'numeric' }).format(bookedFrom)
+              : null;
+            const bookedUntilText = bookedUntil
+              ? new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric', year: 'numeric' }).format(bookedUntil)
+              : null;
+
+            // Compute short free window days count for the note (if any)
+            let freeDays = null;
+            let availableUntilShort = null;
+            let bookedFromShort = null;
+            if (availableUntil && bookedFrom && availableUntil < bookedFrom) {
+              const msPerDay = 1000 * 60 * 60 * 24;
+              freeDays = Math.round((bookedFrom - availableUntil) / msPerDay);
+              availableUntilShort = new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric' }).format(availableUntil);
+              bookedFromShort = new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric' }).format(bookedFrom);
+            }
+
+            return (
+              <article key={car.licensePlate} className="car-card">
+                <div className="car-card__img">
+                  {/* Show an unavailable badge in the image corner when the car is not available */}
+                  {!isAvailable && <div className="unavailable-badge">{i18n.t('homecars.notAvailableBadge')}</div>}
+                  {/* normalize: ensure we render a string src even if images come as objects */}
+                  {(() => {
+                    const src = Array.isArray(car.images) && car.images.length ? (typeof car.images[0] === 'string' ? car.images[0] : car.images[0].url || '') : '/Capture LOGO.bmp';
+                    return <img src={src} alt={`${car.make} ${car.model}`} />;
+                  })()}
+                </div>
+
+                <div className="car-card__body">
+                  <h3 className="car-card__title">{car.make} {car.model}</h3>
+                  <div className="car-card__meta">{car.year} • {car.color} • {car.category}</div>
+                  <div className="car-card__specs">{car.transmission} • {car.fuelType} • {car.seats} seats</div>
+                  <div className="car-card__price">
+                    <div className="price-line">{car.pricePerDayMAD ? `${Number(car.pricePerDayMAD).toLocaleString()} MAD` : null}</div>
+                    <div className="price-line">{car.pricePerDayUSD ? `${Number(car.pricePerDayUSD).toFixed(2)} $` : null}</div>
+                    <div className="price-line">{car.pricePerDayEUR ? `${Number(car.pricePerDayEUR).toFixed(2)} €` : null}</div>
+                  </div>
+
+                  {isAvailable ? (
+                    <a className="book-btn" href={waLink} target="_blank" rel="noopener noreferrer">{i18n.t('homecars.bookNow')}</a>
+                  ) : (
+                    <>
+                      <button className="book-btn disabled" type="button" disabled aria-disabled="true">{i18n.t('homecars.notAvailableBadge')}</button>
+
+                      <div className="unavailable-note">
+                        <div>
+                          {availableUntilText ? (
+                            // Use a single clear sentence: intro + willBeBackAt DATE
+                            `${i18n.t('homecars.notAvailableIntro')} ${i18n.t('homecars.willBeBackAt')} ${availableUntilText}.
+                            `
+                          ) : (
+                            i18n.t('homecars.notAvailableBadge')
+                          )}
+                        </div>
+                        {bookedFromText && bookedUntilText && (
+                          <div className="booking-info">{i18n.t('homecars.alreadyBooked', { from: bookedFromText, to: bookedUntilText })}</div>
+                        )}
+                        {freeDays && freeDays > 0 && (
+                          <div className="booking-ok">{i18n.t('homecars.freeDaysNote', { from: availableUntilShort, to: bookedFromShort, days: freeDays })}</div>
+                        )}
+                      </div>
+
+                    </>
+                  )}
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HomeCars;

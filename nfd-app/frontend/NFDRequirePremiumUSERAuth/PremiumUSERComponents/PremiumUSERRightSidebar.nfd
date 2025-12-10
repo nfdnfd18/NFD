@@ -1,0 +1,29 @@
+import PropTypes from 'prop-types';
+import { PremiumUSERSidebarNav } from "../PremiumUSERComponents/PremiumUSERSidebarNav.nfd";
+import {navigation} from "../PremiumUSER_navbar";
+
+RightSidebar.propTypes = {
+  closeSidebar: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
+
+export default function RightSidebar({ closeSidebar, onClick }) {
+  return (
+    <aside data-aos="fade-left "  data-aos-offset="100" data-aos-easing="ease-in-sine" className="right-sidebar" onClick={onClick}>
+       <div className="sidebar-headerR justify-center text-center">
+        <h3>Paretners </h3> 
+      </div>
+
+       <div className=" sidebar-content ">   <PremiumUSERSidebarNav items={navigation} closeSidebar={closeSidebar} />
+
+
+  </div> 
+  
+   <div className="justify-center text-center"> 
+        <button className=" justify-center text-center toggle-btnR fixed-buttonR sidebar-footerR" onClick={closeSidebar}>
+          Close Sidebar
+        </button>
+      </div>
+    </aside>
+  );
+}

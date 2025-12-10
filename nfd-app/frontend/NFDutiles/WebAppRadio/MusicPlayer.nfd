@@ -1,0 +1,416 @@
+import { useRef, useEffect, useState, useContext } from "react";
+import { BiSkipPrevious, BiSkipNext, BiPlay, BiPause } from "react-icons/bi";
+
+import UserContext from "../../NFDcomponents/UserContext.nfd"; // Ensure correct path
+
+import music1 from "./music/Balqees1.mp3";
+import music2 from "./music/MORAD-UNAMIGO.mp3";
+import music3 from "./music/Balqees2.mp3";
+import music4 from "./music/RimK-Tontondubled.mp3";
+import music5 from "./music/Balqees3.mp3";
+import music6 from "./music/t.A.T.u-30Minutes.mp3";
+import music7 from "./music/Balqees4.mp3";
+import music8 from "./music/潘瑋柏 WillPan-Moonlight.mp3";
+import music9 from "./music/Balqees5.mp3";
+import music10 from "./music/TheChemicalBrothers-DoItAgain.mp3";
+import music11 from "./music/Balqees6.mp3";
+
+import music12 from "./music/113-Marginal.mp3";
+
+
+import music13 from "./music/Balqees7.mp3";
+
+import music14 from "./music/Balqees8.mp3";
+
+import music15 from "./music/Balqees9.mp3";
+
+import music16 from "./music/Balqees10.mp3";
+
+
+
+const musicTracks = [
+  { src: music1, title: "	𝔹𝕒𝕝𝕢𝕖𝕖𝕤", artist: "Balqees", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757210817/balqees_nmsitp.jpg" },
+  { src: music2, title: "MORAD", artist: "Un Amigo", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757259117/MDLR_yroukw.jpg" },
+  { src: music3, title: "	𝔹𝕒𝕝𝕢𝕖𝕖𝕤", artist: "Balqees", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757210817/balqees_nmsitp.jpg" },
+  { src: music4, title: "Tontondubled", artist: "RimK", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757213184/516_7tm1IoL._UF894_1000_QL80__tb0of9.jpg" },
+  { src: music5, title: "	𝔹𝕒𝕝𝕢𝕖𝕖𝕤", artist: "Balqees", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757210817/balqees_nmsitp.jpg" },
+  { src: music6, title: "30 Minutes", artist: "t.A.T.u", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757212192/ab67616d0000b2733b27e1cd8a6bc6804c2e5fd2_he0mxm.jpg" },
+  { src: music7, title: "	𝔹𝕒𝕝𝕢𝕖𝕖𝕤", artist: "Balqees", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757210817/balqees_nmsitp.jpg" },
+  { src: music8, title: "Moonlight", artist: "Will Pan", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757212930/1900x1900-000000-80-0-0_ldovlc.jpg" },
+  { src: music9, title: "	𝔹𝕒𝕝𝕢𝕖𝕖𝕤", artist: "Balqees", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757210817/balqees_nmsitp.jpg" },
+  { src: music10, title: "Do It Again", artist: "The Chemical Brothers", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757212707/artworks-ZKAQbsLgIRlmWqTZ-4KiX0w-t1080x1080_zycmbl.jpg" },
+  { src: music11, title: "	𝔹𝕒𝕝𝕢𝕖𝕖𝕤", artist: "Balqees", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757210817/balqees_nmsitp.jpg" },
+  { src: music12, title: "Marginal", artist: "113", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757211073/R-12169102-1529686214-7451_bz1ikh.jpg" },
+  { src: music13, title: "	𝔹𝕒𝕝𝕢𝕖𝕖𝕤", artist: "Balqees", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757210817/balqees_nmsitp.jpg" },
+  { src: music14, title: "	𝔹𝕒𝕝𝕢𝕖𝕖𝕤", artist: "Balqees", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757210817/balqees_nmsitp.jpg" },
+  { src: music15, title: "	𝔹𝕒𝕝𝕢𝕖𝕖𝕤", artist: "Balqees", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757210817/balqees_nmsitp.jpg" },
+  { src: music16, title: "	𝔹𝕒𝕝𝕢𝕖𝕖𝕤", artist: "Balqees", artwork: "https://res.cloudinary.com/dqbezy7ge/image/upload/v1757210817/balqees_nmsitp.jpg" },
+];
+// Resolve artwork files present under ./music/artwork using Vite's import.meta.glob (returns URLs)
+let artworkMap = {};
+try {
+  // Vite: eager import as URL
+  const modules = import.meta.glob("./music/artwork/*", { eager: true, as: "url" });
+  artworkMap = Object.fromEntries(
+    Object.entries(modules).map(([k, v]) => [k.split("/").pop(), v])
+  );
+} catch (e) {
+  // import.meta.glob may not exist in some environments; ignore and rely on string paths
+  artworkMap = {};
+}
+const MusicPlayer = () => {
+  const [currentTrack, setCurrentTrackState] = useState(0);
+  const [isAudioPlaying, setIsAudioPlaying] = useState(false);
+  const audioRefs = useRef([]);
+  const currentTrackRef = useRef(currentTrack);
+  const isAudioPlayingRef = useRef(isAudioPlaying);
+  const { setCurrentTrack, setCurrentTime } = useContext(UserContext);
+  const [currentMeta, setCurrentMeta] = useState(musicTracks[0]);
+  const resumeAttemptedRef = useRef(false);
+  const [needsUserGesture, setNeedsUserGesture] = useState(false);
+  const autoplayAllowedRef = useRef(localStorage.getItem('music_autoplay_allowed') === 'true');
+
+  // attempt to play with several fallbacks: unmuted retries, then muted play fallback
+  const attemptPlay = async (audio, { retries = 3 } = {}) => {
+    if (!audio) return false;
+
+    // Try unmuted play first (preferred)
+    for (let i = 0; i < retries; i++) {
+      try {
+        audio.muted = false;
+        await audio.play();
+        // success
+        try { localStorage.setItem('music_autoplay_allowed', 'true'); } catch (e) {}
+        autoplayAllowedRef.current = true;
+        return true;
+      } catch (err) {
+        // wait a short time before retrying
+        // small sleep
+        await new Promise((r) => setTimeout(r, 120 * (i + 1)));
+      }
+    }
+
+    // If unmuted play failed, try muted autoplay (many browsers allow muted autoplay)
+    try {
+      audio.muted = true;
+      await audio.play();
+      // muted autoplay succeeded — try to unmute and resume play (may still fail)
+      try { localStorage.setItem('music_autoplay_allowed', 'true'); } catch (e) {}
+      autoplayAllowedRef.current = true;
+      // attempt to unmute after a short delay
+      await new Promise((r) => setTimeout(r, 250));
+      try {
+        audio.muted = false;
+        await audio.play();
+        return true;
+      } catch (e) {
+        // Unmute failed; keep playing muted (still better than stopped)
+        return true;
+      }
+    } catch (e) {
+      // muted autoplay also blocked
+    }
+
+    return false;
+  };
+
+  useEffect(() => {
+    // keep refs updated with latest values so event handlers (like beforeunload)
+    // can read current values without closure-staleness
+    currentTrackRef.current = currentTrack;
+  }, [currentTrack]);
+
+  useEffect(() => {
+    isAudioPlayingRef.current = isAudioPlaying;
+  }, [isAudioPlaying]);
+  // initialization effect: set up refs, restore persisted playback state, and add beforeunload
+  useEffect(() => {
+    // initialize refs array length and ensure initial metadata
+    audioRefs.current = audioRefs.current.slice(0, musicTracks.length);
+
+    // Try to restore persisted playback state
+    try {
+      const savedTrack = parseInt(localStorage.getItem('music_currentTrack'), 10);
+      const savedTime = parseFloat(localStorage.getItem('music_currentTime'));
+      const savedPlaying = localStorage.getItem('music_isPlaying') === 'true';
+
+      const trackIndex = (!isNaN(savedTrack) && savedTrack >= 0 && savedTrack < musicTracks.length) ? savedTrack : 0;
+      setCurrentTrackState(trackIndex);
+      setCurrentMeta(musicTracks[trackIndex]);
+
+      // If audio elements are mounted, restore times and attach listeners.
+      // We delay slightly to allow React to attach refs for the audio tags.
+      setTimeout(() => {
+        try {
+          for (let i = 0; i < musicTracks.length; i++) {
+            const el = audioRefs.current[i];
+            if (!el) continue;
+            // restore current time only for the saved track
+            if (!isNaN(savedTrack) && savedTrack === i && !isNaN(savedTime)) {
+              try { el.currentTime = savedTime; } catch (e) {}
+            }
+            // attach a single timeupdate handler per element
+            const onTimeUpdate = () => {
+              try { localStorage.setItem('music_currentTime', String(el.currentTime)); } catch (e) {}
+            };
+            // store handler so we can remove later if needed
+            if (!el._nfd_timeupdate) el._nfd_timeupdate = onTimeUpdate;
+            el.removeEventListener('timeupdate', el._nfd_timeupdate);
+            el.addEventListener('timeupdate', el._nfd_timeupdate);
+
+            // attach play/pause handlers to persist playing state reliably
+            const onPlay = () => {
+              try { localStorage.setItem('music_isPlaying', 'true'); } catch (e) {}
+              isAudioPlayingRef.current = true;
+            };
+            const onPause = () => {
+              try { localStorage.setItem('music_isPlaying', 'false'); } catch (e) {}
+              isAudioPlayingRef.current = false;
+              try { localStorage.setItem('music_currentTime', String(el.currentTime || 0)); } catch (e) {}
+            };
+            if (!el._nfd_onplay) el._nfd_onplay = onPlay;
+            if (!el._nfd_onpause) el._nfd_onpause = onPause;
+            el.removeEventListener('play', el._nfd_onplay);
+            el.removeEventListener('pause', el._nfd_onpause);
+            el.addEventListener('play', el._nfd_onplay);
+            el.addEventListener('pause', el._nfd_onpause);
+          }
+        } catch (e) {
+          // ignore
+        }
+      }, 120);
+
+      // After refs attached, try to autoplay the saved track if requested
+      const audioElForSaved = audioRefs.current[trackIndex];
+      if (audioElForSaved && savedPlaying) {
+        (async () => {
+          const ok = await attemptPlay(audioElForSaved);
+          if (ok) {
+            setIsAudioPlaying(true);
+          } else {
+            // Autoplay blocked — mark that we need a user gesture to resume
+            setIsAudioPlaying(false);
+            setNeedsUserGesture(true);
+          }
+        })();
+      }
+    } catch (e) {
+      console.warn('Failed to restore music state', e);
+    }
+
+    // Save state on unload so we have final time/track in case of refresh
+    const handleBeforeUnload = () => {
+      const curTrack = currentTrackRef.current;
+      const curAudio = audioRefs.current[curTrack];
+      try {
+        if (curAudio) {
+          localStorage.setItem('music_currentTime', String(curAudio.currentTime || 0));
+        }
+      } catch (e) {}
+      try { localStorage.setItem('music_currentTrack', String(curTrack)); } catch (e) {}
+      try { localStorage.setItem('music_isPlaying', String(isAudioPlayingRef.current)); } catch (e) {}
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, []);
+
+  // If autoplay was blocked, listen for the first user interaction anywhere on the page
+  useEffect(() => {
+    if (!needsUserGesture) return undefined;
+
+    const tryResume = async () => {
+      const audio = audioRefs.current[currentTrack];
+      if (!audio) return;
+      const ok = await attemptPlay(audio);
+      if (ok) {
+        setIsAudioPlaying(true);
+        setNeedsUserGesture(false);
+        try { localStorage.setItem('music_isPlaying', 'true'); } catch (e) {}
+      }
+      // if still blocked, keep listeners attached
+    };
+
+    const onUserGesture = () => {
+      tryResume();
+      // remove listeners after first attempt; if still blocked we'll reattach on next mount
+      window.removeEventListener('click', onUserGesture);
+      window.removeEventListener('touchstart', onUserGesture);
+      window.removeEventListener('keydown', onUserGesture);
+    };
+
+    window.addEventListener('click', onUserGesture, { passive: true });
+    window.addEventListener('touchstart', onUserGesture, { passive: true });
+    window.addEventListener('keydown', onUserGesture, { passive: true });
+
+    return () => {
+      window.removeEventListener('click', onUserGesture);
+      window.removeEventListener('touchstart', onUserGesture);
+      window.removeEventListener('keydown', onUserGesture);
+    };
+  }, [needsUserGesture, currentTrack]);
+
+  // Update Media Session metadata so Chrome / OS media overlay shows artwork & artist
+  useEffect(() => {
+    if (!currentMeta) return;
+
+    // resolve artwork same as in render
+    let artworkSrc = null;
+    if (currentMeta && currentMeta.artwork) {
+      const parts = currentMeta.artwork.split('/');
+      const base = parts[parts.length - 1];
+      if (artworkMap && artworkMap[base]) artworkSrc = artworkMap[base];
+      else artworkSrc = currentMeta.artwork;
+    }
+
+    const finalArtwork = artworkSrc
+      ? artworkSrc
+      : `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%' height='100%' fill='%23222'/><text x='50%' y='50%' fill='%23fff' font-size='20' font-family='Arial' dominant-baseline='middle' text-anchor='middle'>No Artwork</text></svg>`;
+
+    try {
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.metadata = new window.MediaMetadata({
+          title: currentMeta.title || 'Unknown',
+          artist: currentMeta.artist || 'Unknown artist',
+          album: 'NFD',
+          artwork: [
+            { src: finalArtwork, sizes: '300x300', type: 'image/jpeg' },
+          ],
+        });
+
+        // action handlers
+        navigator.mediaSession.setActionHandler('play', () => handlePlayAudio());
+        navigator.mediaSession.setActionHandler('pause', () => handlePlayAudio());
+        navigator.mediaSession.setActionHandler('previoustrack', () => handlePreviousTrack());
+        navigator.mediaSession.setActionHandler('nexttrack', () => handleNextTrack());
+      }
+    } catch (err) {
+      // ignore errors if MediaMetadata not supported
+    }
+  }, [currentMeta]);
+
+  // Ensure audio is paused and reset when switching tracks
+  const changeTrack = (newTrack, autoPlay = false) => {
+    const currentAudio = audioRefs.current[currentTrack];
+    if (currentAudio) {
+      setCurrentTime(0); // Reset time in context for previous track
+      try { currentAudio.pause(); } catch (e) {}
+      try { currentAudio.currentTime = 0; } catch (e) {}
+    }
+
+    // Persist new track index
+    localStorage.setItem('music_currentTrack', String(newTrack));
+    setCurrentTrack(newTrack); // Update track in context
+    setCurrentTrackState(newTrack); // Update track in local state
+    setCurrentMeta(musicTracks[newTrack]);
+
+    const newAudio = audioRefs.current[newTrack];
+    if (newAudio && autoPlay) {
+      (async () => {
+        const ok = await attemptPlay(newAudio);
+        if (ok) setIsAudioPlaying(true);
+        else setIsAudioPlaying(false);
+      })();
+    } else {
+      setIsAudioPlaying(false);
+    }
+  };
+
+  const handlePlayAudio = () => {
+    const audio = audioRefs.current[currentTrack];
+    if (audio) {
+      if (isAudioPlaying) {
+        audio.pause();
+      } else {
+        (async () => {
+          const ok = await attemptPlay(audio);
+          if (!ok) {
+            // still blocked — show gesture prompt via state
+            setNeedsUserGesture(true);
+          }
+        })();
+        setCurrentTime(audio.currentTime); // Save current time during playback
+        // ensure metadata is set when user manually plays
+        setCurrentMeta(musicTracks[currentTrack]);
+      }
+      const newPlayingState = !isAudioPlaying;
+      setIsAudioPlaying(newPlayingState);
+      // persist playing state
+      try { localStorage.setItem('music_isPlaying', String(newPlayingState)); } catch (e) {}
+      try { localStorage.setItem('music_currentTrack', String(currentTrack)); } catch (e) {}
+      try { localStorage.setItem('music_currentTime', String(audio ? audio.currentTime : 0)); } catch (e) {}
+    }
+  };
+
+  const handleNextTrack = () => {
+    const nextTrack = (currentTrack + 1) % musicTracks.length;
+    changeTrack(nextTrack, isAudioPlaying);
+  };
+
+  const handlePreviousTrack = () => {
+    const prevTrack = (currentTrack - 1 + musicTracks.length) % musicTracks.length;
+    changeTrack(prevTrack, isAudioPlaying);
+  };
+
+  const handleTrackEnd = () => {
+    handleNextTrack();
+  };
+
+  return (
+    <div className="audio-player">
+      <div className="audio-nowplaying">
+        {(() => {
+          // compute artwork source: try artworkMap first, then the provided path, then fallback SVG
+          let artworkSrc = null;
+          if (currentMeta && currentMeta.artwork) {
+            // normalize basename
+            const parts = currentMeta.artwork.split('/');
+            const base = parts[parts.length - 1];
+            if (artworkMap && artworkMap[base]) artworkSrc = artworkMap[base];
+            else artworkSrc = currentMeta.artwork;
+          }
+          const finalSrc = artworkSrc
+            ? artworkSrc
+            : `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><rect width='100%' height='100%' fill='%23222'/><text x='50%' y='50%' fill='%23fff' font-size='20' font-family='Arial' dominant-baseline='middle' text-anchor='middle'>No Artwork</text></svg>`;
+          // debug: expose finalSrc in console and as attribute for inspection
+          try { console.info("MusicPlayer: resolved artwork finalSrc=", finalSrc); } catch(e){}
+          return (
+            <>
+              <img src={finalSrc} alt={currentMeta ? `${currentMeta.title} artwork` : "artwork"} className="audio-artwork" data-artwork-url={finalSrc} />
+              <div className="audio-info">
+                <div className="audio-title">{currentMeta ? currentMeta.title : "Unknown"}</div>
+                <div className="audio-artist">{currentMeta ? currentMeta.artist : "Unknown artist"}</div>
+              </div>
+            </>
+          );
+        })()}
+      </div>
+      <div className="audio-controls    ">
+        <button onClick={handlePlayAudio} aria-label={isAudioPlaying ? "Pause audio" : "Play audio"}>
+          {isAudioPlaying ? <BiPause /> : <BiPlay />}
+        </button>
+        <button onClick={handlePreviousTrack} aria-label="Previous track">
+          <BiSkipPrevious />
+        </button>
+        <button onClick={handleNextTrack} aria-label="Next track">
+          <BiSkipNext />
+        </button>
+      </div>
+
+      <div className="audio-files">
+        {musicTracks.map((track, index) => (
+          <audio
+            key={index}
+            ref={(el) => { audioRefs.current[index] = el; }}
+            src={track.src}
+            preload="auto"
+            playsInline
+            onEnded={handleTrackEnd}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default MusicPlayer;

@@ -1,0 +1,504 @@
+// ===== HOME PAGE STYLES =====
+@use "../../NFDThemes/ⓡⓔⓢⓟⓞⓝⓢⓘⓥⓔ.scss" as *;
+// Ensure common mixins (flex, grid, responsive-text) are available
+@use "../../NFDThemes/scss/media.scss" as *;
+
+.home {
+  &__loading {
+    @include flex(column, center, center);
+    min-height: 50vh;
+    gap: var(--spacing-md);
+    
+    .loading-spinner {
+      width: 3rem;
+      height: 3rem;
+      border: 4px solid var(--gray-200);
+      border-top-color: var(--primary-blue);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    p {
+      color: var(--gray-600);
+      font-size: var(--font-size-lg);
+    }
+  }
+}
+
+// ===== HERO SECTION =====
+.hero {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-purple) 100%);
+  border-radius: var(--radius-xl);
+  color: white;
+  padding: var(--spacing-2xl);
+  margin-bottom: var(--spacing-2xl);
+  @include grid(2, var(--spacing-2xl));
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__title {
+    @include responsive-text(var(--font-size-3xl), var(--font-size-4xl));
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+  }
+
+  &__subtitle {
+    @include responsive-text(var(--font-size-lg), var(--font-size-xl));
+    opacity: 0.9;
+    margin-bottom: var(--spacing-xl);
+    line-height: 1.6;
+  }
+
+  &__user-stats {
+    @include flex(row, flex-start, center);
+    gap: var(--spacing-2xl);
+
+    @include mobile {
+      justify-content: center;
+    }
+  }
+
+  &__stat {
+    text-align: center;
+
+    &-value {
+      @include responsive-text(var(--font-size-2xl), var(--font-size-3xl));
+      font-weight: 700;
+      margin-bottom: var(--spacing-xs);
+    }
+
+    &-label {
+      font-size: var(--font-size-sm);
+      opacity: 0.8;
+    }
+  }
+
+  &__actions {
+    @include flex(row, flex-start, center);
+    gap: var(--spacing-md);
+
+    @include mobile {
+      justify-content: center;
+      flex-direction: column;
+      width: 100%;
+      
+      .btn {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  }
+
+  &__visual {
+    @include flex(row, center, center);
+    position: relative;
+    z-index: 1;
+
+    @include mobile {
+      order: -1;
+      margin-bottom: var(--spacing-lg);
+    }
+  }
+
+  &__car-animation {
+    font-size: 8rem;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+
+    @include mobile {
+      font-size: 6rem;
+    }
+  }
+}
+
+// ===== STATS SECTION =====
+.stats {
+  margin-bottom: var(--spacing-2xl);
+
+  &__grid {
+    @include grid(4, var(--spacing-lg));
+
+    @include mobile {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-md);
+    }
+  }
+}
+
+.stat-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-200);
+  transition: all var(--transition-normal);
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  &__icon {
+    font-size: var(--font-size-3xl);
+    margin-bottom: var(--spacing-md);
+  }
+
+  &__value {
+    @include responsive-text(var(--font-size-2xl), var(--font-size-3xl));
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  &__label {
+    font-size: var(--font-size-sm);
+    color: var(--gray-600);
+  }
+
+  &--cash .stat-card__icon { color: var(--success); }
+  &--coins .stat-card__icon { color: var(--secondary-yellow); }
+  &--tickets .stat-card__icon { color: var(--primary-blue); }
+  &--users .stat-card__icon { color: var(--secondary-purple); }
+}
+
+// ===== OPPORTUNITIES SECTION =====
+.opportunities {
+  margin-bottom: var(--spacing-2xl);
+
+  &__grid {
+    @include grid(4, var(--spacing-lg));
+
+
+  }
+}
+
+.opportunity-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-200);
+  transition: all var(--transition-normal);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  &--completed {
+    border-color: var(--success);
+    background-color: rgba(16, 185, 129, 0.05);
+  }
+
+  &__header {
+    @include flex(row, space-between, flex-start);
+    margin-bottom: var(--spacing-md);
+  }
+
+  &__title {
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    color: var(--gray-900);
+  }
+
+  &__points {
+    @include flex(row, center, center);
+    gap: var(--spacing-xs);
+    color: var(--secondary-yellow);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+  }
+
+  &__description {
+    color: var(--gray-600);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.5;
+  }
+
+  &__status {
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+  }
+
+  &__completed {
+    color: var(--success);
+  }
+
+  &__available {
+    color: var(--primary-blue);
+  }
+}
+
+// ===== FEATURES SECTION =====
+.features {
+  margin-bottom: var(--spacing-2xl);
+
+  &__grid {
+    @include grid(4, var(--spacing-lg));
+
+
+    
+  }
+}
+
+.feature-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-xl);
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-200);
+  transition: all var(--transition-normal);
+  @include flex(column, flex-start, center);
+  text-align: center;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    text-decoration: none;
+  }
+
+  &__icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    @include flex(row, center, center);
+    font-size: var(--font-size-xl);
+    color: white;
+    margin-bottom: var(--spacing-lg);
+
+    &--blue { background: var(--primary-blue); }
+    &--purple { background: var(--secondary-purple); }
+    &--orange { background: var(--secondary-orange); }
+    &--green { background: var(--secondary-green); }
+  }
+
+  &__title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  &__description {
+    color: var(--gray-600);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.5;
+  }
+
+  &__link {
+    @include flex(row, center, center);
+    gap: var(--spacing-sm);
+    color: var(--primary-blue);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+  }
+}
+
+// ===== SECTION UTILITIES =====
+.section-title {
+  @include responsive-text(var(--font-size-2xl), var(--font-size-3xl));
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: var(--spacing-xl);
+  text-align: center;
+
+  @include mobile {
+    margin-bottom: var(--spacing-lg);
+  }
+}
+
+.section-header {
+  @include flex(row, space-between, center);
+  margin-bottom: var(--spacing-xl);
+
+  @include mobile {
+    flex-direction: column;
+    gap: var(--spacing-md);
+    text-align: center;
+  }
+
+  .section-title {
+    margin-bottom: 0;
+  }
+}
+
+.section-link {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+
+  &:hover {
+    color: var(--primary-blue-dark);
+    text-decoration: underline;
+  }
+}
+
+// ===== FEATURED SWEEPSTAKES =====
+.featured-sweepstakes {
+  margin-bottom: var(--spacing-2xl);
+
+  &__grid {
+    @include grid(3, var(--spacing-lg));
+
+
+    
+  }
+}
+
+.sweepstake-card {
+  background: white;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--gray-200);
+  transition: all var(--transition-normal);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    text-decoration: none;
+  }
+
+  &__title {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.3;
+  }
+
+  &__prizes {
+    margin-bottom: var(--spacing-md);
+  }
+
+  &__prize {
+    @include flex(row, space-between, center);
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &-label {
+      color: var(--gray-600);
+    }
+
+    &-value {
+      font-weight: 600;
+
+      &--cash {
+        color: var(--success);
+      }
+
+      &--coins {
+        color: var(--secondary-yellow);
+      }
+    }
+  }
+
+  &__action {
+    color: var(--primary-blue);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+  }
+}
+
+// ===== CTA SECTION =====
+.cta {
+  background: var(--gray-100);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-2xl);
+  text-align: center;
+
+  @include mobile {
+    padding: var(--spacing-xl);
+  }
+
+  &__content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    @include responsive-text(var(--font-size-2xl), var(--font-size-3xl));
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: var(--spacing-md);
+  }
+
+  &__description {
+    color: var(--gray-600);
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-xl);
+    line-height: 1.6;
+
+    @include mobile {
+      font-size: var(--font-size-base);
+    }
+  }
+
+  &__actions {
+    @include flex(row, center, center);
+    gap: var(--spacing-md);
+
+    @include mobile {
+      flex-direction: column;
+      width: 100%;
+      
+      .btn {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  }
+}
+
+// ===== ANIMATIONS =====
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

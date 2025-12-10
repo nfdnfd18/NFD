@@ -1,0 +1,26 @@
+.filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    padding: 2rem;
+    border: 3px solid ;
+    z-index: 100;
+    border-radius: 12px;
+    background: linear-gradient(120deg, transparent, #476eb571, transparent);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); // Nice soft shadow
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+  
+    .mb-3 {
+      margin-bottom: 1rem;
+    }
+  
+    .w-100 {
+      width: fit-content;
+    }
+  }
+  

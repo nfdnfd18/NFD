@@ -1,0 +1,199 @@
+import React, { useRef, useState } from 'react';
+import MariaMagdalena from "../NFDlayout/MariaMagdalena.mp4";
+
+// NOTE: update the video source path to your actual file or import at top.
+export default function HomePage() {
+	const heroRef = useRef(null);
+	const videoRef = useRef(null);
+
+	const [form, setForm] = useState({
+		pickupLocation: '',
+		dropoffLocation: '',
+		pickupDate: '',
+		pickupTime: '',
+		dropoffDate: '',
+		dropoffTime: '',
+		carType: '',
+		driverAge: '',
+		extras: [],
+		promo: '',
+		name: '',
+		email: '',
+		phone: ''
+	});
+
+	const [openFaq, setOpenFaq] = useState(null);
+
+	function toggleFaq(i) {
+		setOpenFaq(prev => (prev === i ? null : i));
+	}
+
+	function handleChange(e) {
+		const { name, value, type, checked } = e.target;
+		if (type === 'checkbox') {
+			setForm(prev => {
+				const extras = new Set(prev.extras);
+				if (checked) extras.add(value); else extras.delete(value);
+				return { ...prev, extras: Array.from(extras) };
+			});
+		} else setForm(prev => ({ ...prev, [name]: value }));
+	}
+
+	function handleSubmit(e) {
+		e.preventDefault();
+		// Replace with real API call to your backend
+		console.log('Booking submitted', form);
+		alert('Réservation reçue — nous vous contacterons sous peu.');
+	}
+
+	const faqs = [
+		{ q: 'Quelles sont les conditions pour louer une voiture ?', a: "Permis valide depuis au moins 12 mois, pièce d'identité, carte bancaire au nom du conducteur pour la caution." },
+		{ q: 'Quelle est la politique de carburant ?', a: 'Véhicule fourni avec plein ; devez restituer au même niveau ou frais de ravitaillement s’appliquent.' },
+		{ q: 'Puis-je rendre la voiture dans une autre ville ?', a: 'Oui, selon disponibilité et frais de restitution.' },
+		{ q: 'Y a-t-il une limite de kilométrage ?', a: 'Nous proposons des tarifs avec kilométrage limité ou illimité — vérifiez lors de la réservation.' }
+	];
+
+	return (
+		<div className="home modern-homepage fluid-page">
+			{/* Hero Section with Video Background */}
+			<section ref={heroRef} className="hero-section">
+				<video
+					ref={videoRef}
+					className="hero-video"
+					autoPlay
+					muted
+					loop
+					playsInline
+				>
+					<source src={MariaMagdalena} type="video/mp4" />
+				</video>
+
+				<div className="hero-overlay">
+					<div className="hero-inner container">
+						<div className="hero-left">
+							<h1>Location de voitures au Maroc — Simple & Flexible</h1>
+							<p className="subtitle">Voitures récentes, assistance 24/7 et tarifs transparents. Départ depuis aéroports, gares et villes.</p>
+							<div className="hero-ctas">
+								<button className="btn btn-primary">Réserver maintenant</button>
+								<a className="btn btn-outline" href="#booking">Voir les offres</a>
+							</div>
+						</div>
+
+						<div className="hero-right" id="booking">
+							<form className="booking-card" onSubmit={handleSubmit} aria-label="Formulaire de réservation">
+								<h3>Réservez en quelques clics</h3>
+								<div className="grid">
+									<label>
+										Prise en charge
+										<input name="pickupLocation" value={form.pickupLocation} onChange={handleChange} placeholder="Ville ou aéroport" required />
+									</label>
+
+									<label>
+										Restitution
+										<input name="dropoffLocation" value={form.dropoffLocation} onChange={handleChange} placeholder="Ville ou aéroport" required />
+									</label>
+
+									<label>
+										Date prise
+										<input type="date" name="pickupDate" value={form.pickupDate} onChange={handleChange} required />
+									</label>
+
+									<label>
+										Date restitution
+										<input type="date" name="dropoffDate" value={form.dropoffDate} onChange={handleChange} required />
+									</label>
+
+									<label>
+										Type
+										<select name="carType" value={form.carType} onChange={handleChange} required>
+											<option value="">-- Choisissez --</option>
+											<option value="economy">Economique</option>
+											<option value="compact">Compact</option>
+											<option value="midsize">Moyenne</option>
+											<option value="suv">SUV</option>
+											<option value="luxury">Luxe</option>
+										</select>
+									</label>
+
+									<label>
+										Âge conducteur
+										<input name="driverAge" value={form.driverAge} onChange={handleChange} placeholder="Ex: 30" required />
+									</label>
+
+									<label>
+										Nom complet
+										<input name="name" value={form.name} onChange={handleChange} required />
+									</label>
+
+									<label>
+										Email
+										<input type="email" name="email" value={form.email} onChange={handleChange} required />
+									</label>
+
+									<label>
+										Téléphone
+										<input name="phone" value={form.phone} onChange={handleChange} required />
+									</label>
+								</div>
+
+								<div className="card-actions">
+									<button type="submit" className="btn btn-primary full">Confirmer</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* Testimonials with Trustpilot + Google placeholders */}
+			<section className="testimonials section-padding">
+				<div className="container">
+					<h2>Ils nous font confiance</h2>
+
+					<div className="reviews-row">
+						<div className="trustpilot-widget">
+							{/* Trustpilot widget placeholder.
+									To enable: embed Trustpilot's Business Reviews widget here or call their API.
+							*/}
+							<div className="tp-placeholder">Avis Trustpilot — insérer widget officiel</div>
+						</div>
+
+						<div className="google-review">
+							<div className="google-card">
+								<div className="stars">★★★★★</div>
+								<p className="quote">"Très bon service, récupération facile à l'aéroport et support réactif."</p>
+								<div className="meta">— Ahmed, Casablanca (Google)</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* FAQ + Morocco tips */}
+			<section className="faq section-padding">
+				<div className="container">
+					<h2>Questions fréquentes</h2>
+
+					<div className="faq-grid">
+						{faqs.map((item, i) => (
+							<div className={`faq-item ${openFaq === i ? 'open' : ''}`} key={i}>
+								<button className="faq-q" onClick={() => toggleFaq(i)} aria-expanded={openFaq === i}>{item.q}</button>
+								<div className="faq-a" style={{ display: openFaq === i ? 'block' : 'none' }}>{item.a}</div>
+							</div>
+						))}
+					</div>
+
+					<h3>Conseils importants pour louer une voiture au Maroc</h3>
+					<ul className="tips">
+						<li>Inspectez le véhicule et prenez des photos à la prise en charge.</li>
+						<li>Conservez une copie du contrat et des coordonnées d'assistance.</li>
+						<li>Respectez les limitations locales et évitez de laisser des objets visibles.</li>
+						<li>Vérifiez la politique de carburant et le kilométrage.</li>
+					</ul>
+				</div>
+			</section>
+
+		</div>
+	);
+}
+

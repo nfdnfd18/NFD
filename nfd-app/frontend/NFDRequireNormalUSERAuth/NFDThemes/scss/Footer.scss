@@ -1,0 +1,232 @@
+@use "./media" as *; // Import media mixins
+.toggle-btn-fullscreen {
+
+
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 2rem;
+  color: #ff0000;
+  transition: transform 0.3s ease-in-out;
+
+}
+
+.toggle-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 2rem;
+  color: #ff0000;
+  transition: transform 0.3s ease-in-out;
+
+}
+
+
+.footer {
+  transition:
+    margin 0.7s ease,
+    width 0.7s ease;
+    border-left: 2px solid  #000000;
+    border-right: 2px solid  #000000;
+    border-top: 2px solid  #000000;
+    border-bottom: 2px solid  #000000;
+    box-shadow: 0px 0px 10px 10px  #000000;
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter: blur(11px);
+z-index: 100;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  &.hidden {
+    transform: translateY(100%);
+  }
+
+  &.visible {
+    transform: translateY(0);
+  }
+}
+
+/* footer shadow placeholder removed from here per request; use the
+  centralized simple `.footer-shadow-placeholder` block in
+  `🅢🅒🅢🅢.scss`. */
+
+/* slide footer out of view when hidden while keeping layout intact */
+.footer {
+  transition: transform 0.32s cubic-bezier(.22,.9,.26,1), opacity 0.22s ease;
+}
+.footer.hidden {
+  transform: translateY(120%); /* move footer fully off-screen downwards */
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Placeholder-related selectors removed. */
+
+@include desktop-up {
+  .footer {  transition:
+    margin 0.7s ease,
+    width 0.7s ease;
+
+font-size: 20px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
+ &.hidden {
+    transform: translateY(100%);
+  }
+
+  &.visible {
+    transform: translateY(0);
+  }
+    &.left-sidebar-open {
+      margin-left: 400px;
+      width: calc(100% - 400px);
+    }
+
+    &.right-sidebar-open {
+      margin-right: 300px;
+      width: calc(100% - 300px);
+    }
+
+    &.left-sidebar-open.right-sidebar-open {
+      margin-left: 400px;
+      margin-right: 400px;
+      width: calc(100% - 700px);
+    }
+  }
+}
+
+
+.copyright {
+  display:grid;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 660px;
+}
+
+  .btnfooter {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 12px;
+
+  }
+
+
+    .audio-player {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 340px;
+  gap: 10px;
+  position: relative;
+    
+  .audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 6; /* ensure controls are above artwork */
+  position: relative;
+    
+          button {
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-size: 20px;
+          width: 36px;
+          height: 36px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 6px;
+          transition: transform 0.15s ease, background-color 0.15s ease;
+          z-index: 8;
+          pointer-events: auto;
+          
+          &:hover {
+            transform: scale(1.05);
+            background-color: rgba(255,255,255,0.04);
+          }
+        }
+    
+        input[type="range"] {
+          width: 100px;
+          -webkit-appearance: none;
+          appearance: none;
+          appearance: none;
+          appearance: none;
+          background: #666;
+          border-radius: 10px;
+          height: 4px;
+          outline: none;
+          transition: 0.3s;
+          
+          &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: #23158769;
+            border-radius: 50%;
+            cursor: pointer;
+          }
+        }
+      }
+    
+      .mobile-volume-warning {
+        font-size: 12px;
+        color: #bbb;
+      }
+      /* Footer-specific small artwork override */
+      .audio-artwork {
+        width: clamp(36px, 6vw, 56px);
+        height: clamp(36px, 6vw, 56px);
+        border-radius: 8px;
+        flex-shrink: 0;
+        z-index: 2;
+        pointer-events: none; /* artwork should not intercept clicks */
+        object-fit: cover;
+      }
+      /* Hide title/artist in footer only (keeps them in other UI locations) */
+      .audio-info {
+        display: none;
+      }
+    }
+@include mobile {
+  .footer {  transition:
+    margin 0.7s ease,
+    width 0.7s ease;
+
+
+font-size: 20px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
+
+  }
+}
+
+@include tablet-up {
+  .footer {  transition:
+    margin 0.7s ease,
+    width 0.7s ease;
+
+
+font-size: 20px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
+ 
+  }
+}
+
+/* Theme-specific placeholder overrides removed. */

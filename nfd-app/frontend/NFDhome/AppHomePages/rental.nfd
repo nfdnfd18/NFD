@@ -1,0 +1,46 @@
+
+const Rewards = () => {
+  return (
+    <div className="rewards-container  container  py-36 flex flex-col items-center">
+      <h1 className="title">🚗 Need for Drive Rewards 🎉</h1>
+      <p className="subtitle">
+        Louez, engagez et économisez sur vos locations !
+      </p>
+
+      <div className="rewards-section">
+        <h2>🎯 Comment gagner des Points Drive ?</h2>
+        <ul className="rewards-list">
+          <li>✅ Réserver une voiture → <span>+20 Points Drive</span></li>
+          <li>✅ Partager un avis après une location → <span>+10 Points Drive</span></li>
+          <li>✅ Publier un post/photo d’une expérience → <span>+5 Points Drive</span></li>
+          <li>✅ Recevoir 10 likes sur un post → <span>+10 Points Drive</span></li>
+          <li>✅ Parrainer un ami qui loue → <span>+50 Points Drive</span></li>
+        </ul>
+      </div>
+
+      <div className="rewards-section">
+        <h2>💰 Comment utiliser vos Points Drive ?</h2>
+        <ul className="rewards-list">
+          <li>🔹 100 Points = <span>5 DH</span> de réduction</li>
+          <li>🔹 250 Points = <span>15 DH</span> de réduction</li>
+          <li>🔹 500 Points = <span>40 DH</span> de réduction</li>
+          <li>🔹 1000 Points = <span>100 DH</span> de réduction</li>
+        </ul>
+      </div>
+
+      <div className="rewards-section">
+        <h2>🔥 Bonus et Offres Spéciales</h2>
+        <ul className="rewards-list">
+          <li>⭐ <b>Statut Premium :</b> 5000 Points = <span>-10 %</span> sur toutes vos locations pendant 1 an</li>
+          <li>🎁 <b>Surprises Exclusives :</b> Gagnez des réductions en participant à nos challenges</li>
+        </ul>
+      </div>
+
+      <div className="join-section">
+        <button className="join-btn">Rejoindre Need for Drive Rewards 🚀</button>
+      </div>
+    </div>
+  );
+};
+
+export default Rewards;

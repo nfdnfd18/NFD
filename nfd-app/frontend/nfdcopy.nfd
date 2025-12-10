@@ -1,0 +1,89 @@
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+const NFD = () => {
+  const { t } = useTranslation();
+  return (
+    <div className="nfdunder">
+      <header className="nfd-hero" id="nfd-hero">
+            <div className="hero-inner">
+              <div className="hero-left">
+           
+                <p className="hero-sub">{t('nfdcopy.heroSub')}</p>
+                <p className="hero-note">{t('nfdcopy.heroNote')}</p>
+              </div>
+              <div className="hero-cta">
+                <a className="btn-primary" href="https://next-future-dev.vercel.app" target="_blank" rel="noopener noreferrer">{t('nfdcopy.buildingInfo')}</a>
+              </div>
+            </div>
+          </header>
+
+      <section className="nfd-deploy-card" aria-labelledby="deploy-title">
+        <div className="nd-inner">
+          <div className="nd-left">
+         
+          </div>
+
+          <div className="nd-right">
+            <h3 id="deploy-title">{t('nfdcopy.deploymentTitle')}</h3>
+
+            <div className="nd-grid">
+              <div className="nd-row">
+                <span className="nd-key">{t('nfdcopy.deployment')}</span>
+                <span className="nd-val ready">Vercel</span>
+              </div>
+              <div className="nd-row">
+                <span className="nd-key">{t('nfdcopy.timezone')}</span>
+                <span className="nd-val">Africa/Benimellal</span> <span className="nd-key">UTC</span>
+                <span className="nd-val">Aug 28, 2025, 5:10:37.604 PM</span>
+              </div>
+              <div className="nd-row">
+               
+              </div>
+              <div className="nd-row">
+                <span className="nd-key">{t('nfdcopy.addressDomains')}</span>
+                <span className="nd-val">
+                  <a
+                    href="https://next-future-dev.vercel.app"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    next-future-dev.vercel.app
+                  </a>{" "}
+                  <small className="nd-more">+2</small>
+                </span>
+              </div>
+
+              <div className="nd-row">
+                <span className="nd-key">{t('nfdcopy.tel')}</span>
+                <span className="nd-val">
+                  <a
+                    href="https://wa.me/212661619230"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Open WhatsApp chat with 06 61 61 92 30"
+                  >
+                    06 61 61 92 30
+                  </a>{" "}
+                  <small className="nd-more">+2</small>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div className="nd-meta">
+          <div className="meta-item">
+            <strong>type:NFD</strong> 
+          </div>
+         
+        </div>
+      </section>
+
+      {/* styles moved to 𝙉𝙁𝘿.scss */}
+    </div>
+  );
+};
+
+export default NFD;

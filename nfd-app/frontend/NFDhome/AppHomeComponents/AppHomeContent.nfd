@@ -1,0 +1,60 @@
+import React, { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import routes from "../AppHome_routes";
+import PropTypes from 'prop-types'; // or import { PropTypes } from 'prop-types';
+
+export default function Content({ isLeftSidebarOpen, isRightSidebarOpen }) {
+  // show a short initial loader (replace index.html loader)
+  const [initialLoading, setInitialLoading] = useState(true);
+  useEffect(() => {
+    const t = setTimeout(() => setInitialLoading(false), 900);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <>
+      {initialLoading && (
+        <div className="initial-loader" role="status" aria-live="polite">
+          <div className="initial-loader-inner">
+            <div className="loader-ring" aria-hidden="true" />
+            <div className="loader-label">LOADING...</div>
+          </div>
+        </div>
+      )}
+      <main
+        className={` container
+          ${isLeftSidebarOpen ? "left-open" : "left-collapsed"} 
+          ${isRightSidebarOpen ? "right-open" : "right-collapsed"}
+        `}
+      >
+        <React.Suspense
+            fallback={
+            <div className="suspense-loading" role="status" aria-live="polite">
+              <div className="suspense-inner">
+                <div className="loader-ring" aria-hidden="true" />
+                <div className="loader-label">LOADING...</div>
+              </div>
+            </div>
+          }
+        >
+          <Routes>
+            {routes.map((route, index) =>
+              route.element ? (
+                <Route
+                  key={index}
+                  path={route.path}
+                  exact={route.exact}
+                  element={<route.element />}
+                />
+              ) : null
+            )}
+          </Routes>
+        </React.Suspense>
+      </main>
+    </>
+  );
+}
+Content.propTypes = {
+  isLeftSidebarOpen: PropTypes.bool.isRequired,
+  isRightSidebarOpen: PropTypes.bool.isRequired,
+};

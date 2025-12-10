@@ -1,0 +1,78 @@
+{
+  "notifications": { "title": "Notificaciones", "no_notifications": "No hay notificaciones." },
+  "buttons": { "close": "Cerrar", "closeSidebar": "Cerrar", "logout": "Cerrar sesión" },
+  "sidebar": { "navigation": "Menú", "language": "Elegir idioma", "partners": "Socios" },
+  "chat": { "title": "Chat", "no_messages": "No hay mensajes." },
+  "music": { "title": "Música", "play": "Reproducir", "pause": "Pausa" },
+  "common": { "home": "Inicio", "availableCars": "Coches disponibles", "bookNow": "Reservar" },
+  "nav": {
+    "homePage": "Inicio",
+    "availableCars": "Coches disponibles",
+    "privacyPolicy": "Política de privacidad",
+    "blog": "Blog",
+  "main": "Principal",
+  "live": "En vivo",
+  "leaderboard": "Clasificación",
+  "friends": "Amigos",
+  "support": "Soporte",
+  "HOME": "Inicio",
+  "AUTHENTIFICATION": "Autenticación",
+    "register": "Registrarse",
+    "login": "Iniciar sesión",
+    "dualLogin": "Doble inicio"
+  },
+  "homecars": {
+    "sectionTitle": "Coches disponibles",
+    "bookNow": "Reservar",
+    "notAvailableBadge": "No disponible",
+    "notAvailableIntro": "Este coche no está disponible actualmente y volverá",
+    "willBeBackAt": "VOLVERÁ EN",
+    "alreadyBooked": "Ya reservado desde {{from}} hasta {{to}}.",
+    "freeDaysNote": "El coche está libre desde {{from}} hasta {{to}} ({{days}} días) — se aceptan reservas."
+  }
+  ,
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "es-ES": "Español",
+    "pt-BR": "Português",
+    "zh-CN": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "ar-MA": "العربية",
+    "de": "Deutsch"
+  },
+  "nfdcopy": {
+    "heroSub": "en construcción",
+    "heroNote": "Construyendo una aplicación de alquiler de coches.",
+    "buildingInfo": "información de construcción",
+    "deploymentTitle": "Detalles de despliegue",
+    "deployment": "Despliegue",
+    "timezone": "Zona horaria",
+    "addressDomains": "Dominios de dirección",
+    "tel": "TEL"
+  }
+  ,
+  "auth": {
+    "createAccount": "Crear una cuenta",
+    "creating": "Creando...",
+    "username": "Nombre de usuario",
+    "usernamePlaceholder": "Elige un nombre de usuario",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "tu@ejemplo.com",
+    "password": "Contraseña",
+    "passwordPlaceholder": "Introduce tu contraseña",
+    "confirm": "Confirmar contraseña",
+    "confirmPlaceholder": "Repite tu contraseña",
+    "signInTitle": "Inicia sesión en tu cuenta",
+    "emailOrUsername": "Correo o nombre de usuario",
+    "emailOrUsernamePlaceholder": "Correo o nombre de usuario",
+    "signing": "Iniciando sesión...",
+    "signIn": "Iniciar sesión",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+    "needAccount": "¿Necesitas una cuenta?",
+    "createOne": "Crea una",
+    "dualLogin": "Inicio doble"
+  }
+}

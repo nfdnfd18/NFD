@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "RequireNormalUSERAuth": "Usuário",
+    "myProfile": "Meu perfil",
+    "myBooking": "Minhas reservas",
+    "support": "Suporte",
+    "NFDSocialMedia": "NFD Redes",
+    "blog": "Blog",
+    "friends": "Amigos",
+    "live": "Ao vivo"
+  },
+  "sidebar": {
+    "partnersNotOfficial": "Parceiros (ainda não oficiais)",
+    "navigation": "Menu"
+  },
+  "buttons": {
+    "closeSidebar": "Fechar"
+  },
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "es-ES": "Español",
+    "pt-BR": "Português",
+    "zh-CN": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "ar-MA": "العربية",
+    "de": "Deutsch"
+  }
+}

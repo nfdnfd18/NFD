@@ -1,0 +1,9 @@
+import React from 'react'
+
+const MySupport = () => {
+  return (
+    <div>MySupport</div>
+  )
+}
+
+export default MySupport

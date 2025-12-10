@@ -1,0 +1,145 @@
+{
+  "notifications": {
+    "title": "Notifications",
+    "no_notifications": "No notifications available."
+  },
+  
+  "sidebar": {
+    "navigation": "Menu",
+    "language": "Choose Language",
+    "partners": "Partners"
+  },
+  "chat": { "title": "Chat", "no_messages": "No messages available." },
+  "music": { "title": "Music", "play": "Play", "pause": "Pause" },
+  "common": {
+    "home": "Home",
+    "availableCars": "Available Cars",
+    "bookNow": "Book Now"
+  },
+  "nav": {
+    "homePage": "HomePage",
+    "availableCars": "Available Cars",
+    "privacyPolicy": "Privacy Policy",
+    "blog": "Blog",
+    "main": "Main",
+    "live": "Live",
+    "leaderboard": "Leaderboard",
+    "friends": "Friends",
+    "support": "Support",
+  "HOME": "Home",
+  "AUTHENTIFICATION": "Authentication",
+    "authentication": "Authentication",
+    "register": "Register",
+    "login": "Login",
+    "dualLogin": "Dual Login",
+    "myProfile": "My Profile",
+    "myBooking": "My Bookings"
+  },
+  "auth": {
+    "createAccount": "Create account",
+    "creating": "Creating...",
+    "username": "Username",
+    "usernamePlaceholder": "Choose a username",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "confirm": "Confirm password",
+    "confirmPlaceholder": "Repeat your password",
+    "signInTitle": "Sign in to your account",
+    "emailOrUsername": "Email or Username",
+    "emailOrUsernamePlaceholder": "Email or username",
+    "signing": "Signing in...",
+    "signIn": "Sign in",
+    "alreadyHaveAccount": "Already have an account?",
+    "needAccount": "Need an account?",
+    "createOne": "Create one",
+    "dualLogin": "Dual Login"
+  },
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "es-ES": "Español",
+    "pt-BR": "Português",
+    "zh-CN": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "ar-MA": "العربية",
+    "de": "Deutsch"
+  },
+  "nfdcopy": {
+    "heroSub": "Under construction",
+    "heroNote": "Building a rental car web application.",
+    "buildingInfo": "Information about the build",
+    "deploymentTitle": "Deployment details",
+    "deployment": "Deployment",
+    "timezone": "Time zone",
+    "addressDomains": "Address / Domains",
+    "tel": "Tel"
+  },
+  "homecars": {
+    "sectionTitle": "Available Cars",
+    "bookNow": "Book Now",
+    "notAvailableBadge": "Not available",
+    "notAvailableIntro": "This car is currently not available and will return",
+    "willBeBackAt": "Will be back at",
+    "alreadyBooked": "Already booked from {{from}} to {{to}}.",
+    "freeDaysNote": "The car is free from {{from}} to {{to}} ({{days}} days) — bookings for those days are accepted.",
+    "location": { "mainBranch": "Main Branch" }
+  },
+  "home": {
+    "loading": "Loading amazing content...",
+    "hero": {
+      "title": "Welcome to RentalCar Platform",
+      "subtitle": "Rent amazing cars, share your experiences, participate in sweepstakes, and earn rewards for being an active community member!"
+    },
+    "levelLabel": "Your Level",
+    "earnPointsTitle": "Earn Points Today",
+    "featuresTitle": "Explore Our Platform",
+    "activeSweepstakes": "Active Sweepstakes",
+    "viewAll": "View All →",
+    "sweepstake": {
+      "cashPrize": "Cash Prize:",
+      "coinsPrize": "Coins Prize:",
+      "tickets": "Tickets:",
+      "viewDetails": "View Details →"
+    },
+    "opportunity": {
+      "completed": "✓ Completed",
+      "available": "Available"
+    },
+    "cta": {
+      "title": "Ready to Get Started?",
+      "description": "Join our community today and start earning points, participating in sweepstakes, and sharing your rental car experiences!",
+      "getStarted": "Get Started",
+      "browseCars": "Browse Cars"
+    }
+  },
+  "features": {
+    "rentCars": {
+      "title": "Rent Cars",
+      "description": "Browse and rent from our extensive collection of vehicles"
+    },
+    "sweepstakes": {
+      "title": "Sweepstakes",
+      "description": "Enter sweepstakes and win real money and coins"
+    },
+    "leaderboard": {
+      "title": "Leaderboard",
+      "description": "Compete with others and earn monthly rewards"
+    },
+    "shareStories": {
+      "title": "Share Stories",
+      "description": "Write about your rental experiences and earn points"
+    }
+  },
+  "buttons": {
+    "getStarted": "Get Started",
+    "browseCars": "Browse Cars",
+    "closeSidebar": "close",
+    "signUpNow": "Sign Up Now",
+    "signIn": "Sign In"
+    
+  }
+}

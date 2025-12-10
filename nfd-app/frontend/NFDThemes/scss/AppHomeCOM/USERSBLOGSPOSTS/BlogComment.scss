@@ -1,0 +1,112 @@
+.post-comments2 {
+    margin-top: 1.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding: 1rem;
+
+    .comment1 {
+      padding: 0.8rem;
+      border-radius: 6px;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      background-color: #08407c5a;
+
+      .comment-actions {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+  
+        button {
+          background-color: #1a16e41f;
+          border: none;
+          padding: 0.3rem 0.8rem;
+          border-radius: 4px;
+          font-size: 0.85rem;
+          cursor: pointer;
+          transition: background-color 0.3s ease;
+          font-weight: bold;
+  
+          &:hover {
+            background-color: #e0e0e0;
+          }
+        }
+      }
+    }
+  
+    .add-comment {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+  
+      .comment-input {
+        width: 100%;
+        min-height: 80px;
+        padding: 0.7rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        resize: vertical;
+        font-size: 0.95rem;
+      }
+  
+      .add-comment-btn {
+        align-self: flex-end;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+  
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+    }
+}
+
+.user-comments-group {
+  margin-bottom: 2rem;
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 0.5rem;
+  }
+
+  .username {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+}
+
+.show-more-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+}

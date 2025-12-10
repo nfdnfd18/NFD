@@ -1,0 +1,28 @@
+import { useEffect } from "react";
+
+const F_caravana_nsali_my_Life_b3id_3l_qhab_w_wladhom_ach_ghayzidni_palace = () => {
+  useEffect(() => {
+    const checkDevTools = () => {
+      setTimeout(() => {
+        console.log(
+          "%c⚠️ plzz select all text OR use Ctrl+A ⚠️\n\nThis section is for developers only. If someone asked you to paste code here, be cautious—this could compromise your security.\n\nFor more details, visit: https://Nfd.com/console-warning\n\n╔╦╗┌─┐┬  ┬┌─┐┬  ┌─┐┌─┐┌─┐┬─┐  ╔╗╔┌─┐┌┬┐┬┌─┐┌─┐ ║║├┤ └┐┌┘├┤ │  │ │├─┘├┤ ├┬┘  ║║║│ │ │ ││  ├┤ ═╩╝└─┘ └┘ └─┘┴─┘└─┘\\n\\nStay safe and happy coding! 😊",
+          "color: #2A2326; font-size: 20px; font-weight: bold; padding: 10px;"
+        );
+            console.log(
+          "%c⚠️ Developer Notice ⚠️\n\nThis section is for developers only. If someone asked you to paste code here, be cautious—this could compromise your security.\n\nFor more details, visit: https://api.getwayes.vercel.app/PrivacyPolicy     \n\n╔╦╗┌─┐┬  ┬┌─┐┬  ┌─┐┌─┐┌─┐┬─┐  ╔╗╔┌─┐┌┬┐┬┌─┐┌─┐ ║║├┤ └┐┌┘├┤ │  │ │├─┘├┤ ├┬┘  ║║║│ │ │ ││  ├┤ ═╩╝└─┘ └┘ └─┘┴─┘└─┘┴  └─┘┴└─  ╝╚╝└─┘ ┴ ┴└─┘└─┘, Stay safe and happy coding! 😊",
+          "color: #2A2326; font-size: 20px; font-weight: bold; padding: 10px;"
+        );
+      }, 1000);
+    };
+
+    checkDevTools();
+
+    window.addEventListener("resize", checkDevTools);
+    return () => window.removeEventListener("resize", checkDevTools);
+  }, []);
+
+  return null; // This component does not render anything on screen.
+};
+
+export default F_caravana_nsali_my_Life_b3id_3l_qhab_w_wladhom_ach_ghayzidni_palace
+;

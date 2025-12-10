@@ -1,0 +1,1236 @@
+@use "../../NFDThemes/ⓡⓔⓢⓟⓞⓝⓢⓘⓥⓔ.scss" as *;
+
+/* ============================================
+   INSTAGRAM-INSPIRED FLUID DESIGN SYSTEM
+   ============================================ */
+$break-xs: 360px;
+$break-sm: 640px;
+$break-md: 900px;
+$break-lg: 1200px;
+$break-xl: 1440px;
+
+/* Modern gradient palette */
+$primary: #6b22ff;
+$accent: #00d3f4;
+$dark-bg: #0a0a0a;
+$card-bg: rgba(234, 2, 2, 0.03);
+$border-light: rgba(255, 255, 255, 0.08);
+
+/* Fluid spacing scale */
+$space-xs: clamp(0.5rem, 1.5vw, 0.75rem);
+$space-sm: clamp(0.75rem, 2vw, 1rem);
+$space-md: clamp(1rem, 3vw, 1.5rem);
+$space-lg: clamp(1.5rem, 4vw, 2rem);
+$space-xl: clamp(2rem, 5vw, 3rem);
+
+/* Fluid font scale */
+$font-xs: clamp(0.75rem, 1.2vw, 0.875rem);
+$font-sm: clamp(0.875rem, 1.4vw, 1rem);
+$font-base: clamp(1rem, 1.6vw, 1.125rem);
+$font-lg: clamp(1.25rem, 2vw, 1.5rem);
+$font-xl: clamp(1.5rem, 2.5vw, 1.875rem);
+$font-2xl: clamp(1.75rem, 3.5vw, 2.25rem);
+$font-3xl: clamp(2rem, 4vw, 2.75rem);
+
+/* Container */
+.profile-shell {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0120ea2d 0%, #07070715 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  font-family: "Mononokiz", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* ============================================
+   INSTAGRAM-STYLE PROFILE HEADER
+   ============================================ */
+.profile-header {
+  position: relative;
+  background: linear-gradient(135deg, rgba(77, 21, 188, 0.05), rgba(0, 211, 244, 0.05));
+  border-bottom: 1px solid $border-light;
+  padding-top: clamp(160px, 40vw, 320px);
+  padding-bottom: clamp(2rem, 6vw, 3.5rem);
+  padding-left: clamp(1rem, 4vw, 3rem);
+  padding-right: clamp(1rem, 4vw, 3rem);
+  
+  .header-img-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: clamp(150px, 35vw, 300px);
+    width: 100%;
+    overflow: hidden;
+    border-radius: 0;
+    z-index: 1;
+
+    .header-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+
+  .header-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: clamp(150px, 35vw, 300px);
+    width: 100%;
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.4), rgba(0, 0, 0, 0.6));
+    z-index: 2;
+  }
+
+  .header-actions {
+    position: absolute;
+    top: clamp(1.5rem, 3vw, 2rem);
+    right: clamp(1rem, 3vw, 2rem);
+    z-index: 950;
+    display: flex;
+    gap: clamp(0.75rem, 1.5vw, 1rem);
+    flex-wrap: wrap;
+
+    .upload-widget-btn {
+      padding: clamp(0.5rem, 1vw, 0.7rem) clamp(1rem, 2vw, 1.5rem);
+      border-radius: clamp(0.6rem, 1.2vw, 0.8rem);
+      cursor: pointer;
+      border: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: clamp(0.7rem, 1.2vw, 0.85rem);
+      background: linear-gradient(135deg, $primary, $accent);
+      box-shadow: 0 clamp(4px, 1vw, 8px) clamp(12px, 2vw, 24px) rgba(107, 34, 255, 0.25);
+      transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 952;
+
+      &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 clamp(6px, 1.5vw, 12px) clamp(16px, 3vw, 32px) rgba(107, 34, 255, 0.35);
+      }
+
+      &:active {
+        transform: translateY(-1px);
+      }
+    }
+  }
+
+  /* Main profile info section */
+  .avatar-wrap {
+    position: relative;
+    z-index: 100;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+    padding-top: clamp(2rem, 4vw, 3rem);
+    background: linear-gradient(180deg, transparent, rgba(10, 10, 10, 0.3));
+    padding-left: clamp(0.5rem, 2vw, 1.5rem);
+    padding-right: clamp(0.5rem, 2vw, 1.5rem);
+    padding-bottom: clamp(1.5rem, 3vw, 2rem);
+    margin: clamp(-80px, -20vw, -150px) clamp(-1rem, -4vw, -3rem) 0 clamp(-1rem, -4vw, -3rem);
+    border-radius: 0 0 clamp(1rem, 2vw, 1.5rem) clamp(1rem, 2vw, 1.5rem);
+
+    @media (max-width: $break-md) {
+      gap: clamp(1rem, 3vw, 1.5rem);
+    }
+
+    @media (max-width: $break-sm) {
+      grid-template-columns: 1fr;
+      text-align: center;
+      gap: clamp(1rem, 3vw, 1.5rem);
+    }
+
+    .avatar-frame {
+      position: relative;
+      width: clamp(100px, 20vw, 180px);
+      height: clamp(100px, 20vw, 180px);
+      border-radius: 50%;
+      overflow: visible;
+      border: clamp(3px, 0.7vw, 5px) solid $primary;
+      box-shadow: 0 clamp(8px, 3vw, 16px) clamp(24px, 6vw, 48px) rgba(107, 34, 255, 0.2);
+      transition: all 300ms ease;
+
+      &:hover {
+        border-color: $accent;
+        box-shadow: 0 clamp(12px, 4vw, 24px) clamp(32px, 8vw, 64px) rgba(0, 211, 244, 0.25);
+      }
+
+      .avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        background: linear-gradient(135deg, #333, #111);
+        border-radius: 50%;
+      }
+    }
+
+    .user-basic {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(0.5rem, 1.5vw, 1rem);
+      flex: 1 1 auto;
+
+      .username {
+        font-size: $font-3xl;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -0.5px;
+      }
+
+
+
+      .meta {
+        font-size: $font-sm;
+        color: rgba(255, 255, 255, 0.6);
+        display: flex;
+        gap: clamp(0.75rem, 2vw, 1rem);
+        flex-wrap: wrap;
+        align-items: center;
+
+        @media (max-width: $break-sm) {
+          justify-content: center;
+        }
+
+        .role {
+          background: linear-gradient(135deg, rgba(107, 34, 255, 0.15), rgba(0, 211, 244, 0.1));
+          padding: clamp(0.4rem, 0.8vw, 0.6rem) clamp(0.75rem, 1.5vw, 1rem);
+          border-radius: clamp(0.5rem, 1vw, 0.75rem);
+          border: 1px solid rgba(107, 34, 255, 0.2);
+          font-size: $font-xs;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+
+        .joined {
+          opacity: 0.7;
+          font-size: $font-xs;
+        }
+      }
+    }
+
+    /* Avatar upload button - positioned below avatar */
+    .avatar-upload-below {
+      position: absolute;
+      bottom: clamp(-0.8rem, -2vw, -1.2rem);
+      left: 50%;
+      transform: translateX(-50%);
+      width: clamp(100px, 20vw, 180px);
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      font-size: $font-xs;
+      cursor: pointer;
+      box-shadow: none;
+      transition: all 200ms ease;
+      z-index: 50;
+      display: flex;
+      justify-content: center;
+
+      @media (max-width: $break-sm) {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        margin-top: clamp(0.5rem, 1.5vw, 1rem);
+      }
+
+      .upload-widget-btn {
+        padding: clamp(0.5rem, 0.9vw, 0.65rem) clamp(0.9rem, 1.8vw, 1.2rem);
+        font-size: clamp(0.65rem, 1vw, 0.8rem);
+        background: linear-gradient(135deg, $primary, $accent);
+        box-shadow: 0 clamp(4px, 1vw, 8px) clamp(12px, 2vw, 24px) rgba(107, 34, 255, 0.25);
+        border: none;
+        color: #fff;
+        border-radius: clamp(0.5rem, 1vw, 0.75rem);
+        font-weight: 700;
+        transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+        &:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 clamp(6px, 1.5vw, 12px) clamp(16px, 3vw, 32px) rgba(107, 34, 255, 0.35);
+        }
+
+        &:active {
+          transform: translateY(-1px);
+        }
+      }
+    }
+  }
+}
+
+/* ============================================
+   MODERN CARD-BASED PROFILE LAYOUT
+   ============================================ */
+.profile-main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: clamp(1.5rem, 5vw, 3rem) clamp(1rem, 4vw, 2.5rem);
+
+  .profile-card {
+    width: 100%;
+    max-width: clamp(320px, 95vw, 1100px);
+    background: $card-bg;
+    border-radius: clamp(1rem, 2.5vw, 1.5rem);
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    box-shadow: 0 clamp(6px, 2vw, 16px) clamp(24px, 5vw, 48px) rgba(0, 0, 0, 0.5);
+    border: 1px solid $border-light;
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: $font-base;
+
+    &:hover {
+      border-color: rgba(107, 34, 255, 0.2);
+      box-shadow: 0 clamp(8px, 3vw, 20px) clamp(32px, 6vw, 56px) rgba(107, 34, 255, 0.15);
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: clamp(1rem, 2.5vw, 1.5rem);
+      margin-bottom: clamp(1.5rem, 3vw, 2rem);
+      padding-bottom: clamp(1.5rem, 3vw, 2rem);
+      border-bottom: 1px solid $border-light;
+
+      h3 {
+        margin: 0;
+        font-size: clamp(1.3rem, 3vw, 2rem);
+        font-weight: 800;
+        flex: 1 1 auto;
+        min-width: 140px;
+        background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.8));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .actions {
+        display: flex;
+        gap: clamp(0.5rem, 1.5vw, 0.75rem);
+        flex-wrap: wrap;
+
+        .btn {
+          padding: clamp(0.6rem, 1.2vw, 0.8rem) clamp(1rem, 2vw, 1.5rem);
+          border-radius: clamp(0.6rem, 1.2vw, 0.8rem);
+          cursor: pointer;
+          border: none;
+          background: transparent;
+          color: #fff;
+          font-size: $font-sm;
+          font-weight: 700;
+          transition: all 200ms ease;
+          min-height: 38px;
+          display: flex;
+          align-items: center;
+          white-space: nowrap;
+          z-index: 100;
+        }
+
+        .edit {
+          background: linear-gradient(135deg, $primary, $accent);
+          box-shadow: 0 clamp(4px, 1vw, 8px) clamp(12px, 2vw, 20px) rgba(107, 34, 255, 0.25);
+          z-index: 101;
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 clamp(6px, 1.5vw, 12px) clamp(16px, 3vw, 28px) rgba(107, 34, 255, 0.35);
+          }
+        }
+
+        .cancel {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid $border-light;
+          z-index: 100;
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(107, 34, 255, 0.3);
+          }
+        }
+      }
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(1rem, 2.5vw, 1.5rem);
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(0.5rem, 1.2vw, 0.75rem);
+        position: relative;
+        z-index: 10;
+
+        span {
+          font-size: $font-sm;
+          color: rgba(255, 255, 255, 0.7);
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.8px;
+        }
+
+        input,
+        textarea {
+          background: rgba(255, 255, 255, 0.02);
+          border: 1px solid $border-light;
+          color: #fff;
+          padding: clamp(0.7rem, 1.5vw, 1rem) clamp(1rem, 2vw, 1.25rem);
+          border-radius: clamp(0.6rem, 1.2vw, 0.8rem);
+          font-size: $font-base;
+          transition: all 200ms ease;
+          font-family: inherit;
+          z-index: 11;
+          position: relative;
+
+          &:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.04);
+            border-color: $accent;
+            box-shadow: 0 0 0 3px rgba($primary, 0.15);
+            z-index: 12;
+          }
+
+          &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            z-index: 10;
+          }
+        }
+
+        textarea {
+          resize: vertical;
+          min-height: clamp(100px, 18vw, 140px);
+          line-height: 1.6;
+          font-size: clamp(0.95rem, 2.2vw, 1.1rem);
+          overflow-wrap: anywhere;
+          word-break: break-word;
+          width: 100%;
+          box-sizing: border-box;
+        }
+      }
+
+      .field.full {
+        grid-column: 1 / -1;
+      }
+
+      @media (min-width: $break-sm) {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+
+      @media (min-width: $break-md) {
+        grid-template-columns: repeat(2, 1fr);
+        gap: clamp(1.25rem, 3vw, 1.75rem);
+      }
+
+      @media (min-width: $break-lg) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .card-actions {
+      margin-top: clamp(1.5rem, 3vw, 2rem);
+      display: flex;
+      gap: clamp(0.75rem, 2vw, 1rem);
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      z-index: 50;
+      position: relative;
+
+      .btn {
+        padding: clamp(0.7rem, 1.5vw, 0.9rem) clamp(1.25rem, 2.5vw, 1.75rem);
+        border-radius: clamp(0.6rem, 1.2vw, 0.8rem);
+        cursor: pointer;
+        border: none;
+        z-index: 51;
+        font-weight: 700;
+        font-size: $font-sm;
+        transition: all 200ms ease;
+        min-width: clamp(100px, 25vw, 160px);
+        min-height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+        position: relative;
+
+        &:hover:not(:disabled) {
+          transform: translateY(-2px);
+          z-index: 52;
+        }
+
+        &:active:not(:disabled) {
+          transform: translateY(0);
+          z-index: 52;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+          z-index: 51;
+        }
+      }
+
+      .primary {
+        background: linear-gradient(135deg, $primary, $accent);
+        color: #fff;
+        box-shadow: 0 clamp(4px, 1vw, 8px) clamp(12px, 2vw, 20px) rgba(107, 34, 255, 0.25);
+        z-index: 52;
+
+        &:hover:not(:disabled) {
+          box-shadow: 0 clamp(6px, 1.5vw, 12px) clamp(16px, 3vw, 28px) rgba(107, 34, 255, 0.35);
+          z-index: 53;
+        }
+      }
+
+      .ghost {
+        background: rgba(255, 255, 255, 0.04);
+        color: #fff;
+        border: 1px solid $border-light;
+        z-index: 51;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.08);
+          border-color: rgba(107, 34, 255, 0.3);
+          z-index: 52;
+        }
+      }
+
+      .danger {
+        background: rgba(255, 60, 60, 0.08);
+        color: #ff6b6b;
+        border: 1px solid rgba(255, 60, 60, 0.25);
+        z-index: 51;
+
+        &:hover {
+          background: rgba(255, 60, 60, 0.12);
+          border-color: rgba(255, 60, 60, 0.4);
+          z-index: 52;
+        }
+      }
+    }
+  }
+
+  @media (max-width: $break-xs) {
+    padding: 1rem 0.5rem;
+
+    .profile-card {
+      border-radius: clamp(0.8rem, 2vw, 1rem);
+      padding: 1.25rem;
+
+      .card-actions {
+        flex-direction: column-reverse;
+        gap: 0.75rem;
+
+        .btn {
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY & FOCUS STYLES
+   ============================================ */
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 3px solid rgba(107, 34, 255, 0.18);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   TOAST NOTIFICATIONS
+   ============================================ */
+.save-toast {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  min-width: clamp(200px, 80vw, 300px);
+  max-width: 90%;
+  padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 2.5vw, 1.5rem);
+  border-radius: clamp(0.6rem, 1.5vw, 0.8rem);
+  text-align: center;
+  font-weight: 600;
+  font-size: $font-sm;
+  z-index: 950;
+  box-shadow: 0 clamp(6px, 2vw, 12px) clamp(20px, 5vw, 40px) rgba(0, 0, 0, 0.45);
+  color: #fff;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  opacity: 0.98;
+  animation: toast-pop 300ms ease-out;
+  position: relative;
+
+  &.success {
+    background: linear-gradient(135deg, #16a34a 0%, #10b981 100%);
+  }
+
+  &.error {
+    background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+  }
+}
+
+@keyframes toast-pop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%) scale(0.9);
+  }
+  to {
+    opacity: 0.98;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ============================================
+   EDIT LAYOUT (Form + Live Preview)
+   ============================================ */
+.edit-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  width: 100%;
+  max-width: clamp(350px, 95vw, 1300px);
+  margin: 0 auto;
+  align-items: start;
+
+  @media (min-width: $break-lg) {
+    /* slightly wider preview column at large screens to avoid cramped preview */
+    grid-template-columns: 1fr minmax(300px, 40%);
+  }
+
+  /* Tablet: show form and preview side-by-side with a comfortable preview width */
+  /* iPad / tablet (e.g. 768px - 1100px): prefer a more balanced split to avoid clipped preview
+     Use fractional layout so the form takes slightly more space but keeps the preview usable */
+  @media (min-width: 700px) and (max-width: 1100px) {
+    grid-template-columns: 1.1fr minmax(280px, 420px);
+    gap: clamp(1rem, 3vw, 1.5rem);
+    max-width: 96vw;
+  }
+
+  /* Small desktop: enlarge preview slightly */
+  @media (min-width: $break-md) and (max-width: $break-lg) {
+    grid-template-columns: 1fr minmax(300px, 420px);
+    max-width: 1100px;
+  }
+
+  .edit-form {
+    width: 100%;
+    background: $card-bg;
+    border: 1px solid $border-light;
+    border-radius: clamp(1rem, 2.5vw, 1.5rem);
+    padding: clamp(1.25rem, 3vw, 1.5rem);
+    box-shadow: 0 clamp(6px, 2vw, 12px) clamp(24px, 4vw, 40px) rgba(0,0,0,0.55);
+    transition: all 250ms cubic-bezier(0.4,0,0.2,1);
+
+    .card-head {
+      margin-bottom: clamp(1rem, 2vw, 1.5rem);
+      padding-bottom: clamp(0.75rem, 1.5vw, 1rem);
+      border-bottom: 1px solid $border-light;
+
+      h3 {
+        font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+        font-weight: 800;
+        margin: 0;
+        background: linear-gradient(135deg, #fff, rgba(255,255,255,0.9));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+
+    .profile-grid {
+      /* keep grid but make fields visually match preview card rows */
+      .field {
+        input, textarea { position: relative;
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.06);
+          padding: clamp(0.9rem, 1.8vw, 1.1rem);
+          border-radius: clamp(0.6rem, 1.2vw, 0.8rem);
+        }
+      }
+    }
+
+    .card-actions {
+      justify-content: center;
+      gap: clamp(0.75rem, 2vw, 1rem);
+
+      .btn {
+        min-width: clamp(120px, 35vw, 200px);
+      }
+
+      .primary {
+        background: linear-gradient(135deg, $primary, $accent);
+        color: #fff;
+      }
+    }
+  }
+
+  .edit-preview {
+    /* ensure the live preview aligns to the top of the grid and is above background patterns */
+    position: relative;
+    width: 100%;
+    align-self: start;
+    z-index: 60;
+
+    @media (min-width: $break-lg) {
+      position: sticky;
+      top: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .preview-card {
+    width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    margin-top: 0;
+      background: $card-bg;
+      border-radius: clamp(1rem, 2.5vw, 1.5rem);
+      padding: clamp(1.5rem, 3vw, 2rem);
+      border: 1px solid $border-light;
+      box-shadow: 0 clamp(6px, 2vw, 12px) clamp(24px, 4vw, 40px) rgba(0, 0, 0, 0.5);
+      transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+      &:hover {
+        border-color: rgba(107, 34, 255, 0.2);
+        box-shadow: 0 clamp(8px, 3vw, 16px) clamp(32px, 5vw, 48px) rgba(107, 34, 255, 0.15);
+      }
+
+      .card-head {
+        margin-bottom: clamp(1rem, 2vw, 1.5rem);
+        padding-bottom: clamp(1rem, 2vw, 1.5rem);
+        border-bottom: 1px solid $border-light;
+
+        h3 {
+          font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+          font-weight: 800;
+          margin: 0;
+          background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.9));
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+      }
+
+      .preview-body {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(0.75rem, 1.5vw, 1.25rem);
+
+        .preview-row {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: clamp(0.75rem, 1.5vw, 1.25rem);
+          padding: clamp(0.75rem, 1.5vw, 1rem) 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          transition: all 200ms ease;
+
+          &:hover {
+            padding: clamp(0.75rem, 1.5vw, 1rem) clamp(0.5rem, 1vw, 0.75rem);
+            background: rgba(107, 34, 255, 0.03);
+            border-radius: clamp(0.4rem, 0.8vw, 0.6rem);
+          }
+
+          strong {
+            display: flex;
+            align-items: center;
+            gap: clamp(0.5rem, 1.2vw, 0.75rem);
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 700;
+            font-size: clamp(0.85rem, 1.5vw, 1.1rem);
+            flex: 0 0 auto;
+          }
+
+          .field-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+            line-height: 1;
+            width: clamp(1.8rem, 3.5vw, 2.4rem);
+            height: clamp(1.8rem, 3.5vw, 2.4rem);
+          }
+
+          .value-text {
+            color: #fff;
+            font-size: clamp(0.95rem, 2vw, 1.15rem);
+            text-align: right;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            flex: 1 1 clamp(110px, 50%, 100%);
+            min-width: 0;
+          }
+
+          &.full {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: clamp(0.5rem, 1.2vw, 0.8rem);
+
+            strong {
+              margin-bottom: clamp(0.2rem, 0.6vw, 0.4rem);
+            }
+
+            .value-text {
+              flex: 1 1 100%;
+              text-align: left;
+            }
+          }
+
+          @media (max-width: $break-sm) {
+            flex-direction: column;
+            align-items: flex-start;
+
+            .value-text {
+              flex: 1 1 100%;
+              text-align: left;
+            }
+
+            strong {
+              margin-bottom: clamp(0.2rem, 0.6vw, 0.4rem);
+            }
+          }
+        }
+
+        .preview-row:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}
+
+/* ============================================
+   VIEW LAYOUT (Instagram-Style Profile View)
+   ============================================ */
+.view-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(2rem, 4vw, 3rem);
+
+  .preview-card {
+    width: 100%;
+    max-width: clamp(350px, 95vw, 1000px);
+    background: $card-bg;
+    border-radius: clamp(1rem, 2.5vw, 1.5rem);
+    padding: clamp(1.5rem, 3vw, 2rem);
+    border: 1px solid $border-light;
+    box-shadow: 0 clamp(6px, 2vw, 12px) clamp(24px, 4vw, 40px) rgba(0, 0, 0, 0.5);
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      border-color: rgba(107, 34, 255, 0.2);
+      box-shadow: 0 clamp(8px, 3vw, 16px) clamp(32px, 5vw, 48px) rgba(107, 34, 255, 0.15);
+    }
+
+    .card-head {
+      margin-bottom: clamp(1.5rem, 3vw, 2rem);
+      padding-bottom: clamp(1rem, 2vw, 1.5rem);
+      border-bottom: 1px solid $border-light;
+
+      h3 {
+        font-size: clamp(1.3rem, 2.8vw, 1.8rem);
+        font-weight: 800;
+        margin: 0;
+        background: linear-gradient(135deg, #fff, rgba(255, 255, 255, 0.9));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+    }
+
+    .preview-body {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1rem, 2vw, 1.5rem);
+
+      .preview-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: clamp(0.75rem, 1.5vw, 1.25rem);
+        padding: clamp(1rem, 2vw, 1.25rem) clamp(0.5rem, 1vw, 0.75rem);
+        border-radius: clamp(0.6rem, 1.2vw, 0.8rem);
+        background: rgba(107, 34, 255, 0.03);
+        transition: all 200ms ease;
+
+        &:hover {
+          background: rgba(107, 34, 255, 0.06);
+        }
+
+        strong {
+          display: flex;
+          align-items: center;
+          gap: clamp(0.6rem, 1.2vw, 0.9rem);
+          color: rgba(255, 255, 255, 0.9);
+          font-weight: 700;
+          font-size: clamp(0.9rem, 1.6vw, 1.15rem);
+          flex: 0 0 auto;
+        }
+
+        .field-icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: clamp(1.2rem, 2.6vw, 1.6rem);
+          line-height: 1;
+          width: clamp(2rem, 3.8vw, 2.6rem);
+          height: clamp(2rem, 3.8vw, 2.6rem);
+        }
+
+        .value-text {
+          color: #fff;
+          font-size: clamp(1rem, 2.2vw, 1.2rem);
+          text-align: right;
+          overflow-wrap: anywhere;
+          word-break: break-word;
+          flex: 1 1 clamp(120px, 50%, 100%);
+          min-width: 0;
+        }
+
+        &.full {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: clamp(0.6rem, 1.2vw, 0.9rem);
+
+          strong {
+            margin-bottom: clamp(0.3rem, 0.8vw, 0.5rem);
+          }
+
+          .value-text {
+            flex: 1 1 100%;
+            text-align: left;
+            line-height: 1.6;
+          }
+        }
+
+        @media (max-width: $break-sm) {
+          flex-direction: column;
+          align-items: flex-start;
+
+          .value-text {
+            flex: 1 1 100%;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+
+  .view-actions {
+    display: flex;
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+    justify-content: center;
+    width: 100%;
+    max-width: clamp(350px, 95vw, 1000px);
+    z-index: 60;
+    flex-wrap: wrap;
+    position: relative;
+
+    .btn {
+      padding: clamp(0.8rem, 1.6vw, 1rem) clamp(1.5rem, 2.5vw, 2rem);
+      border-radius: clamp(0.6rem, 1.2vw, 0.8rem);
+      cursor: pointer;
+      border: none;
+      font-weight: 700;
+      font-size: clamp(0.85rem, 1.4vw, 1rem);
+      transition: all 200ms ease;
+      min-width: clamp(110px, 30vw, 160px);
+      min-height: 44px;
+      z-index: 61;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        z-index: 62;
+      }
+
+      &:active:not(:disabled) {
+        transform: translateY(0);
+      }
+    }
+
+    .edit {
+      background: linear-gradient(135deg, $primary, $accent);
+      color: #fff;
+      box-shadow: 0 clamp(4px, 1vw, 8px) clamp(12px, 2vw, 20px) rgba(107, 34, 255, 0.25);
+      z-index: 62;
+
+      &:hover {
+        box-shadow: 0 clamp(6px, 1.5vw, 12px) clamp(16px, 3vw, 28px) rgba(107, 34, 255, 0.35);
+        z-index: 63;
+      }
+    }
+
+    .danger {
+      background: rgba(255, 60, 60, 0.1);
+      color: #ff6b6b;
+      border: 1px solid rgba(255, 60, 60, 0.25);
+      z-index: 61;
+
+      &:hover {
+        background: rgba(255, 60, 60, 0.15);
+        border-color: rgba(255, 60, 60, 0.4);
+        z-index: 62;
+      }
+    }
+  }
+}
+
+/* ============================================
+   HEADER EDITOR MODAL
+   ============================================ */
+.header-editor {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 800;
+  background: rgba(0, 0, 0, 0.7);
+  padding: clamp(0.5rem, 2vw, 1rem);
+  animation: fade-in 200ms ease-out;
+
+  .editor-panel {
+    width: 100%;
+    max-width: clamp(320px, 95vw, 1100px);
+    background: rgba(10, 10, 10, 0.98);
+    padding: clamp(0.75rem, 2.5vw, 1rem);
+    border-radius: clamp(0.6rem, 1.5vw, 0.8rem);
+    box-shadow: 0 clamp(12px, 3vw, 24px) clamp(40px, 8vw, 80px) rgba(0, 0, 0, 0.8);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.75rem, 2vw, 1rem);
+    align-items: stretch;
+    z-index: 801;
+    position: relative;
+
+    @media (min-width: $break-md) {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .editor-stage {
+    flex: 1 1 auto;
+    height: clamp(200px, 60vw, 350px);
+    overflow: hidden;
+    position: relative;
+    border-radius: clamp(0.5rem, 1vw, 0.75rem);
+    background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: none;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    z-index: 802;
+  }
+
+  .editor-image {
+    position: absolute;
+    will-change: transform;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+    transform-origin: center center;
+    max-width: none;
+    max-height: none;
+    image-rendering: -webkit-optimize-contrast;
+    z-index: 803;
+  }
+
+  .editor-controls {
+    width: 100%;
+    min-width: clamp(200px, 40vw, 250px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.6rem, 1.5vw, 0.85rem);
+    align-items: stretch;
+    z-index: 804;
+    position: relative;
+
+    @media (min-width: $break-md) {
+      width: auto;
+      min-width: 220px;
+    }
+
+    label {
+      font-size: $font-xs;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      z-index: 805;
+      position: relative;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: clamp(4px, 1vw, 6px);
+      cursor: pointer;
+      z-index: 806;
+      position: relative;
+    }
+
+    .editor-actions {
+      display: flex;
+      gap: clamp(0.5rem, 1.5vw, 0.75rem);
+      justify-content: flex-end;
+      margin-top: clamp(0.5rem, 1vw, 0.75rem);
+      flex-wrap: wrap;
+      z-index: 807;
+      position: relative;
+
+      .btn {
+        padding: clamp(0.5rem, 1.2vw, 0.65rem) clamp(0.8rem, 1.8vw, 1.2rem);
+        border-radius: clamp(0.4rem, 0.8vw, 0.6rem);
+        border: none;
+        cursor: pointer;
+        font-size: $font-sm;
+        font-weight: 600;
+        transition: all 200ms ease;
+        white-space: nowrap;
+        z-index: 808;
+        position: relative;
+
+        &:hover:not(:disabled) {
+          transform: translateY(-1px);
+          z-index: 809;
+        }
+
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+          z-index: 808;
+        }
+      }
+    }
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ============================================
+   FULL PAGE LOADING OVERLAY
+   ============================================ */
+.page-loading {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 900;
+  background: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+
+  .page-loading-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.75rem, 2vw, 1rem);
+    padding: clamp(1.25rem, 3vw, 1.75rem) clamp(1.5rem, 4vw, 2rem);
+    border-radius: clamp(0.75rem, 2vw, 1rem);
+    background: rgba(0, 0, 0, 0.75);
+    box-shadow: 0 clamp(6px, 2vw, 12px) clamp(30px, 6vw, 50px) rgba(0, 0, 0, 0.8);
+    color: #fff;
+    max-width: 90vw;
+    z-index: 901;
+    position: relative;
+  }
+
+  .spinner {
+    width: clamp(40px, 8vw, 64px);
+    height: clamp(40px, 8vw, 64px);
+    border-radius: 50%;
+    border: clamp(3px, 0.5vw, 5px) solid rgba(255, 255, 255, 0.1);
+    border-top-color: #ffffff;
+    animation: spin-360 1s linear infinite;
+    box-sizing: border-box;
+    z-index: 902;
+    position: relative;
+  }
+
+  .loading-label {
+    font-weight: 700;
+    font-size: $font-sm;
+    color: #fff;
+    text-align: center;
+    z-index: 902;
+    position: relative;
+  }
+}
+
+.powered-by {
+  position: fixed;
+  left: 50%;
+  bottom: clamp(1rem, 3vw, 2rem);
+  transform: translateX(-50%);
+  z-index: 899;
+  pointer-events: none;
+
+  .inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.5rem, 1.5vw, 0.75rem);
+    z-index: 900;
+    position: relative;
+  }
+
+  .logo {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    font-weight: 700;
+    color: rgba(107, 34, 255, 0.8);
+    z-index: 901;
+    position: relative;
+
+    .logo-text {
+      display: flex;
+      gap: 4px;
+      letter-spacing: 1px;
+
+      span {
+        display: inline-block;
+        z-index: 902;
+        position: relative;
+      }
+    }
+  }
+
+  .powered-by-text {
+    font-size: $font-xs;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 901;
+    position: relative;
+  }
+}
+
+@keyframes spin-360 {
+  to {
+    transform: rotate(360deg);
+  }
+}

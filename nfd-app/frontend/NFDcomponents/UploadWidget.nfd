@@ -1,0 +1,74 @@
+import React, { useRef, useEffect, useState } from 'react';
+
+/*
+  UploadWidget props:
+    - uwConfig: { cloudName, uploadPreset, multiple=false, maxImageFileSize, folder, buttonLabel, options }
+    - setState: function(uploadedData) => void
+    - children: optional button content (overrides buttonLabel)
+*/
+export default function UploadWidget({ uwConfig = {}, setState, children }) {
+  const widgetRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const CLOUD_NAME = uwConfig.cloudName || import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+  const PRESET = uwConfig.uploadPreset || import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+  const SCRIPT_SRC = 'https://widget.cloudinary.com/v2.0/global/all.js';
+
+  useEffect(() => {
+    if (!CLOUD_NAME || !PRESET) return;
+    if (!window.cloudinary) {
+      const s = document.createElement('script');
+      s.src = SCRIPT_SRC;
+      s.async = true;
+      document.head.appendChild(s);
+    }
+  }, [CLOUD_NAME, PRESET]);
+
+  const open = () => {
+    if (!CLOUD_NAME || !PRESET) {
+      alert('Cloudinary not configured.');
+      return;
+    }
+    if (!widgetRef.current && window.cloudinary) {
+      const opts = {
+        cloudName: CLOUD_NAME,
+        uploadPreset: PRESET,
+        sources: ['local', 'url', 'camera'],
+        multiple: !!uwConfig.multiple,
+        maxImageFileSize: uwConfig.maxImageFileSize,
+        styles: uwConfig.options?.styles || {},
+        ...uwConfig.options,
+      };
+      if (uwConfig.folder) opts.folder = uwConfig.folder;
+
+      widgetRef.current = window.cloudinary.createUploadWidget(opts, (err, result) => {
+        if (err) {
+          console.error('UploadWidget error', err);
+          if (setState) setState(null, err);
+          return;
+        }
+        if (result && result.event === 'success') {
+          // return single url or array depending on multiple
+          const info = result.info;
+          if (uwConfig.multiple) {
+            // Not all events include arrays; use a simple approach: resolve last successful asset
+            if (setState) setState([info.secure_url || info.url], info);
+          } else {
+            if (setState) setState(info.secure_url || info.url, info);
+          }
+        }
+      });
+    }
+    setLoading(true);
+    try {
+      widgetRef.current && widgetRef.current.open();
+    } finally {
+      setTimeout(() => setLoading(false), 600);
+    }
+  };
+
+  return (
+    <button type="button" className="upload-widget-btn" onClick={open} disabled={loading}>
+      {loading ? 'Loading…' : (children || uwConfig.buttonLabel || 'Upload')}
+    </button>
+  );
+}

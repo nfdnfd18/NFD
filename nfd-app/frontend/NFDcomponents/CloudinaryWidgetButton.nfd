@@ -1,0 +1,94 @@
+import React, { useRef, useEffect, useState } from 'react';
+
+/*
+  Cloudinary Upload Widget wrapper.
+  Props:
+    - onUpload(url, info) => void
+    - children: button label/JSX
+    - folder: optional Cloudinary folder (string)
+    - uploadPreset: optional override (string)
+    - options: optional widget options object
+*/
+export default function CloudinaryWidgetButton({ onUpload, children = 'Upload', folder, uploadPreset, options = {} }) {
+  const widgetRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+  const PRESET = uploadPreset || import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+  const SCRIPT_SRC = 'https://widget.cloudinary.com/v2.0/global/all.js';
+
+  useEffect(() => {
+    if (!CLOUD_NAME || !PRESET) {
+      console.warn('Cloudinary widget: missing VITE_CLOUDINARY_CLOUD_NAME or VITE_CLOUDINARY_UPLOAD_PRESET');
+      return;
+    }
+    // Load widget script if not present
+    if (!window.cloudinary) {
+      const s = document.createElement('script');
+      s.src = SCRIPT_SRC;
+      s.async = true;
+      s.onload = () => { /* loaded */ };
+      document.head.appendChild(s);
+    }
+    return () => {
+      // noop cleanup
+    };
+  }, [CLOUD_NAME, PRESET]);
+
+  const openWidget = () => {
+    if (!CLOUD_NAME || !PRESET) {
+      alert('Cloudinary not configured.');
+      return;
+    }
+    // Create widget lazily
+    if (!widgetRef.current && window.cloudinary) {
+      const widgetOptions = {
+        cloudName: CLOUD_NAME,
+        uploadPreset: PRESET,
+        sources: ['local', 'url', 'camera'],
+        multiple: false,
+        cropping: false,
+        showCompletedButton: true,
+        styles: {
+          palette: { window: "#000000", sourceBg: "#ffffff", windowBorder: "#888", tabIcon: "#00d3f4", menuIcons: "#00d3f4", textDark: "#000000", textLight: "#ffffff" },
+          fonts: { default: null }
+        },
+        ...options
+      };
+      if (folder) widgetOptions.folder = folder;
+
+      widgetRef.current = window.cloudinary.createUploadWidget(widgetOptions, (error, result) => {
+        if (error) {
+          console.error('Cloudinary widget error', error);
+          if (onUpload) onUpload(null, error);
+          return;
+        }
+        if (result && result.event && (result.event === 'success' || result.event === 'close')) {
+          // on success, the info is in result.info
+          if (result.info && result.info.secure_url) {
+            if (onUpload) onUpload(result.info.secure_url, result.info);
+          } else if (result.info && result.info.url) {
+            if (onUpload) onUpload(result.info.url, result.info);
+          }
+        }
+      });
+    }
+
+    try {
+      setLoading(true);
+      if (widgetRef.current && typeof widgetRef.current.open === 'function') {
+        widgetRef.current.open();
+      } else {
+        alert('Upload widget not available yet. Try again in a moment.');
+      }
+    } finally {
+      // widget opens; keep loading false after brief delay
+      setTimeout(() => setLoading(false), 600);
+    }
+  };
+
+  return (
+    <button type="button" className="cloudinary-widget-btn" onClick={openWidget} disabled={loading}>
+      {loading ? 'Loading…' : children}
+    </button>
+  );
+}

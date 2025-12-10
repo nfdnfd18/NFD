@@ -70,3 +70,5 @@ replay_pid*
 
 # VSCode settings folder (untracked user settings)
 .vscode/settings.json
+# ignore large binary: nfd-app/frontend/NFDlayout/MariaMagdalena.mp4
+nfd-app/frontend/NFDlayout/MariaMagdalena.mp4

@@ -1,0 +1,97 @@
+.AI {
+  
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    margin: 20px 0;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+
+    color: #333;
+    line-height: 1.5;
+    text-align: left;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+
+  .h6{
+
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: #d22d2d56;
+  }
+
+  .button{
+    background-color: #007acc;  // Ensure the button has a high-contrast background color
+    color: #fff;  // Ensure the button text is white for contrast
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Add a subtle shadow to the button
+
+    &:hover {
+
+        background-color: #005f99;  // Darker shade on hover for better visibility
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); // Increase shadow on hover for depth
+        }               
+
+    &:active {          
+        background-color: #004080;  // Even darker shade on active for feedback
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); // Reset shadow on active for depth
+    }
+    &:focus { 
+        outline: none;  // Remove default focus outline
+        box-shadow: 0 0 0 4px rgba(0, 204, 31, 0.5); // Custom focus ring for accessibility
+    }
+    &:disabled { 
+        background-color: #ccc;  // Grey out button when disabled
+        color: #666;  // Grey out text when disabled
+        cursor: not-allowed;  // Change cursor to indicate disabled state
+        box-shadow: none;  // Remove shadow when disabled
+    }
+    &:active:disabled { 
+        background-color: #ccc;  // Keep greyed out when active and disabled
+        box-shadow: none;  // Remove shadow when disabled
+    }
+    &:focus:disabled { 
+        outline: none;  // Remove focus outline when disabled
+        box-shadow: none;  // Remove shadow when disabled
+    }
+    &:hover:disabled { 
+        background-color: #ccc;  // Keep greyed out when hovered and disabled
+        box-shadow: none;  // Remove shadow when disabled
+    }
+    &:focus:hover { 
+        outline: none;  // Remove focus outline when hovered
+        box-shadow: 0 0 0 4px rgba(0, 204, 31, 0.5); // Custom focus ring for accessibility
+    }
+    &:focus:active { 
+        outline: none;  // Remove focus outline when active
+        box-shadow: 0 0 0 4px rgba(0, 204, 31, 0.5); // Custom focus ring for accessibility
+    }
+    &:focus:active:hover { 
+        outline: none;  // Remove focus outline when active and hovered
+        box-shadow: 0 0 0 4px rgba(0, 204, 31, 0.5); // Custom focus ring for accessibility
+    }
+    &:focus:active:disabled { 
+        outline: none;  // Remove focus outline when active and disabled
+        box-shadow: none;  // Remove shadow when disabled
+    }
+    &:focus:hover:disabled { 
+        outline: none;  // Remove focus outline when hovered and disabled
+        box-shadow: none;  // Remove shadow when disabled
+    }
+    &:focus:active:hover:disabled { 
+        outline: none;  // Remove focus outline when active, hovered, and disabled
+        box-shadow: none;  // Remove shadow when disabled
+    }
+
+
+
+
+}    
+}

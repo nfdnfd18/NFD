@@ -1,0 +1,25 @@
+/* eslint-disable react/display-name */
+import { useContext, useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import UserContext from "../NFDcomponents/UserContext.nfd";
+
+// This HOC checks the same encrypted localStorage key used by AuthContext
+// and redirects unauthenticated users to the login page.
+const withUSERAuthRedirect = (Component) => {
+  return (props) => {
+    const { currentUser } = useContext(UserContext);
+
+    useEffect(() => {
+      // The app stores the encrypted JWT under this key
+      const encrypted = localStorage.getItem("Love_wins_Whats_up_with_that");
+      if (!currentUser && !encrypted) {
+        window.location.href = "/Login";
+      }
+    }, [currentUser]);
+
+    if (!currentUser) return <Navigate to="/Login" />;
+    return <Component {...props} />;
+  };
+};
+
+export default withUSERAuthRedirect;

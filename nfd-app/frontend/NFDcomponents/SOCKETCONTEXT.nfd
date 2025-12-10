@@ -1,0 +1,166 @@
+import { useContext, useEffect, useState, useCallback } from "react";
+import { io } from "socket.io-client";
+// AuthContext exports UserContext as default and also exports AuthContextProvider and useAuth.
+// Import the default UserContext to match the provider's export.
+import AuthContext from '../NFDcomponents/UserContext.nfd';
+import SocketContext from "./socket-Context";
+import PropTypes from 'prop-types';
+
+const SocketContextProvider = ({ children }) => {
+  // Hooks must be called unconditionally at the top level of the component.
+  const authContext = useContext(AuthContext);
+  const { currentUser } = authContext || {};
+
+  const [socket, setSocket] = useState(null);
+  const [status, setStatus] = useState('disconnected'); // 'connecting' | 'connected' | 'disconnected' | 'error'
+
+  // Only initialize socket when authContext becomes available.
+  useEffect(() => {
+    if (!authContext) return; // guard: do nothing when no auth
+
+    // Prefer explicit Vite env var VITE_SOCKET_URL. To avoid noisy warnings or failed
+    // websocket attempts during local dev without a socket server, require either
+    // VITE_SOCKET_URL to be set or VITE_ENABLE_SOCKETS=true at build/runtime.
+    const env = (typeof import.meta !== 'undefined' && import.meta.env) ? import.meta.env : {};
+  let socketUrl = env.VITE_SOCKET_URL || null;
+    const enableSockets = env.VITE_ENABLE_SOCKETS === 'true' || !!socketUrl;
+
+    if (!enableSockets) {
+      // Do not attempt to connect automatically when sockets are not explicitly enabled.
+      if (env.VITE_DEBUG_SOCKETS === 'true') console.debug('SocketContext: sockets disabled (set VITE_ENABLE_SOCKETS=true to enable)');
+      setStatus('disconnected');
+      setSocket(null);
+      return; // skip creating socket
+    }
+
+  // build fallback socketUrl when sockets are enabled but no explicit URL provided
+  let finalSocketUrl = socketUrl || `${window.location.protocol}//${window.location.hostname}:2024`;
+
+    // If the app is served over HTTPS but the configured socket URL starts with http:,
+    // upgrade it to https: to avoid mixed-content blocks in browsers (which prevent ws/http connections).
+    try {
+      if (typeof window !== 'undefined' && window.location && window.location.protocol === 'https:' && socketUrl && socketUrl.startsWith('http:')) {
+        socketUrl = socketUrl.replace(/^http:/, 'https:');
+      }
+      // If someone provided a protocol-relative URL (e.g. //example.com:2024), ensure it has the page protocol
+      if (typeof window !== 'undefined' && socketUrl && socketUrl.startsWith('//')) {
+        socketUrl = `${window.location.protocol}${socketUrl}`;
+      }
+    } catch (e) {
+      // ignore and fall back to original socketUrl
+    }
+
+    setStatus('connecting');
+
+  const newSocket = io(socketUrl || finalSocketUrl, {
+      transports: ['websocket', 'polling'],
+      reconnectionAttempts: 5,
+    });
+
+    // connection lifecycle
+    newSocket.on('connect', () => {
+      setStatus('connected');
+    });
+
+    newSocket.on('connect_error', (err) => {
+      // Only log detailed socket errors when debugging is explicitly enabled.
+      if (env.VITE_DEBUG_SOCKETS === 'true') console.warn('Socket connect_error:', err);
+      setStatus('error');
+    });
+
+    newSocket.on('disconnect', (reason) => {
+      if (env.VITE_DEBUG_SOCKETS === 'true') console.debug('Socket disconnected:', reason);
+      setStatus('disconnected');
+    });
+
+    setSocket(newSocket);
+
+    return () => {
+      try {
+        newSocket.off('connect');
+        newSocket.off('connect_error');
+        newSocket.off('disconnect');
+        newSocket.disconnect(); // Clean up the socket connection
+      } catch (e) {
+        // ignore cleanup errors
+      }
+    };
+    // run when authContext becomes available/unavailable
+  }, [authContext]);
+
+  useEffect(() => {
+    // Only emit when socket is connected and we have a currentUser
+    if (currentUser && socket && socket.connected) {
+      try {
+        socket.emit("newUser", { userId: currentUser.id, chatId: null }); // Include chatId if available
+      } catch (e) {
+        console.warn('Failed to emit newUser', e);
+      }
+    }
+  }, [currentUser, socket]);
+
+  useEffect(() => {
+    if (socket) {
+      socket.on("getNotification", (notification) => {
+        console.log("Notification received:", notification);
+        // Optionally, update the UI or show a toast notification
+      });
+
+      return () => {
+        socket.off("getNotification");
+      };
+    }
+  }, [socket]);
+
+  const doReconnect = useCallback(() => {
+    if (!socket) {
+      // trigger re-run of effect by temporarily setting socket null then letting effect rebuild
+      setStatus('connecting');
+      // create a short-lived manual connect attempt by reloading page as fallback
+      // Prefer to reload so Vite envs and context are consistent
+      window.location.reload();
+    } else if (socket && socket.disconnected) {
+      setStatus('connecting');
+      socket.connect();
+    }
+  }, [socket]);
+
+  if (!authContext) {
+    console.warn('AuthContext is not provided — socket integration disabled');
+    // render provider with null socket so app can mount without socket
+    return (
+      <SocketContext.Provider value={{ socket: null, status: 'disconnected' }}>
+        {children}
+      </SocketContext.Provider>
+    );
+  }
+
+  return (
+    <>
+      <SocketContext.Provider value={{ socket, status }}>
+        {children}
+      </SocketContext.Provider>
+
+      {/* Unobtrusive status indicator in bottom-left; style can be overridden by app CSS */}
+      <div style={{ position: 'fixed', left: 8, bottom: 12, zIndex: 12, fontSize: 12, color: '#fff' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div style={{ width: 10, height: 10, borderRadius: 6, background: status === 'connected' ? '#22c55e' : status === 'connecting' ? '#f59e0b' : status === 'error' ? '#ef4444' : '#6b7280' }} aria-hidden></div>
+          <div style={{ background: 'rgba(0,0,0,0.6)', padding: '6px 8px', borderRadius: 6 }}>
+            Socket: {status}
+            {status !== 'connected' && (
+              <button onClick={doReconnect} style={{ marginLeft: 8, background: 'transparent', border: '1px solid rgba(255,255,255,0.12)', color: '#fff', padding: '4px 6px', borderRadius: 4 }}>
+                Reconnect
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+SocketContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default SocketContextProvider;

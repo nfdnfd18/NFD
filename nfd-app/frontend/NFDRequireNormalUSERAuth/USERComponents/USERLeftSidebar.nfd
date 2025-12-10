@@ -1,0 +1,193 @@
+import React, { useState, useEffect } from 'react';
+import PropTypes from "prop-types";
+import { USERSidebarNav } from "./USERSidebarNav.nfd";
+import {navigation as navigationSource} from "../USER_navbar.js";
+import apiRequest from '../../NFDLib/apiRequest.js';
+
+import i18n from '../../i18n.jsx';
+import { useTranslation } from 'react-i18next';
+function USERSLeftSidebar({ closeSidebar, onClick }) {
+  const { t } = useTranslation('RequireNormalUSERAuth');
+  const stored = (typeof window !== 'undefined' && window.localStorage && window.localStorage.getItem('lang')) || null;
+  const defaultLang = stored || i18n.language || 'en';
+  const [lang, setLang] = useState(defaultLang);
+  const languages = [
+    { code: 'en', label: t('languages.en', { ns: 'RequireNormalUSERAuth', defaultValue: 'English' }) },
+    { code: 'fr', label: t('languages.fr', { ns: 'RequireNormalUSERAuth', defaultValue: 'Français' }) },
+    { code: 'es-ES', label: t('languages.es-ES', { ns: 'RequireNormalUSERAuth', defaultValue: 'Español' }) },
+    { code: 'pt-BR', label: t('languages.pt-BR', { ns: 'RequireNormalUSERAuth', defaultValue: 'Português' }) },
+    { code: 'zh-CN', label: t('languages.zh-CN', { ns: 'RequireNormalUSERAuth', defaultValue: '中文' }) },
+    { code: 'ru', label: t('languages.ru', { ns: 'RequireNormalUSERAuth', defaultValue: 'Русский' }) },
+    { code: 'ja', label: t('languages.ja', { ns: 'RequireNormalUSERAuth', defaultValue: '日本語' }) },
+    { code: 'ko', label: t('languages.ko', { ns: 'RequireNormalUSERAuth', defaultValue: '한국어' }) },
+    { code: 'ar-MA', label: t('languages.ar-MA', { ns: 'RequireNormalUSERAuth', defaultValue: 'العربية' }) },
+    { code: 'de', label: t('languages.de', { ns: 'RequireNormalUSERAuth', defaultValue: 'Deutsch' }) },
+  ];
+
+  const handleLanguageChange = (e) => {
+    const l = e.target.value;
+    i18n.changeLanguage(l);
+    setLang(l);
+    try { window.localStorage.setItem('lang', l); } catch (e) {}
+  };
+
+  // keep header/footer/sidebar layout LTR; only toggle a body class that applies
+  // RTL to page content/text when Arabic is selected
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    if (lang && lang.startsWith('ar')) {
+      document.body.classList.add('lang-rtl');
+    } else {
+      document.body.classList.remove('lang-rtl');
+    }
+  }, [lang]);
+
+  // Ensure we get a fresh navigation object (some modules export a function for runtime use)
+  const rawNavigation = typeof navigationSource === 'function' ? navigationSource() : navigationSource;
+  const translatedNavigation = rawNavigation || [];
+
+  // Build API base from Vite env when available (import.meta.env) or fallback to relative /api
+  let API_BASE = ''; 
+  try {
+    // import.meta may not be present in some environments; guard with try/catch
+    API_BASE = import.meta && import.meta.env && import.meta.env.VITE_API_URL
+      ? String(import.meta.env.VITE_API_URL).replace(/\/$/, '')
+      : '';
+  } catch (e) {
+    API_BASE = '';
+  }
+
+  const handleLogout = async () => {
+    // Ensure we call the backend route the server exposes: /api/auth/logout
+    // If a VITE_API_URL is provided, use it as the base; otherwise use the relative /api path.
+    const base = API_BASE ? String(API_BASE).replace(/\/$/, '') : '';
+    const logoutUrl = base ? `${base}/api/auth/logout` : '/api/auth/logout';
+    // collapse accidental double slashes while preserving protocol (http://)
+    const normalizedLogoutUrl = logoutUrl.replace(/([^:]\/)\/+/g, '$1');
+
+    // First call server logout to clear HttpOnly cookie(s)
+    try {
+      if (apiRequest && apiRequest.post) {
+        let logoutPath = '/api/auth/logout';
+        try {
+          const base = apiRequest.defaults && apiRequest.defaults.baseURL ? String(apiRequest.defaults.baseURL) : '';
+          if (base.match(/\/api(\/|$)/)) {
+            logoutPath = '/auth/logout';
+          }
+        } catch (e) { /* ignore */ }
+        await apiRequest.post(logoutPath, {}, { withCredentials: true });
+      } else {
+        const resp = await fetch(normalizedLogoutUrl, { method: 'POST', credentials: 'include' });
+        if (!resp.ok) {
+          const text = await resp.text().catch(() => '');
+          console.warn('Logout response not OK', resp.status, text);
+        }
+      }
+    } catch (e) {
+      console.warn('Logout request failed', e);
+    }
+
+    // Aggressively clear any non-HttpOnly copies and storage
+    const tryDeleteCookie = (name) => {
+      try {
+        document.cookie = `${name}=; Max-Age=0; path=/;`;
+        document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;`;
+        const host = window.location.hostname;
+        if (host) {
+          document.cookie = `${name}=; Max-Age=0; path=/; domain=${host};`;
+          const parts = host.split('.');
+          if (parts.length > 1) {
+            const tld = `.${parts.slice(-2).join('.')}`;
+            document.cookie = `${name}=; Max-Age=0; path=/; domain=${tld};`;
+          }
+        }
+      } catch (e) { /* ignore */ }
+    };
+
+    ['jwt', 'token', 'Love_wins_Whats_up_with_that'].forEach(tryDeleteCookie);
+
+    // Clear storage and notify other tabs
+    try { window.localStorage.removeItem('jwt'); } catch (e) {}
+    try { window.sessionStorage.removeItem('jwt'); } catch (e) {}
+    try { window.localStorage.clear(); } catch (e) {}
+    try { window.sessionStorage.clear(); } catch (e) {}
+    try { localStorage.setItem('nfd_logout', Date.now()); } catch (e) {}
+
+    // Give browser a moment to process Set-Cookie from server, then redirect to login
+    setTimeout(() => {
+      try { window.location.href = '/login'; } catch (e) { window.location.reload(); }
+    }, 400);
+  };
+
+  return (
+    <aside
+      className="left-sidebar"  data-aos="fade-right"   data-aos-offset="100"   data-aos-easing="ease-in-sine"    onClick={onClick}
+    >
+      <div className="sidebar-headerL  justify-center text-center">
+  <h3>{t('sidebar.navigation') || 'Navigation'}</h3>
+      </div>
+     
+  <div className=" sidebar-content">    <USERSidebarNav items={translatedNavigation} closeSidebar={closeSidebar} />
+      </div>
+     
+     
+     <div className=" justify-center text-center " style={{ marginTop: '0.5rem' }}>
+          <button className="toggle-btn" onClick={closeSidebar} style={{ padding: '0.5rem 0.75rem' }}>
+          {t('buttons.closeSidebar') || 'Close Sidebar'}
+        </button>
+
+  {/* small quick-language buttons added per request */}
+      </div>
+
+      {/* drop-up language selector */}
+      <div className="lang-cta-wrapper">
+        <div style={{display:'inline-block',position:'relative'}}>
+          <button
+            onClick={(e) => { e.stopPropagation(); const el = document.getElementById('lang-dropup'); if (el) el.classList.toggle('open'); }}
+            className="lang-cta"
+            aria-haspopup="true"
+            aria-expanded={false}
+          >
+            🌐 { (i18n.language || 'en').toUpperCase() }
+          </button>
+
+          <div id="lang-dropup" className="lang-dropup">
+            {[
+              {code:'en', flag:'/flags/united-states-of-america-flag-png-large.png'},
+              {code:'fr', flag:'/flags/france-flag-png-large.png'},
+              {code:'es-ES', flag:'/flags/spain-flag-png-large.png'},
+              {code:'pt-BR', flag:'/flags/portugal-flag-400.png'},
+              {code:'zh-CN', flag:'/flags/china-flag-png-large.png'},
+              {code:'ru', flag:'/flags/russia-flag-png-large.png'},
+              {code:'ja', flag:'/flags/japan-flag-png-large.png'},
+              {code:'ko', flag:'/flags/south-korea-flag-png-large.png'},
+              {code:'ar-MA', flag:'/flags/morocco-flag-png-large.png'},
+              {code:'de', flag:'/flags/germany-flag-png-large.png'},
+            ].map((l) => (
+              <button key={l.code} onClick={() => { i18n.changeLanguage(l.code); setLang(l.code); try { window.localStorage.setItem('lang', l.code); } catch(e){}; const el = document.getElementById('lang-dropup'); if (el) el.classList.remove('open'); }} className="lang-item">
+                <img src={l.flag} alt="" />
+                <span style={{flex:1,fontWeight:600}}>{i18n.t(`languages.${l.code}`, { ns: 'RequireNormalUSERAuth' }) || l.code}</span>
+                <span style={{opacity:0.6,fontSize:12}}>{l.code}</span>
+              </button>
+            ))}
+            {/* caret removed per user request - no arrow under lang-dropup */}
+          </div>
+        </div>
+      </div>
+
+      <div className=" justify-center text-center " style={{ marginTop: '0.5rem' }}>
+          <button className="logout-btn" onClick={handleLogout} style={{ padding: '0.5rem 0.75rem' }}>
+          {t('buttons.logout') || 'Logout'}
+        </button>
+      </div>
+
+      <style>{`.open { display:block !important; }`}</style>
+    </aside>
+  );
+}
+
+export default USERSLeftSidebar;
+USERSLeftSidebar.propTypes = {
+  closeSidebar: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+};

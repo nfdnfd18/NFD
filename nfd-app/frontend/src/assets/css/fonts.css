@@ -1,0 +1,44 @@
+/* fonts.css
+   Loads Mononokiz/Mononoki as the app font where available.
+   If you have a local Mononokiz font file, replace the @import or add a @font-face rule that points to your local file.
+*/
+/* Google Fonts should be loaded from the HTML head via <link rel="stylesheet">.
+   Loading fonts via CSS @import can cause CORB/CORS issues in some browsers
+   when the stylesheet itself is loaded cross-origin. Please add this to
+   `frontend/index.html` inside the <head>:
+
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Mononoki&display=swap" rel="stylesheet">
+
+   The local CSS below keeps a fallback stack so components that expect
+   the Mononoki/Mononokiz font will still have sensible fallbacks.
+*/
+
+:root {
+  --app-font: 'Mononokiz', 'Mononoki', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+}
+
+/* Apply the font broadly but keep fallbacks */
+html, body {
+  font-family: var(--app-font);
+}
+
+/* Ensure components that expect Mononokiz pick it up */
+.logo .logo-text,
+.NAVFONT,
+.auth-title {
+  font-family: var(--app-font);
+}
+
+.logo .logo-icon {
+  vertical-align: middle;
+  margin-right: 0.45rem;
+  font-size: 1.25rem;
+}
+
+.auth-title .title-icon {
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}

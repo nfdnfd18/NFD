@@ -1,0 +1,336 @@
+import { useState, useEffect, useRef, useContext } from "react";
+import  UserContext  from "../NFDcomponents/UserContext.nfd";
+import withNormalUSERAuthRedirect from './withNormalUSERAuthRedirect'; // Adjust the path as necessary
+import withPremiumUSERAuthRedirect from './withPremiumUSERAuthRedirect'; // Adjust the path as necessary
+import AOS from "aos";
+import "aos/dist/aos.css";
+import { AppHomeLeftSidebar, AppHomeRightSidebar, AppHomeHeader, AppHomeContent, AppHomeFooter } from '../NFDhome/AppHomeComponents/index.nfd';
+
+import { USERLeftSidebar, USERRightSidebar, USERHeader, USERContent, USERFooter } from '../NFDRequireNormalUSERAuth/USERindex.nfd';
+import { PremiumUSERLeftSidebar, PremiumUSERRightSidebar, PremiumUSERHeader, PremiumUSERContent, PremiumUSERFooter } from '../NFDRequirePremiumUSERAuth/PremiumUSERindex.nfd';
+
+
+// Removed unused LockScreen import
+import Waves from "../content/Backgrounds/Waves/Waves.nfd";
+
+// Function to check if the device is iOS
+const checkIOS = () => {
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  return /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+};
+
+function NFDhome() {
+  const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(false);
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+  const [showHeader, setShowHeader] = useState(true);
+  const [showFooter, setShowFooter] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+  const { isDarkMode, setIsDarkMode } = useContext(UserContext);
+  const [isIOS, setIsIOS] = useState(false);
+
+  const lastScrollY = useRef(0);
+// Simple Normal and Premium layout wrappers
+
+
+
+
+  const closeLeftSidebar = () => setIsLeftSidebarOpen(false);
+  const closeRightSidebar = () => setIsRightSidebarOpen(false);
+
+  const handleSidebarClick = (sidebarType) => {
+    if (sidebarType === "left") {
+      setIsLeftSidebarOpen((prev) => !prev);
+    } else if (sidebarType === "right") {
+      setIsRightSidebarOpen((prev) => !prev);
+    }
+  };
+
+  const handleContentClick = () => {
+    if (isMobile && (isLeftSidebarOpen || isRightSidebarOpen)) {
+      closeLeftSidebar();
+      closeRightSidebar();
+    }
+  };
+
+  useEffect(() => {
+    // Detect if the device is iOS
+    setIsIOS(checkIOS());
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setShowHeader(currentScrollY <= 50 || currentScrollY < lastScrollY.current);
+      setShowFooter(currentScrollY <= 50 || currentScrollY < lastScrollY.current);
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    AOS.init({
+      offset: 100,
+      duration: 800,
+      easing: "ease-in-sine",
+      delay: 300,
+    });
+    AOS.refresh();
+  }, []);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 5000);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  return (
+    <div className={`home  ${isDarkMode ? "dark" : "light"} ${isIOS ? "ios-device" : ""}`}>
+      <AppHomeHeader
+        handleSidebarClick={handleSidebarClick}
+        isDarkMode={isDarkMode}
+        setIsDarkMode={setIsDarkMode}
+        showHeader={showHeader}
+        isLeftSidebarOpen={isLeftSidebarOpen}
+        isRightSidebarOpen={isRightSidebarOpen}
+      />
+         <Waves
+          
+            lineColor=" #7b7b7bfe"
+            waveSpeedX={0.02}
+        waveSpeedY={0.01}
+        waveAmpX={40}
+        waveAmpY={20}
+        friction={0.9}
+        tension={0.01}
+        maxCursorMove={120}
+        xGap={12}
+        yGap={36}
+          />
+      <div className="main-content" onClick={handleContentClick}>
+        {isLeftSidebarOpen && (
+        
+          <AppHomeLeftSidebar closeSidebar={closeLeftSidebar} onClick={(e) => e.stopPropagation()} />
+        )}
+        <AppHomeContent isLeftSidebarOpen={isLeftSidebarOpen} isRightSidebarOpen={isRightSidebarOpen} />
+        {isRightSidebarOpen && (
+          <AppHomeRightSidebar closeSidebar={closeRightSidebar} onClick={(e) => e.stopPropagation()} />
+        )}
+      </div>
+      <AppHomeFooter showFooter={showFooter} isLeftSidebarOpen={isLeftSidebarOpen} isRightSidebarOpen={isRightSidebarOpen} />
+    </div>
+  );
+}
+
+
+function RequireNormalUSERAuth() {
+  const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(false);
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+  const [showHeader, setShowHeader] = useState(true);
+  const [showFooter, setShowFooter] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+  const { isDarkMode, setIsDarkMode } = useContext(UserContext);
+  const [isIOS, setIsIOS] = useState(false);
+
+  const lastScrollY = useRef(0);
+
+  const closeLeftSidebar = () => setIsLeftSidebarOpen(false);
+  const closeRightSidebar = () => setIsRightSidebarOpen(false);
+
+  const handleSidebarClick = (sidebarType) => {
+    if (sidebarType === "left") {
+      setIsLeftSidebarOpen((prev) => !prev);
+    } else if (sidebarType === "right") {
+      setIsRightSidebarOpen((prev) => !prev);
+    }
+  };
+
+  const handleContentClick = () => {
+    if (isMobile && (isLeftSidebarOpen || isRightSidebarOpen)) {
+      closeLeftSidebar();
+      closeRightSidebar();
+    }
+  };
+
+  useEffect(() => {
+    // Detect if the device is iOS
+    setIsIOS(checkIOS());
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setShowHeader(currentScrollY <= 50 || currentScrollY < lastScrollY.current);
+      setShowFooter(currentScrollY <= 50 || currentScrollY < lastScrollY.current);
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    AOS.init({
+      offset: 100,
+      duration: 800,
+      easing: "ease-in-sine",
+      delay: 300,
+    });
+    AOS.refresh();
+  }, []);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 5000);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  return (
+    <div className={`normalLayout ${isDarkMode ? "dark" : "light"} ${isIOS ? "ios-device" : ""}`}>
+      <USERHeader
+        handleSidebarClick={handleSidebarClick}
+        isDarkMode={isDarkMode}
+        setIsDarkMode={setIsDarkMode}
+        showHeader={showHeader}
+        isLeftSidebarOpen={isLeftSidebarOpen}
+        isRightSidebarOpen={isRightSidebarOpen}
+      />
+         <Waves
+          
+            lineColor=" #9f15ea"
+            waveSpeedX={0.02}
+        waveSpeedY={0.01}
+        waveAmpX={40}
+        waveAmpY={20}
+        friction={0.9}
+        tension={0.01}
+        maxCursorMove={120}
+        xGap={12}
+        yGap={36}
+          />
+      <div className="main-content" onClick={handleContentClick}>
+        {isLeftSidebarOpen && (
+        
+          <USERLeftSidebar closeSidebar={closeLeftSidebar} onClick={(e) => e.stopPropagation()} />
+        )}
+        <USERContent isLeftSidebarOpen={isLeftSidebarOpen} isRightSidebarOpen={isRightSidebarOpen} />
+        {isRightSidebarOpen && (
+          <USERRightSidebar closeSidebar={closeRightSidebar} onClick={(e) => e.stopPropagation()} />
+        )}
+      </div>
+      <USERFooter showFooter={showFooter} isLeftSidebarOpen={isLeftSidebarOpen} isRightSidebarOpen={isRightSidebarOpen} />
+    </div>
+  );
+}
+function RequirePremiumUSERAuth() {
+  const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(false);
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+  const [showHeader, setShowHeader] = useState(true);
+  const [showFooter, setShowFooter] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+  const { isDarkMode, setIsDarkMode } = useContext(UserContext);
+  const [isIOS, setIsIOS] = useState(false);
+
+  const lastScrollY = useRef(0);
+
+  const closeLeftSidebar = () => setIsLeftSidebarOpen(false);
+  const closeRightSidebar = () => setIsRightSidebarOpen(false);
+
+  const handleSidebarClick = (sidebarType) => {
+    if (sidebarType === "left") {
+      setIsLeftSidebarOpen((prev) => !prev);
+    } else if (sidebarType === "right") {
+      setIsRightSidebarOpen((prev) => !prev);
+    }
+  };
+
+  const handleContentClick = () => {
+    if (isMobile && (isLeftSidebarOpen || isRightSidebarOpen)) {
+      closeLeftSidebar();
+      closeRightSidebar();
+    }
+  };
+
+  useEffect(() => {
+    // Detect if the device is iOS
+    setIsIOS(checkIOS());
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setShowHeader(currentScrollY <= 50 || currentScrollY < lastScrollY.current);
+      setShowFooter(currentScrollY <= 50 || currentScrollY < lastScrollY.current);
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    AOS.init({
+      offset: 100,
+      duration: 800,
+      easing: "ease-in-sine",
+      delay: 300,
+    });
+    AOS.refresh();
+  }, []);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 5000);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  return (
+    <div className={`home ${isDarkMode ? "dark" : "light"} ${isIOS ? "ios-device" : ""}`}>
+      <PremiumUSERHeader
+        handleSidebarClick={handleSidebarClick}
+        isDarkMode={isDarkMode}
+        setIsDarkMode={setIsDarkMode}
+        showHeader={showHeader}
+        isLeftSidebarOpen={isLeftSidebarOpen}
+        isRightSidebarOpen={isRightSidebarOpen}
+      />
+         <Waves
+          
+            lineColor=" #a1070770"
+            waveSpeedX={0.02}
+        waveSpeedY={0.01}
+        waveAmpX={40}
+        waveAmpY={20}
+        friction={0.9}
+        tension={0.01}
+        maxCursorMove={120}
+        xGap={12}
+        yGap={36}
+          />
+      <div className="main-content" onClick={handleContentClick}>
+        {isLeftSidebarOpen && (
+        
+          <PremiumUSERLeftSidebar closeSidebar={closeLeftSidebar} onClick={(e) => e.stopPropagation()} />
+        )}
+        <PremiumUSERContent isLeftSidebarOpen={isLeftSidebarOpen} isRightSidebarOpen={isRightSidebarOpen} />
+        {isRightSidebarOpen && (
+          <PremiumUSERRightSidebar closeSidebar={closeRightSidebar} onClick={(e) => e.stopPropagation()} />
+        )}
+      </div>
+      <PremiumUSERFooter showFooter={showFooter} isLeftSidebarOpen={isLeftSidebarOpen} isRightSidebarOpen={isRightSidebarOpen} />
+    </div>
+  );
+}
+
+
+const RequireNormalUSERAuthWithAuth = withNormalUSERAuthRedirect(RequireNormalUSERAuth);
+const RequirePremiumUSERAuthWithAuth = withPremiumUSERAuthRedirect(RequirePremiumUSERAuth);
+
+export { NFDhome , RequireNormalUSERAuthWithAuth as RequireNormalUSERAuth, RequirePremiumUSERAuthWithAuth as RequirePremiumUSERAuth };

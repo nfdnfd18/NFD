@@ -1,0 +1,92 @@
+{
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "no_notifications": "Keine Benachrichtigungen."
+  },
+  "buttons": {
+    "close": "Schließen",
+    "closeSidebar": "Seitenleiste schließen",
+    "logout": "Abmelden"
+  },
+  "sidebar": {
+    "navigation": "Navigation",
+    "language": "Sprache wählen",
+    "partners": "Partner"
+  },
+  "chat": { "title": "Chat", "no_messages": "Keine Nachrichten." },
+  "music": { "title": "Musik", "play": "Abspielen", "pause": "Pause" },
+  "common": {
+    "home": "Startseite",
+    "availableCars": "Verfügbare Fahrzeuge",
+    "bookNow": "Jetzt buchen"
+  },
+  "nav": {
+    "homePage": "Startseite",
+    "availableCars": "Verfügbare Fahrzeuge",
+    "privacyPolicy": "Datenschutzbestimmungen",
+    "blog": "Blog",
+    "main": "Haupt",
+    "live": "Live",
+    "leaderboard": "Bestenliste",
+    "friends": "Freunde",
+    "support": "Support",
+  "HOME": "Startseite",
+  "AUTHENTIFICATION": "Authentifizierung",
+    "register": "Registrieren",
+    "login": "Einloggen",
+    "dualLogin": "Doppel-Login"
+  },
+  "homecars": {
+    "sectionTitle": "Verfügbare Fahrzeuge",
+    "bookNow": "Jetzt buchen",
+    "notAvailableBadge": "Nicht verfügbar",
+    "notAvailableIntro": "Dieses Auto ist derzeit nicht verfügbar und kehrt zurück",
+    "willBeBackAt": "WIRD ZURÜCKKEHREN",
+    "alreadyBooked": "Bereits gebucht von {{from}} bis {{to}}.",
+    "freeDaysNote": "Das Auto ist frei von {{from}} bis {{to}} ({{days}} Tage) — Reservierungen möglich."
+  },
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "es-ES": "Español",
+    "pt-BR": "Português",
+    "zh-CN": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "ar-MA": "العربية",
+    "de": "Deutsch"
+  },
+  "nfdcopy": {
+    "heroSub": "wird gebaut",
+    "heroNote": "Erstellung einer Mietwagen-Webanwendung.",
+    "buildingInfo": "Erstellungsinformationen",
+    "deploymentTitle": "Bereitstellungsdetails",
+    "deployment": "Bereitstellung",
+    "timezone": "Zeitzone",
+    "addressDomains": "Adressdomänen",
+    "tel": "TEL"
+  }
+  ,
+  "auth": {
+    "createAccount": "Konto erstellen",
+    "creating": "Erstelle...",
+    "username": "Benutzername",
+    "usernamePlaceholder": "Wähle einen Benutzernamen",
+    "email": "E-Mail",
+    "emailPlaceholder": "du@beispiel.de",
+    "password": "Passwort",
+    "passwordPlaceholder": "Gib dein Passwort ein",
+    "confirm": "Passwort bestätigen",
+    "confirmPlaceholder": "Wiederhole dein Passwort",
+    "signInTitle": "Melde dich in deinem Konto an",
+    "emailOrUsername": "E-Mail oder Benutzername",
+    "emailOrUsernamePlaceholder": "E-Mail oder Benutzername",
+    "signing": "Anmelden...",
+    "signIn": "Anmelden",
+    "alreadyHaveAccount": "Bereits ein Konto?",
+    "needAccount": "Benötigst du ein Konto?",
+    "createOne": "Eines erstellen",
+    "dualLogin": "Doppel-Login"
+  }
+}

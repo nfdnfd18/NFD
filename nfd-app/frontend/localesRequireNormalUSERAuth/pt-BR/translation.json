@@ -1,0 +1,89 @@
+{
+  "notifications": {
+    "title": "Notificações",
+    "no_notifications": "Sem notificações."
+  },
+  "buttons": {
+    "close": "Fechar",
+    "closeSidebar": "Fechar",
+    "logout": "Sair"
+  },
+  "sidebar": {
+    "navigation": "Menu",
+    "language": "Escolher idioma",
+    "partners": "Parceiros"
+  },
+  "chat": { "title": "Chat", "no_messages": "Sem mensagens." },
+  "music": { "title": "Música", "play": "Tocar", "pause": "Pausar" },
+  "common": { "home": "Início", "availableCars": "Carros disponíveis", "bookNow": "Reservar" },
+  "nav": {
+    "homePage": "Início",
+    "availableCars": "Carros disponíveis",
+    "privacyPolicy": "Política de privacidade",
+    "blog": "Blog",
+    "main": "Principal",
+    "live": "Ao vivo",
+    "leaderboard": "Classificação",
+    "friends": "Amigos",
+    "support": "Suporte",
+  "HOME": "Início",
+  "AUTHENTIFICATION": "Autenticação",
+    "register": "Registrar",
+    "login": "Entrar",
+    "dualLogin": "Login duplo"
+  },
+  "homecars": {
+    "sectionTitle": "Carros disponíveis",
+    "bookNow": "Reservar",
+    "notAvailableBadge": "Não disponível",
+    "notAvailableIntro": "Este carro não está disponível atualmente e voltará",
+    "willBeBackAt": "VOLTARÁ EM",
+    "alreadyBooked": "Já reservado desde {{from}} até {{to}}.",
+    "freeDaysNote": "O carro está livre desde {{from}} até {{to}} ({{days}} dias) — reservas são aceitas."
+  },
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "es-ES": "Español",
+    "pt-BR": "Português",
+    "zh-CN": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "ar-MA": "العربية",
+    "de": "Deutsch"
+  },
+  "nfdcopy": {
+    "heroSub": "em construção",
+    "heroNote": "Construindo um aplicativo de aluguel de carros.",
+    "buildingInfo": "informações de construção",
+    "deploymentTitle": "Detalhes da implantação",
+    "deployment": "Implantação",
+    "timezone": "Fuso horário",
+    "addressDomains": "Domínios de endereço",
+    "tel": "TEL"
+  }
+
+  ,
+  "auth": {
+    "createAccount": "Criar conta",
+    "creating": "Criando...",
+    "username": "Nome de usuário",
+    "usernamePlaceholder": "Escolha um nome de usuário",
+    "email": "Email",
+    "emailPlaceholder": "you@example.com",
+    "password": "Senha",
+    "passwordPlaceholder": "Digite sua senha",
+    "confirm": "Confirmar senha",
+    "confirmPlaceholder": "Repita sua senha",
+    "signInTitle": "Entre na sua conta",
+    "emailOrUsername": "Email ou Nome de usuário",
+    "emailOrUsernamePlaceholder": "Email ou nome de usuário",
+    "signing": "Entrando...",
+    "signIn": "Entrar",
+    "alreadyHaveAccount": "Já tem uma conta?",
+    "needAccount": "Precisa de uma conta?",
+    "createOne": "Crie uma",
+    "dualLogin": "Login duplo"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "RequireNormalUSERAuth": "用户",
+    "myProfile": "我的资料",
+    "myBooking": "我的预订",
+    "support": "支持",
+    "NFDSocialMedia": "NFD 社交",
+    "blog": "博客",
+    "friends": "朋友",
+    "live": "直播"
+  },
+  "sidebar": {
+    "partnersNotOfficial": "合作伙伴（尚未正式）",
+    "navigation": "导航"
+  },
+  "buttons": {
+    "closeSidebar": "关闭"
+  },
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "es-ES": "Español",
+    "pt-BR": "Português",
+    "zh-CN": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "ar-MA": "العربية",
+    "de": "Deutsch"
+  }
+}

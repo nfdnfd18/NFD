@@ -1,0 +1,125 @@
+@use "../media.scss" as *; // Import media mixins
+.rewards-container {
+ /* Add background image */
+  transition: margin 0.7s ease, width 0.7s ease;
+  border-radius: 20px; 
+  box-shadow: 0px 0px 20px 20px ;
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(13px);
+  animation: fadeIn 0.8s ease-in-out;
+  
+    .title {
+      font-size: 2rem;
+      font-weight: bold;    
+
+      animation: fadeIn 0.8s ease-in-out;
+    }
+  
+    .subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      opacity: 0.8;
+    }
+  
+    .rewards-section {
+      margin: 2rem 0;
+      padding: 1rem;
+      border-radius: 8px;
+      background: linear-gradient(120deg,  #1eff0080, transparent);
+      box-shadow: 0 4px 10px #1eff0080;
+      transition: transform 0.3s ease-in-out;
+  
+      &:hover {
+        transform: translateY(-5px);
+      }
+  
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+      }
+  
+      .rewards-list {
+        list-style: none;
+        padding: 0;
+  
+        li {
+          font-size: 1.1rem;
+          margin: 0.5rem 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.5rem;
+          border-radius: 6px;
+          background: var(--list-bg);
+          transition: all 0.3s ease-in-out;
+  
+          &:hover {
+            background: var(--list-hover);
+          }
+  
+          span {
+            font-weight: bold;
+            color: var(--highlight-color);
+          }
+        }
+      }
+    }
+  
+    .join-section {
+      margin-top: 2rem;
+  
+      .join-btn {
+        background: var(--primary-color);
+        color: white;
+        font-size: 1.2rem;
+        padding: 0.8rem 1.5rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        @include transition(all 0.3s ease-in-out);
+      
+        &:hover {
+          filter: brightness(90%); // Darkens the button on hover instead of using darken()
+          transform: scale(1.05);
+        }
+      }
+      
+    }
+  }
+  
+  // Dark mode & variables
+  :root {
+    --bg-color: #0b85ff;
+    --text-color: #222;
+    --primary-color: #ff5722;
+    --highlight-color: #e91e63;
+    --card-bg: #fff;
+    --list-bg: #eee;
+    --list-hover: #ddd;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-color: #4f93543a;
+      --text-color: #fff;
+      --primary-color: #ff9800;
+      --highlight-color: #ff4040;
+      --card-bg: #2dff0342;
+      --list-bg: #30d64e;
+      --list-hover: #3a3a3a;
+    }
+  }
+  
+  // Animations
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

@@ -1,0 +1,336 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+// Auth context (explicit .nfd extension to match project files)
+import { useAuth } from '../../NFDcomponents/AuthContext.nfd';
+// Note: sweepstakes/blog/points services missing from this frontend package.
+// The page currently uses mock data, so we remove the broken imports to avoid
+// Vite resolution errors. Implement real service clients under `src/services`
+// when backend endpoints are ready.
+import { 
+  FaCar, 
+  FaGift, 
+  FaTrophy, 
+  FaBlog, 
+  FaCoins,
+  FaArrowRight,
+  FaUsers,
+  FaDollarSign,
+  FaTicketAlt,
+  FaPlay
+} from 'react-icons/fa';
+import './HomePage.scss';
+import i18n from '../../i18n.jsx';
+
+const Home = () => {
+  const { user, isAuthenticated } = useAuth();
+  const [featuredSweepstakes, setFeaturedSweepstakes] = useState([]);
+  const [recentBlogPosts, setRecentBlogPosts] = useState([]);
+  const [stats, setStats] = useState(null);
+  const [opportunities, setOpportunities] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchHomeData();
+  }, [isAuthenticated]);
+
+  const fetchHomeData = async () => {
+    try {
+      setLoading(true);
+      
+      // Mock data for now since backend might not be connected
+      setStats({
+        totalPrizePool: 5000,
+        totalCoinsPrizePool: 150000,
+        totalTickets: 2500,
+        totalUsers: 1250
+      });
+      
+      setFeaturedSweepstakes([
+        {
+          id: 1,
+          title: "August 2025 Real Cash $300 + 6,000 Coins Sweepstake",
+          prizePool: 300,
+          coinsPrizePool: 6000,
+          totalTickets: 150
+        },
+        {
+          id: 2,
+          title: "FREE Sweepstake August 2025: $200 + 10,000 Coins",
+          prizePool: 200,
+          coinsPrizePool: 10000,
+          totalTickets: 89
+        }
+      ]);
+
+      setRecentBlogPosts([
+        {
+          id: 1,
+          title: "My Amazing BMW X5 Experience in Los Angeles",
+          content: "Just had the most incredible rental experience with a BMW X5...",
+          user: { username: "CarLover123" },
+          likes: 24,
+          images: ["https://via.placeholder.com/300x200?text=BMW+X5"]
+        }
+      ]);
+
+      if (isAuthenticated) {
+        setOpportunities([
+          {
+            id: 'daily_login',
+            title: 'Daily Login Bonus',
+            description: 'Login to earn 10 points',
+            points: 10,
+            completed: false
+          },
+          {
+            id: 'blog_post',
+            title: 'Share Your Experience',
+            description: 'Write a blog post about your rental',
+            points: 50,
+            completed: false
+          }
+        ]);
+      }
+    } catch (error) {
+      console.error('Error fetching home data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const FeatureCard = ({ icon: Icon, title, description, link, color }) => (
+    <Link to={link} className="feature-card">
+      <div className={`feature-card__icon ${color}`}>
+        <Icon />
+      </div>
+      <h3 className="feature-card__title">{title}</h3>
+      <p className="feature-card__description">{description}</p>
+      <div className="feature-card__link">
+        <span>Explore</span>
+        <FaArrowRight />
+      </div>
+    </Link>
+  );
+
+  const SweepstakeCard = ({ sweepstake }) => (
+    <Link to="/sweepstakes" className="sweepstake-card">
+      <h4 className="sweepstake-card__title">{sweepstake.title}</h4>
+      <div className="sweepstake-card__prizes">
+        {sweepstake.prizePool > 0 && (
+          <div className="sweepstake-card__prize">
+            <span className="sweepstake-card__prize-label">Cash Prize:</span>
+            <span className="sweepstake-card__prize-value sweepstake-card__prize-value--cash">
+              ${sweepstake.prizePool}
+            </span>
+          </div>
+        )}
+        {sweepstake.coinsPrizePool > 0 && (
+          <div className="sweepstake-card__prize">
+            <span className="sweepstake-card__prize-label">Coins Prize:</span>
+            <span className="sweepstake-card__prize-value sweepstake-card__prize-value--coins">
+              {sweepstake.coinsPrizePool.toLocaleString()}
+            </span>
+          </div>
+        )}
+        <div className="sweepstake-card__prize">
+          <span className="sweepstake-card__prize-label">Tickets:</span>
+          <span className="sweepstake-card__prize-value">
+            {sweepstake.totalTickets || 0}
+          </span>
+        </div>
+      </div>
+      <div className="sweepstake-card__action">
+        View Details →
+      </div>
+    </Link>
+  );
+
+  if (loading) {
+    return (
+      <div className="home__loading">
+        <div className="loading-spinner"></div>
+        <p>Loading amazing content...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="home">
+      {/* Hero Section */}
+      <section className="hero">
+        <div className="hero__content">
+          <h1 className="hero__title">
+            {i18n.t('home.hero.title')}
+          </h1>
+        
+          <div className="logo" style={{ fontFamily: "Mononokiz" }}>
+          <div className="logo-text">
+            <span className="need">NEED</span>
+            <span className="for">FOR</span>
+            <span className="drive">DRIVE</span>
+          </div>
+        </div>
+        
+          <p className="hero__subtitle">
+            {i18n.t('home.hero.subtitle')}
+          </p>
+          {isAuthenticated ? (
+            <div className="hero__user-stats">
+              <div className="hero__stat">
+                <div className="hero__stat-value">{user?.points || 0}</div>
+                <div className="hero__stat-label">Your Points</div>
+              </div>
+              <div className="hero__stat">
+                <div className="hero__stat-value">Level {user?.level || 0}</div>
+                <div className="hero__stat-label">Your Level</div>
+              </div>
+            </div>
+          ) : (
+            <div className="hero__actions">
+              <Link to="/register" className="btn btn-primary btn-lg">
+                {i18n.t('home.cta.getStarted')}
+              </Link>
+              <Link to="/cars" className="btn btn-secondary btn-lg">
+                {i18n.t('home.cta.browseCars')}
+              </Link>
+            </div>
+          )}
+        </div>
+        <div className="hero__visual">
+          <div className="hero__car-animation">
+            🚗
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Stats */}
+      {stats && (
+        <section className="stats">
+          <div className="stats__grid">
+            <div className="stat-card stat-card--cash">
+              <FaDollarSign className="stat-card__icon" />
+              <div className="stat-card__value">${stats.totalPrizePool}</div>
+              <div className="stat-card__label">Total Prizes Given</div>
+            </div>
+            <div className="stat-card stat-card--coins">
+              <FaCoins className="stat-card__icon" />
+              <div className="stat-card__value">{stats.totalCoinsPrizePool.toLocaleString()}</div>
+              <div className="stat-card__label">Coins Distributed</div>
+            </div>
+            <div className="stat-card stat-card--tickets">
+              <FaTicketAlt className="stat-card__icon" />
+              <div className="stat-card__value">{stats.totalTickets}</div>
+              <div className="stat-card__label">Tickets Purchased</div>
+            </div>
+            <div className="stat-card stat-card--users">
+              <FaUsers className="stat-card__icon" />
+              <div className="stat-card__value">{stats.totalUsers}</div>
+              <div className="stat-card__label">Active Users</div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Earning Opportunities (for authenticated users) */}
+      {isAuthenticated && opportunities.length > 0 && (
+        <section className="opportunities">
+          <h2 className="section-title">Earn Points Today</h2>
+          <div className="opportunities__grid">
+            {opportunities.map((opportunity) => (
+              <div 
+                key={opportunity.id}
+                className={`opportunity-card ${
+                  opportunity.completed ? 'opportunity-card--completed' : ''
+                }`}
+              >
+                <div className="opportunity-card__header">
+                  <h4 className="opportunity-card__title">{opportunity.title}</h4>
+                  <div className="opportunity-card__points">
+                    <FaCoins />
+                    <span>+{opportunity.points}</span>
+                  </div>
+                </div>
+                <p className="opportunity-card__description">{opportunity.description}</p>
+                <div className="opportunity-card__status">
+                  {opportunity.completed ? (
+                    <span className="opportunity-card__completed">✓ Completed</span>
+                  ) : (
+                    <span className="opportunity-card__available">Available</span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Main Features */}
+      <section className="features">
+          <h2 className="section-title">{i18n.t('featuresTitle') || i18n.t('home.featuresTitle')}</h2>
+        <div className="features__grid">
+          <FeatureCard
+            icon={FaCar}
+            title="Rent Cars"
+            description="Browse and rent from our extensive collection of vehicles"
+            link="/cars"
+            color="feature-card__icon--blue"
+          />
+          <FeatureCard
+            icon={FaGift}
+            title="Sweepstakes"
+            description="Enter sweepstakes and win real money and coins"
+            link="/sweepstakes"
+            color="feature-card__icon--purple"
+          />
+          <FeatureCard
+            icon={FaTrophy}
+            title="Leaderboard"
+            description="Compete with others and earn monthly rewards"
+            link="/leaderboard"
+            color="feature-card__icon--orange"
+          />
+          <FeatureCard
+            icon={FaBlog}
+            title="Share Stories"
+            description="Write about your rental experiences and earn points"
+            link="/blog"
+            color="feature-card__icon--green"
+          />
+        </div>
+      </section>
+
+      {/* Featured Sweepstakes */}
+      {featuredSweepstakes.length > 0 && (
+        <section className="featured-sweepstakes">
+          <div className="section-header">
+            <h2 className="section-title">{i18n.t('home.activeSweepstakes')}</h2>
+            <Link to="/sweepstakes" className="section-link">
+              View All →
+            </Link>
+          </div>
+          <div className="featured-sweepstakes__grid">
+            {featuredSweepstakes.map((sweepstake) => (
+              <SweepstakeCard key={sweepstake.id} sweepstake={sweepstake} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Call to Action */}
+      {!isAuthenticated && (
+        <section className="cta">
+          <div className="cta__content">
+              <h2 className="cta__title">{i18n.t('home.cta.title')}</h2>
+              <p className="cta__description">{i18n.t('home.cta.description')}</p>
+              <div className="cta__actions">
+                <Link to="/register" className="btn btn-primary btn-lg">{i18n.t('buttons.signUpNow')}</Link>
+                <Link to="/login" className="btn btn-secondary btn-lg">{i18n.t('buttons.signIn')}</Link>
+              </div>
+            </div>
+        </section>
+      )}
+    </div>
+  );
+};
+
+export default Home;

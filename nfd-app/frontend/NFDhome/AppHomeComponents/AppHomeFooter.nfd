@@ -1,0 +1,101 @@
+import { useEffect, useState, useContext } from "react";
+import PropTypes from "prop-types";
+import MusicPlayer from "../../NFDutiles/WebAppRadio/MusicPlayer.nfd";
+import { WiDayCloudy } from "react-icons/wi";
+import { BiFullscreen, BiExitFullscreen } from "react-icons/bi";
+import { GiNightSky } from "react-icons/gi";
+import UserContext from "../../NFDcomponents/UserContext.nfd";
+
+Footer.propTypes = {
+  showFooter: PropTypes.bool.isRequired,
+  isLeftSidebarOpen: PropTypes.bool.isRequired,
+  isRightSidebarOpen: PropTypes.bool.isRequired,
+};
+
+export default function Footer({ showFooter, isLeftSidebarOpen, isRightSidebarOpen }) {
+  const [footerOutOfView, setFooterOutOfView] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isIPhone, setIsIPhone] = useState(false);
+
+  const { isDarkMode, setIsDarkMode } = useContext(UserContext);
+
+    useEffect(() => {
+      const isIPhoneDevice = /iPhone/.test(navigator.userAgent);
+      setIsIPhone(isIPhoneDevice);
+    }, []);
+  
+    const toggleFullscreen = () => {
+      if (!isFullscreen) {
+        document.documentElement.requestFullscreen?.() || document.body.requestFullscreen?.();
+      } else {
+        document.exitFullscreen?.();
+      }
+      setIsFullscreen(!isFullscreen);
+    };
+  useEffect(() => {
+    const footerElement = document.querySelector("footer");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setFooterOutOfView(!entry.isIntersecting); // Check if the footer is out of view
+        });
+      },
+      { root: null, threshold: 0 }
+    );
+
+    if (footerElement) {
+      observer.observe(footerElement);
+    }
+
+    return () => {
+      if (footerElement) {
+        observer.unobserve(footerElement);
+      }
+    };
+  }, []);
+
+  return (
+    <>
+      {/* Dynamic shadow */}
+      <div
+        className={` footer-shadow-placeholder ${
+          footerOutOfView ? "active" : ""
+        }`}
+      ></div>
+
+      {/* Footer */}
+      <footer style={{ fontFamily: "Mononokiz" }}
+        className={`footer flex justify-around  ${showFooter ? "visible" : "hidden"} ${
+          isLeftSidebarOpen ? "left-sidebar-open" : ""
+        } ${isRightSidebarOpen ? "right-sidebar-open" : ""}`}
+      > 
+
+   
+  <div className="btnfooter">
+     {!isIPhone && (
+            <button
+              className="toggle-btn fullscreen"
+              onClick={toggleFullscreen}
+              aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+            >
+              {isFullscreen ? <BiExitFullscreen /> : <BiFullscreen />}
+            </button>
+          )}
+  
+         
+  
+          <button
+            className="toggle-btn mode"
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            aria-label={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          >
+            {isDarkMode ? <GiNightSky className="icon" /> : <WiDayCloudy className="icon" />}
+          </button> </div> 
+         
+          <MusicPlayer   />
+  <div className="copyright">2024 &copy;  NFD S.A.R.L</div> 
+      </footer>
+    </>
+  );
+}

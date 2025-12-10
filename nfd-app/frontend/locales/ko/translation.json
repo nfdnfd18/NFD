@@ -1,0 +1,74 @@
+{
+  "notifications": { "title": "알림", "no_notifications": "알림이 없습니다." },
+  "buttons": { "close": "닫기", "closeSidebar": "사이드바 닫기", "logout": "로그아웃" },
+  "sidebar": { "navigation": "네비게이션", "language": "언어 선택", "partners": "파트너" },
+  "chat": { "title": "채팅", "no_messages": "메시지가 없습니다." },
+  "music": { "title": "음악", "play": "재생", "pause": "일시중지" },
+  "common": { "home": "홈", "availableCars": "이용 가능한 차량", "bookNow": "지금 예약" },
+  "nav": { "homePage": "홈", "availableCars": "이용 가능한 차량", "privacyPolicy": "개인정보 처리방침", "blog": "블로그", "main": "메인", "live": "라이브", "leaderboard": "리더보드", "friends": "친구", "support": "지원", "HOME": "홈", "AUTHENTIFICATION": "인증", "register": "회원가입", "login": "로그인", "dualLogin": "이중 로그인" },
+  "homecars": {
+    "sectionTitle": "이용 가능한 차량",
+    "bookNow": "지금 예약",
+    "notAvailableBadge": "사용 불가",
+    "notAvailableIntro": "이 차량은 현재 사용할 수 없으며 돌아올 예정입니다",
+    "willBeBackAt": "돌아올 예정",
+    "alreadyBooked": "이미 예약됨 {{from}} - {{to}}.",
+    "freeDaysNote": "이 차량은 {{from}} - {{to}} ({{days}}일) 동안 비어 있습니다 — 예약 가능.",
+    "location": {
+      "mainBranch": "메인 지점"
+    }
+  },
+  "home": {
+    "cta": {
+      "title": "당신의 다음 드라이브를 발견하세요",
+      "description": "쉽고 빠른 렌터카 검색 및 예약 서비스입니다.",
+      "getStarted": "시작하기",
+      "browseCars": "차량 탐색"
+    }
+  },
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "es-ES": "Español",
+    "pt-BR": "Português",
+    "zh-CN": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "ar-MA": "العربية",
+    "de": "Deutsch"
+  },
+  "nfdcopy": {
+    "heroSub": "건설 중",
+    "heroNote": "렌터카 웹앱을 구축 중입니다.",
+    "buildingInfo": "구축 정보",
+    "deploymentTitle": "배포 세부 정보",
+    "deployment": "배포",
+    "timezone": "시간대",
+    "addressDomains": "주소 도메인",
+    "tel": "전화"
+  }
+
+  ,
+  "auth": {
+    "createAccount": "계정 만들기",
+    "creating": "생성 중...",
+    "username": "사용자 이름",
+    "usernamePlaceholder": "사용자 이름 선택",
+    "email": "이메일",
+    "emailPlaceholder": "you@example.com",
+    "password": "비밀번호",
+    "passwordPlaceholder": "비밀번호 입력",
+    "confirm": "비밀번호 확인",
+    "confirmPlaceholder": "비밀번호 재입력",
+    "signInTitle": "계정에 로그인",
+    "emailOrUsername": "이메일 또는 사용자 이름",
+    "emailOrUsernamePlaceholder": "이메일 또는 사용자 이름",
+    "signing": "로그인 중...",
+    "signIn": "로그인",
+    "alreadyHaveAccount": "이미 계정이 있나요?",
+    "needAccount": "계정이 필요하신가요?",
+    "createOne": "계정 만들기",
+    "dualLogin": "이중 로그인"
+  }
+}

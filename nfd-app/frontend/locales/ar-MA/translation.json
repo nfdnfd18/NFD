@@ -1,0 +1,94 @@
+{
+  "notifications": {
+    "title": "الإشعارات",
+    "no_notifications": "لا توجد إشعارات."
+  },
+  "buttons": {
+    "close": "إغلاق",
+    "closeSidebar": "إغلاق ",
+    "logout": "تسجيل الخروج"
+  },
+  "sidebar": {
+    "navigation": "التنقل",
+    "language": "اختر اللغة",
+    "partners": "الشركاء"
+  },
+  "chat": { "title": "دردشة", "no_messages": "لا توجد رسائل." },
+  "music": { "title": "موسيقى", "play": "تشغيل", "pause": "إيقاف مؤقت" },
+  "common": {
+    "home": "الرئيسية",
+    "availableCars": "السيارات المتاحة",
+    "bookNow": "احجز الآن"
+  },
+  "nav": {
+    "homePage": "الرئيسية",
+    "availableCars": "السيارات المتاحة",
+    "privacyPolicy": "سياسة الخصوصية",
+    "blog": "",
+    "main": "الرئيسي",
+    "live": "",
+    "leaderboard": "",
+    "friends": "",
+    "support": "الدعم",
+    "HOME": "الرئيسية",
+  "AUTHENTIFICATION": "المصادقة",
+  "authentication": "المصادقة",
+    "register": "التسجيل",
+    "login": "تسجيل الدخول",
+    "dualLogin": "تسجيل دخول مزدوج"
+  },
+  "auth": {
+  "dir": "rtl",
+  "rtlPages": ["login", "register", "dualLogin"],
+    "createAccount": "إنشاء حساب",
+    "creating": "جاري الإنشاء...",
+    "username": "اسم المستخدم",
+    "usernamePlaceholder": "اختر اسم مستخدم",
+    "email": "البريد الإلكتروني",
+    "emailPlaceholder": "you@example.com",
+    "password": "كلمة المرور",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "confirm": "تأكيد كلمة المرور",
+    "confirmPlaceholder": "أعد إدخال كلمة المرور",
+    "signInTitle": "تسجيل الدخول إلى حسابك",
+    "emailOrUsername": "البريد الإلكتروني أو اسم المستخدم",
+    "emailOrUsernamePlaceholder": "البريد الإلكتروني أو اسم المستخدم",
+    "signing": "جارٍ تسجيل الدخول...",
+    "signIn": "تسجيل الدخول",
+    "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
+    "needAccount": "تحتاج إلى حساب؟",
+    "createOne": "أنشئ واحداً",
+    "dualLogin": "تسجيل دخول مزدوج"
+  },
+  "homecars": {
+    "sectionTitle": "السيارات المتاحة",
+    "bookNow": "احجز الآن",
+    "notAvailableBadge": "غير متاح",
+  "notAvailableIntro": "هذه السيارة غير متاحة حالياً",
+    "willBeBackAt": "ستعود في",
+    "alreadyBooked": "تم حجزها بالفعل من {{from}} إلى {{to}}.",
+    "freeDaysNote": "السيارة متاحة من {{from}} إلى {{to}} ({{days}} أيام) — يمكن الحجز."
+  },
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "es-ES": "Español",
+    "pt-BR": "Português",
+    "zh-CN": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "ar-MA": "العربية",
+    "de": "Deutsch"
+  },
+  "nfdcopy": {
+    "heroSub": "قيد البناء",
+    "heroNote": "بناء تطبيق كراء السيرات",
+    "buildingInfo": "معلومات البناء",
+    "deploymentTitle": "تفاصيل النشر",
+    "deployment": "النشر",
+    "timezone": "المنطقة الزمنية",
+    "addressDomains": " عنوان",
+    "tel": "هاتف"
+  }
+}

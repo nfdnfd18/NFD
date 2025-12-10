@@ -1,0 +1,94 @@
+{
+  "notifications": {
+    "title": "Уведомления",
+    "no_notifications": "Нет уведомлений."
+  },
+  "buttons": {
+    "close": "Закрыть",
+    "closeSidebar": "Закрыть панель",
+    "logout": "Выйти"
+  },
+  "sidebar": {
+    "navigation": "Навигация",
+    "language": "Выбрать язык",
+    "partners": "Партнёры"
+  },
+  "chat": { "title": "Чат", "no_messages": "Нет сообщений." },
+  "music": { "title": "Музыка", "play": "Воспроизвести", "pause": "Пауза" },
+  "common": {
+    "home": "Главная",
+    "availableCars": "Доступные автомобили",
+    "bookNow": "Забронировать"
+  },
+  "nav": {
+  "homePage": "Главная",
+  "availableCars": "Доступные автомобили",
+  "privacyPolicy": "конфиденциальности",
+  "blog": "Блог",
+  "main": "Основное",
+  "live": "Прямой эфир",
+  "leaderboard": "Таблица лидеров",
+  "friends": "Друзья",
+  "support": "Поддержка",
+  "HOME": "Главная",
+    "AUTHENTIFICATION": "Аутентификация",
+    "register": "Регистрация",
+    "login": "Войти",
+    "dualLogin": "Двойной вход"
+  },
+  "homecars": {
+    "sectionTitle": "Доступные автомобили",
+    "bookNow": "Забронировать",
+    "notAvailableBadge": "Недоступно",
+    "notAvailableIntro": "Этот автомобиль в настоящее время недоступен и вернётся",
+    "willBeBackAt": "ВЕРНЁТСЯ",
+    "alreadyBooked": "Уже забронирован с {{from}} по {{to}}.",
+    "freeDaysNote": "Автомобиль свободен с {{from}} по {{to}} ({{days}} дней) — бронирование доступно."
+  }
+  ,
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "es-ES": "Español",
+    "pt-BR": "Português",
+    "zh-CN": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "ar-MA": "العربية",
+    "de": "Deutsch"
+  },
+  "nfdcopy": {
+    "heroSub": "в разработке",
+    "heroNote": "Создание веб-приложения для аренды автомобилей.",
+    "buildingInfo": "информация о строительстве",
+    "deploymentTitle": "Детали развертывания",
+    "deployment": "Развертывание",
+    "timezone": "Часовой пояс",
+    "addressDomains": "Домены адресов",
+    "tel": "ТЕЛ"
+  }
+
+  ,
+  "auth": {
+    "createAccount": "Создать аккаунт",
+    "creating": "Создание...",
+    "username": "Имя пользователя",
+    "usernamePlaceholder": "Выберите имя пользователя",
+    "email": "Электронная почта",
+    "emailPlaceholder": "you@example.com",
+    "password": "Пароль",
+    "passwordPlaceholder": "Введите пароль",
+    "confirm": "Подтвердите пароль",
+    "confirmPlaceholder": "Повторите пароль",
+    "signInTitle": "Войдите в свой аккаунт",
+    "emailOrUsername": "Электронная почта или имя пользователя",
+    "emailOrUsernamePlaceholder": "Электронная почта или имя пользователя",
+    "signing": "Вход...",
+    "signIn": "Войти",
+    "alreadyHaveAccount": "Уже есть аккаунт?",
+    "needAccount": "Нужен аккаунт?",
+    "createOne": "Создать",
+    "dualLogin": "Двойной вход"
+  }
+}

@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+/* Site-wide variables (adjust this to change header/footer height) */
+:root {
+  --site-bar-height: 72px; /* change this value to increase/decrease header & footer height */
+}
+
+/* Ensure header and footer use the same flexible height and center their content */
+.header,
+.footer {
+  height: var(--site-bar-height);
+  min-height: var(--site-bar-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* Audio player artwork and metadata (responsive and smaller) */
+.audio-nowplaying {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px;
+  flex-wrap: nowrap;
+}
+.audio-artwork {
+  /* responsive: min 40px, prefer 6vw, max 72px */
+  width: clamp(40px, 6vw, 72px);
+  height: clamp(40px, 6vw, 72px);
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  border: 2px solid rgba(255,255,255,0.08);
+}
+.audio-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.audio-title {
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.audio-artist {
+  font-size: 12px;
+  color: #e6e6e6;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Slightly larger artwork on wider screens */
+@media (min-width: 900px) {
+  .audio-artwork { width: clamp(56px, 5vw, 92px); height: clamp(56px, 5vw, 92px); }
+  .audio-title { font-size: 16px; }
+  .audio-artist { font-size: 13px; }
+}
+
+/* Compact on very small screens */
+@media (max-width: 420px) {
+  .audio-nowplaying { gap: 8px; padding: 4px; }
+  .audio-title { font-size: 12px; }
+  .audio-artist { font-size: 11px; }
+}
+
+/* RTL support via a body class: Only apply RTL to page text/content, not header/footer layout or controls */
+body.lang-rtl .main-content,
+body.lang-rtl .sidebar-content,
+body.lang-rtl .audio-title,
+body.lang-rtl .audio-artist,
+body.lang-rtl p,
+body.lang-rtl h1,
+body.lang-rtl h2,
+body.lang-rtl h3,
+body.lang-rtl h4,
+body.lang-rtl h5,
+body.lang-rtl h6,
+body.lang-rtl li {
+  direction: rtl;
+  text-align: right;
+}

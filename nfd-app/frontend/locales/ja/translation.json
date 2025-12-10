@@ -1,0 +1,56 @@
+{
+  "notifications": { "title": "通知", "no_notifications": "通知はありません。" },
+  "buttons": { "close": "閉じる", "closeSidebar": "サイドバーを閉じる", "logout": "ログアウト" },
+  "sidebar": { "navigation": "ナビ", "language": "言語を選択", "partners": "パートナー" },
+  "chat": { "title": "チャット", "no_messages": "メッセージはありません。" },
+  "music": { "title": "音楽", "play": "再生", "pause": "一時停止" },
+  "common": { "home": "ホーム", "availableCars": "利用可能な車", "bookNow": "今すぐ予約" },
+  "nav": { "homePage": "ホーム", "availableCars": "利用可能な車", "privacyPolicy": "プライバシーポリシー", "blog": "ブログ", "main": "メイン", "live": "ライブ", "leaderboard": "リーダーボード", "friends": "友達", "support": "サポート", "HOME": "ホーム", "AUTHENTIFICATION": "認証", "register": "登録", "login": "ログイン", "dualLogin": "二重ログイン" },
+  "homecars": { "sectionTitle": "利用可能な車", "bookNow": "今すぐ予約", "notAvailableBadge": "利用不可", "notAvailableIntro": "この車は現在利用できません。戻ってきます", "willBeBackAt": "戻ってくる", "alreadyBooked": "既に予約済み：{{from}} から {{to}}。", "freeDaysNote": "この車は {{from}} から {{to}} まで（{{days}} 日間）空いています — 予約可。" }
+  ,
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "es-ES": "Español",
+    "pt-BR": "Português",
+    "zh-CN": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "ar-MA": "العربية",
+    "de": "Deutsch"
+  },
+  "nfdcopy": {
+    "heroSub": "建設中です",
+    "heroNote": "レンタカーのウェブアプリを構築しています。",
+    "buildingInfo": "構築情報",
+    "deploymentTitle": "デプロイの詳細",
+    "deployment": "デプロイ",
+    "timezone": "タイムゾーン",
+    "addressDomains": "アドレスドメイン",
+    "tel": "TEL"
+  }
+
+  ,
+  "auth": {
+    "createAccount": "アカウントを作成",
+    "creating": "作成中...",
+    "username": "ユーザー名",
+    "usernamePlaceholder": "ユーザー名を選択",
+    "email": "メール",
+    "emailPlaceholder": "you@example.com",
+    "password": "パスワード",
+    "passwordPlaceholder": "パスワードを入力",
+    "confirm": "パスワードの確認",
+    "confirmPlaceholder": "パスワードを再入力",
+    "signInTitle": "アカウントにサインイン",
+    "emailOrUsername": "メールまたはユーザー名",
+    "emailOrUsernamePlaceholder": "メールまたはユーザー名",
+    "signing": "サインイン中...",
+    "signIn": "サインイン",
+    "alreadyHaveAccount": "既にアカウントをお持ちですか？",
+    "needAccount": "アカウントが必要ですか？",
+    "createOne": "作成する",
+    "dualLogin": "二重ログイン"
+  }
+}

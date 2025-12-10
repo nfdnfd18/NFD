@@ -1,0 +1,65 @@
+// filepath: c:\Users\simoo\OneDrive\Bureau\PRIME V1\TheScenses\src\RequireAuth\RequireUSERAuth\USERPages\pages\AIAssistantPage.jsx
+import { useState } from 'react';
+
+const AIAssistantPage = () => {
+  const [inputText, setInputText] = useState('');
+  const [response, setResponse] = useState('');
+
+  const handleGenerate = async () => {
+    try {
+      const trimmedInput = inputText.trim(); // Trim whitespace
+      if (!trimmedInput) {
+        console.error('Input text cannot be empty');
+        alert('Please enter a valid prompt.');
+        return;
+      }
+
+  const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000'; // Fallback URL
+      console.log('Backend URL:', backendUrl); // Debugging log
+
+      const payload = { prompt: trimmedInput }; // Use trimmed input
+      console.log('Request payload:', payload); // Debugging log
+
+      const res = await fetch(`${backendUrl}/api/ai/ai-assistant`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      setResponse(data.generated_text);
+    } catch (error) {
+      console.error('Error generating response:', error);
+    }
+  };
+
+  return (
+    <div className='AI'>
+      <h1>AI Assistant</h1>
+      <textarea
+        value={inputText}
+        onChange={(e) => setInputText(e.target.value)}
+        placeholder="Type your text here..."
+        rows="5"
+        cols="50"
+        type="text"
+        className="form-control"
+      />
+      <button className='button' onClick={handleGenerate}>Generate</button>
+      {response && (
+        <div>
+          <h2>Response:</h2>
+          <h6 className='h6'>{response}</h6>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default AIAssistantPage;

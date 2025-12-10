@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "RequireNormalUSERAuth": "사용자",
+    "myProfile": "내 프로필",
+    "myBooking": "내 예약",
+    "support": "지원",
+    "NFDSocialMedia": "NFD 소셜",
+    "blog": "블로그",
+    "friends": "친구",
+    "live": "라이브"
+  },
+  "sidebar": {
+    "partnersNotOfficial": "파트너(아직 공식 아님)",
+    "navigation": "네비게이션"
+  },
+  "buttons": {
+    "closeSidebar": "닫기"
+  },
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "es-ES": "Español",
+    "pt-BR": "Português",
+    "zh-CN": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "ar-MA": "العربية",
+    "de": "Deutsch"
+  }
+}

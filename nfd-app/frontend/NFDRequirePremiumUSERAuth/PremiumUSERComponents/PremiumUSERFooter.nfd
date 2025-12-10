@@ -1,0 +1,76 @@
+import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import MusicPlayer from "../../NFDutiles/WebAppRadio/MusicPlayer.nfd";
+import { BiFullscreen, BiExitFullscreen } from "react-icons/bi";
+
+Footer.propTypes = {
+  showFooter: PropTypes.bool.isRequired,
+  isLeftSidebarOpen: PropTypes.bool.isRequired,
+  isRightSidebarOpen: PropTypes.bool.isRequired,
+};
+
+export default function Footer({ showFooter, isLeftSidebarOpen, isRightSidebarOpen }) {
+  const [footerOutOfView, setFooterOutOfView] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = () => {
+    if (!isFullscreen) {
+      document.documentElement.requestFullscreen?.() || document.body.requestFullscreen?.();
+    } else {
+      document.exitFullscreen?.();
+    }
+    setIsFullscreen(!isFullscreen);
+  };
+
+  useEffect(() => {
+    const footerElement = document.querySelector("footer");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          setFooterOutOfView(!entry.isIntersecting); // Check if the footer is out of view
+        });
+      },
+      { root: null, threshold: 0 }
+    );
+
+    if (footerElement) {
+      observer.observe(footerElement);
+    }
+
+    return () => {
+      if (footerElement) {
+        observer.unobserve(footerElement);
+      }
+    };
+  }, []);
+
+  return (
+    <>
+      {/* Dynamic shadow */}
+      <div
+        className={`footer-shadow-placeholder ${
+          footerOutOfView || !showFooter ? "active" : ""
+        }`}
+      ></div>
+
+      {/* Footer */}
+      <footer
+        style={{ fontFamily: "Mononokiz" }}
+        className={`footer flex justify-around ${showFooter ? "visible" : "hidden"} ${
+          isLeftSidebarOpen ? "left-sidebar-open" : ""
+        } ${isRightSidebarOpen ? "right-sidebar-open" : ""}`}
+      >
+        2024  &copy; NFD 
+        <MusicPlayer />
+        <button
+          className="toggle-btn fullscreen"
+          onClick={toggleFullscreen}
+          aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+        >
+          {isFullscreen ? <BiExitFullscreen /> : <BiFullscreen />}
+        </button>
+      </footer>
+    </>
+  );
+}

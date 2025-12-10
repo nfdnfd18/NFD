@@ -1,0 +1,111 @@
+<div class="page profile">
+  <h1>User Profile</h1>
+  <p>Profile details will appear here.</p>
+</div>
+import React, { useEffect, useState } from 'react';
+import './Profile.scss';
+import { useAuth } from '../NFDcomponents/AuthContext.nfd';
+import apiRequest from '../src/api.js';
+
+const Profile = () => {
+  const { user, logout, currentTrack } = useAuth();
+  const [posts, setPosts] = useState([]);
+  const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        // try to fetch posts and cars related to the user; backend may not support filters yet so handle gracefully
+        const [pRes, cRes] = await Promise.allSettled([
+          apiRequest.get(`/api/posts?author=${encodeURIComponent(user?.username || user?.email || '')}`),
+          apiRequest.get(`/api/cars?owner=${encodeURIComponent(user?.username || user?.email || '')}`),
+        ]);
+
+        if (mounted) {
+          const pList = pRes.status === 'fulfilled' ? (Array.isArray(pRes.value.data) ? pRes.value.data : pRes.value.data?.posts || []) : [];
+          const cList = cRes.status === 'fulfilled' ? (Array.isArray(cRes.value.data) ? cRes.value.data : cRes.value.data?.cars || []) : [];
+          setPosts(pList);
+          setCars(cList);
+        }
+      } catch (e) {
+        console.warn('Profile data load failed', e);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+
+    fetchData();
+    return () => { mounted = false; };
+  }, [user]);
+
+  return (
+    <div className="NFD-Profile">
+      <div className="profile-hero">
+        <div className="container">
+          <div className="profile-grid">
+            <div className="profile-card">
+              <div className="avatar">{user?.username?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}</div>
+              <div className="profile-info">
+                <h2 className="name">{user?.username || user?.email || 'Anonymous'}</h2>
+                <div className="meta">{user?.email}</div>
+                <div className="actions">
+                  <button className="btn primary" onClick={() => logout()}>Logout</button>
+                </div>
+              </div>
+            </div>
+
+            <div className="profile-widgets">
+              <section className="widget">
+                <h3>Now playing</h3>
+                <div className="now-playing">{currentTrack ? currentTrack.title || currentTrack.name : 'Not playing'}</div>
+              </section>
+
+              <section className="widget">
+                <h3>Your posts</h3>
+                {loading ? <div className="muted">Loading…</div> : (
+                  posts.length ? (
+                    <ul className="list">
+                      {posts.map((p) => (
+                        <li key={p.slug || p.id}>{p.title || p.slug}</li>
+                      ))}
+                    </ul>
+                  ) : <div className="muted">No posts found.</div>
+                )}
+              </section>
+
+              <section className="widget">
+                <h3>Your cars</h3>
+                {loading ? <div className="muted">Loading…</div> : (
+                  cars.length ? (
+                    <ul className="list">
+                      {cars.map((c) => (
+                        <li key={c.id || c.slug}>{c.make} {c.model}</li>
+                      ))}
+                    </ul>
+                  ) : <div className="muted">No cars listed.</div>
+                )}
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container extras">
+        <div className="card">
+          <h3>Profile actions</h3>
+          <div className="grid">
+            <button className="btn outline">Edit profile (soon)</button>
+            <button className="btn outline">Saved searches</button>
+            <button className="btn outline">Payment methods</button>
+            <button className="btn outline">Account security</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Profile;

@@ -1,0 +1,59 @@
+import PropTypes from "prop-types";
+import { PremiumUSERSidebarNav } from "../PremiumUSERComponents/PremiumUSERSidebarNav.nfd";
+import {navigation} from "../PremiumUSER_navbar";
+import usaFlag from "../../src/assets/flags/usa.jpg";
+import franceFlag from "../../src/assets/flags/france.jpg";
+import moroccoFlag from "../../src/assets/flags/morocco.jpg";
+
+USERLeftSidebar.propTypes = {
+  closeSidebar: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
+};
+
+function USERLeftSidebar({ closeSidebar, onClick }) {
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
+  return (
+    <aside
+      className="userLEFT-sidebar"
+      data-aos="fade-right"
+      data-aos-offset="100"
+      data-aos-easing="ease-in-sine"
+      onClick={onClick}
+    >
+      <div className="sidebar-header">
+        <div>{t("sidebar.navigation")}</div>
+      </div>
+      <div className="sidebar-content">
+        <PremiumUSERSidebarNav items={navigation} closeSidebar={closeSidebar} />
+      </div>
+      <div className="sidebar-footer">
+        <div className="language-dropdown">
+          <div className="custom-dropdown">
+            <div className="dropdown-item" onClick={() => changeLanguage("en")}>
+              <img src={usaFlag} alt="English" style={{ width: "20px", marginRight: "8px" }} />
+              English
+            </div>
+            <div className="dropdown-item" onClick={() => changeLanguage("fr")}>
+              <img src={franceFlag} alt="Français" style={{ width: "20px", marginRight: "8px" }} />
+              Français
+            </div>
+            <div className="dropdown-item" onClick={() => changeLanguage("ar")}>
+              <img src={moroccoFlag} alt="العربية" style={{ width: "20px", marginRight: "8px" }} />
+              العربية
+            </div>
+          </div>
+        </div>
+        <button className="toggle-btn" onClick={closeSidebar}>
+          {t("buttons.close")}
+        </button>
+      </div>
+    </aside>
+  );
+}
+
+export default USERLeftSidebar;

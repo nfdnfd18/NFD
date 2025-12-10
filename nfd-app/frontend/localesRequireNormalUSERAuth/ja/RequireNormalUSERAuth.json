@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "RequireNormalUSERAuth": "ユーザー",
+    "myProfile": "プロフィール",
+    "myBooking": "予約",
+    "support": "サポート",
+    "NFDSocialMedia": "NFD ソーシャル",
+    "blog": "ブログ",
+    "friends": "友達",
+    "live": "ライブ"
+  },
+  "sidebar": {
+    "partnersNotOfficial": "パートナー（未正式）",
+    "navigation": "ナビ"
+  },
+  "buttons": {
+    "closeSidebar": "閉じる"
+  },
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "es-ES": "Español",
+    "pt-BR": "Português",
+    "zh-CN": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "ar-MA": "العربية",
+    "de": "Deutsch"
+  }
+}

@@ -1,0 +1,124 @@
+@use "../NFDThemes/ⓡⓔⓢⓟⓞⓝⓢⓘⓥⓔ.scss" as *;
+
+.NFD-Profile {
+  padding: 2.5rem 1rem;
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .profile-hero {
+    background: linear-gradient(180deg, rgb(233, 11, 11), rgba(255, 255, 255, 0.01));
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(2, 6, 23, 0.45);
+  }
+
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .profile-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+  }
+
+  .avatar {
+    width: 84px;
+    height: 84px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 2rem;
+    background: linear-gradient(135deg, #06b6d4, #7c3aed);
+    color: #041025;
+  }
+
+  .profile-info {
+    .name {
+      font-weight: 800;
+      font-size: 1.25rem;
+    }
+
+    .meta {
+      color: var(--color-muted);
+      margin-top: 0.25rem;
+    }
+
+    .actions {
+      margin-top: 0.6rem;
+
+      .btn {
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  .profile-widgets {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .widget {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 0.85rem;
+    border-radius: 10px;
+  }
+
+  .now-playing {
+    color: var(--color-primary);
+    margin-top: 0.25rem;
+  }
+
+  .list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      padding: 0.35rem 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.02);
+    }
+  }
+
+  .muted {
+    color: var(--color-muted);
+  }
+
+  .extras {
+    margin-top: 1rem;
+
+    .card {
+      padding: 1rem;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.2);
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+      }
+    }
+  }
+
+  @media (max-width: 900px) {
+    .profile-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .extras .card .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}

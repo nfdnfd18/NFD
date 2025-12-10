@@ -1,0 +1,50 @@
+.notification-item {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  background: linear-gradient(120deg, #ffffff, #f0f0f0);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+
+  &.unread {
+    background: linear-gradient(120deg, #fffbcc, #fff3a6);
+    border-left: 4px solid #ffc107;
+  }
+
+  &.read {
+    background: linear-gradient(120deg, #e8e8e8, #dcdcdc);
+    border-left: 4px solid #6c757d;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+    color: #333;
+  }
+
+  small {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 0.5rem;
+  }
+
+  .delete-btn {
+    align-self: flex-end;
+    margin-top: 0.5rem;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.85rem;
+    color: #fff;
+    background-color: #dc3545;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #c82333;
+    }
+  }
+}

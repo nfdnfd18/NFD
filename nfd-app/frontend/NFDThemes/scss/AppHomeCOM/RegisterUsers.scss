@@ -1,0 +1,103 @@
+
+
+@use "../media" as *; // Import media mixins
+
+
+.cardlogin {
+    background: linear-gradient(120deg, transparent, #000000, transparent);
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 10px rgb(0, 0, 0);
+    padding: 2rem;
+    text-align: center;
+    width: 900px;
+    max-width: 900px;
+  }
+  
+
+  opacity-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20%;
+    height: 20%;
+    z-index: -1; /* Behind the card */
+    opacity: 37; /* Adjust as needed */
+    z-index: -100; /* Behind the card */
+  }
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .video-container video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+  }
+  .video-container video::-webkit-media-controls {
+    display: none !important;
+  }
+
+  @include desktop-up {
+
+    .cardlogin {
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px 10px rgb(0, 0, 0);
+      padding: 2rem;
+      text-align: center;
+      width: 900px;
+      max-width: 900px;
+    }
+    
+  
+    opacity-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20%;
+      height: 20%;
+      z-index: -1; /* Behind the card */
+      opacity: 37; /* Adjust as needed */
+      z-index: -100; /* Behind the card */
+    }
+    .video-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .video-container video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: translate(-50%, -50%);
+    }
+    .video-container video::-webkit-media-controls {
+      display: none !important;
+    }
+  }
+  
+  //  @include media.desktop-uuupppppppppppppp
+  @include mobile {
+    .cardlogin {
+      background: linear-gradient(120deg, transparent, #000000, transparent);
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px 10px rgb(0, 0, 0);
+      padding: 2rem;
+      text-align: center;
+      width: 900px;
+      max-width: 900px;
+    }
+    
+  
+ 
+  }
+  

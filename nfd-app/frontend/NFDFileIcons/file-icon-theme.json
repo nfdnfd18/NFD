@@ -1,0 +1,20 @@
+{
+  "iconDefinitions": {
+    "nfdIcon": {
+      "iconPath": "./icons/LOGOO.png"
+    }
+  },
+  "fileExtensions": {
+    "nfd": "nfdIcon"
+  },
+  "light": {
+    "fileExtensions": {
+      "nfd": "nfdIcon"
+    }
+  },
+  "highContrast": {
+    "fileExtensions": {
+      "nfd": "nfdIcon"
+    }
+  }
+}

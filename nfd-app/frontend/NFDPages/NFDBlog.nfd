@@ -1,0 +1,54 @@
+import React, { useEffect, useState } from 'react';
+import './NFDBlog.scss';
+import apiRequest from '../NFDLib/apiRequest';
+
+const NFDBlog = () => {
+  const samplePosts = [
+    { slug: 'welcome-nfd', title: 'Welcome to NFD Rentals', excerpt: 'Discover our fleet and great offers.', featuredImage: null, publishedAt: Date.now(), tags: ['announcement'] },
+    { slug: 'how-it-works', title: 'How NFD Rental Works', excerpt: 'A quick guide to renting with NFD.', featuredImage: null, publishedAt: Date.now(), tags: ['guide'] },
+  ];
+
+  const [posts, setPosts] = useState(samplePosts);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+  apiRequest.get('/api/posts')
+      .then((res) => {
+        const data = res.data;
+        const list = (data && (Array.isArray(data) ? data : data.posts)) || [];
+        if (mounted && Array.isArray(list) && list.length) setPosts(list);
+      })
+      .catch((err) => {
+        // keep sample posts; log for debugging
+        console.warn('Failed to load posts, using sample posts.', err?.message || err);
+      })
+      .finally(() => mounted && setLoading(false));
+    return () => { mounted = false; };
+  }, []);
+
+  return (
+    <div className="NFD-Blog">
+      <div className="container">
+        <h1 className="blog-title NAVFONT">Latest Articles</h1>
+        {loading && <div className="blog-loading">Loading…</div>}
+        {!loading && posts.length === 0 && <div className="blog-empty">No posts yet.</div>}
+
+        <div className="posts-grid">
+          {posts.map((p) => (
+            <article key={p.slug} className="post-card">
+              {p.featuredImage && <div className="post-image"><img src={p.featuredImage} alt={p.title} /></div>}
+              <div className="post-body">
+                <h2 className="post-title">{p.title}</h2>
+                <p className="post-excerpt">{p.excerpt}</p>
+                <div className="post-meta">{p.publishedAt ? new Date(p.publishedAt).toLocaleDateString() : ''} • {p.tags?.join(', ')}</div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default NFDBlog;

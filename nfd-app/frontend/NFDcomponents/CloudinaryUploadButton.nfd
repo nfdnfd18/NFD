@@ -1,0 +1,98 @@
+import React, { useRef, useState } from 'react';
+
+/*
+  Simple unsigned Cloudinary upload button.
+  Props:
+    - onUpload(url: string) => void
+    - children: content for the button
+    - accept: file accept string (default: "image/*")
+    - folder: optional Cloudinary folder name
+    - uploadPreset: optional override for VITE_CLOUDINARY_UPLOAD_PRESET
+*/
+export default function CloudinaryUploadButton({ onUpload, children = 'Upload', accept = 'image/*', folder, uploadPreset }) {
+  const inputRef = useRef(null);
+  const [progress, setProgress] = useState(0);
+  const [busy, setBusy] = useState(false);
+
+  const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+  const PRESET = uploadPreset || import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+
+  const handleClick = () => {
+    if (inputRef.current) inputRef.current.click();
+  };
+
+  const uploadFile = async (file) => {
+    if (!CLOUD_NAME || !PRESET) {
+      throw new Error('Cloudinary not configured (VITE_CLOUDINARY_CLOUD_NAME / VITE_CLOUDINARY_UPLOAD_PRESET)');
+    }
+    setBusy(true);
+    setProgress(0);
+    const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('upload_preset', PRESET);
+    if (folder) fd.append('folder', folder);
+
+    // Use XMLHttpRequest to report progress
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', url);
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+          setProgress(Math.round((e.loaded / e.total) * 100));
+        }
+      };
+      xhr.onload = () => {
+        setBusy(false);
+        setProgress(0);
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            const res = JSON.parse(xhr.responseText);
+            resolve(res.secure_url || res.url);
+          } catch (e) {
+            reject(new Error('Invalid Cloudinary response'));
+          }
+        } else {
+          reject(new Error(`Upload failed: ${xhr.status}`));
+        }
+      };
+      xhr.onerror = () => {
+        setBusy(false);
+        setProgress(0);
+        reject(new Error('Network error during upload'));
+      };
+      xhr.send(fd);
+    });
+  };
+
+  const onFileChange = async (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    try {
+      const url = await uploadFile(file);
+      if (onUpload) onUpload(url);
+    } catch (err) {
+      console.error('Cloudinary upload error', err);
+      // Silently surface minimal feedback; consumer component can alert
+      if (onUpload) onUpload(null, err);
+    } finally {
+      // reset input so same file can be reselected
+      e.target.value = '';
+    }
+  };
+
+  return (
+    <div className="cloudinary-upload-ct">
+      <button type="button" className="cloudinary-upload-btn" onClick={handleClick} disabled={busy}>
+        {busy ? `Uploading ${progress}%` : children}
+      </button>
+      <input
+        ref={inputRef}
+        type="file"
+        accept={accept}
+        onChange={onFileChange}
+        style={{ display: 'none' }}
+      />
+    </div>
+  );
+}

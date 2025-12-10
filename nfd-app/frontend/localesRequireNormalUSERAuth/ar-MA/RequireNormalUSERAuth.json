@@ -1,0 +1,31 @@
+{
+  "nav": {
+    "RequireNormalUSERAuth": "مستخدم",
+    "myProfile": "ملفي",
+    "myBooking": "حجوزاتي",
+    "support": "الدعم",
+    "NFDSocialMedia": "NFD الشبكات",
+    "blog": "مدونة",
+    "friends": "الأصدقاء",
+    "live": "مباشر"
+  },
+  "sidebar": {
+    "partnersNotOfficial": "شركاء (غير رسمي بعد)",
+    "navigation": "التنقل"
+  },
+  "buttons": {
+    "closeSidebar": "إغلاق"
+  },
+  "languages": {
+    "en": "English",
+    "fr": "Français",
+    "es-ES": "Español",
+    "pt-BR": "Português",
+    "zh-CN": "中文",
+    "ru": "Русский",
+    "ja": "日本語",
+    "ko": "한국어",
+    "ar-MA": "العربية",
+    "de": "Deutsch"
+  }
+}

@@ -1,0 +1,96 @@
+import { useState, useEffect } from "react";
+import api, { getApiBase } from '../../src/api.js';
+
+const GmailPage = () => {
+  const [emails, setEmails] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const BACKEND_URL = `${getApiBase()}/gmail/emails`;
+
+/**
+ * Retrieves the ACCOUNT_CHOOSER token from either cookies or local storage.
+ * 
+ * First, it checks if the token is available in the cookies under the name "Love_wins_Whats_up_with_that".
+ * If not found in cookies, it checks the local storage for the token.
+ * Returns the token if found in either location, otherwise returns undefined.
+ *
+ * @returns {string | undefined} The token if available, otherwise undefined.
+ */
+
+  const getToken = () => {
+    // Prefer cookie or localStorage custom encrypted key, but fall back to plain token
+    const tokenFromCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("Love_wins_Whats_up_with_that="))
+      ?.split("=")[1];
+    const tokenFromStorage = localStorage.getItem("Love_wins_Whats_up_with_that");
+    const plainToken = localStorage.getItem('token') || sessionStorage.getItem('token');
+    return tokenFromCookie || tokenFromStorage || plainToken;
+  };
+
+  const fetchEmails = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const token = getToken();
+      if (!token) {
+        setError("Access token is missing. Please log in again.");
+        return;
+      }
+
+      const response = await axios.get(BACKEND_URL, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setEmails(response.data.messages || []);
+    } catch (err) {
+      console.error("Error fetching emails:", err);
+      if (err.response?.status === 401) {
+        setError("Unauthorized. Please log in again.");
+        localStorage.removeItem("ACCOUNT_CHOOSER");
+      } else if (err.response?.status === 500) {
+        setError("Server error. Please try again later.");
+      } else {
+        setError("Failed to fetch emails. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchEmails();
+  }, []);
+
+  return (
+    <div className="container mt-5">
+      <h1 className="text-center font-extrabold text-9xl mb-4">Gmail API</h1>
+      <h4>Access your Gmail inbox using the Gmail API.</h4>
+      {loading && <p>Loading emails...</p>}
+      {error && <p className="text-danger">{error}</p>}
+      <div className="row">
+        {emails.map((email) => (
+          <div key={email.id} className="col-md-4 mb-4">
+            <div className="card">
+              <div className="card-body">
+                <h5 className="card-title">Email ID: {email.id}</h5>
+                <a
+                  href={`https://mail.google.com/mail/u/0/#inbox/${email.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary mt-2"
+                >
+                  View Email
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default GmailPage;
