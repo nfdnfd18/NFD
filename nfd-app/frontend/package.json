@@ -2,12 +2,14 @@
   "name": "nfd-frontend",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=18 <21"
+  },
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "postinstall": "npx tailwindcss init -p && npx tailwindcss -i ./src/assets/css/tailwind.css -o ./src/assets/css/main.css",
     "n-f-d_deploy": "node ./nfd_deploy.cjs"
   },
   "dependencies": {

@@ -1,0 +1,28 @@
+# Exclude local git and node artifacts
+.git/
+node_modules/
+.vscode/
+
+# Ignore large archives and editor files
+*.zip
+*.tar
+*.tar.gz
+*.psd
+*.log
+
+# Ignore large media directories used for local testing
+# Ignore large media directories used for local testing
+# NOTE: Do not exclude source assets required by the build (mp3/images used by imports).
+# If you host these on a CDN, re-enable exclusions. For now, keep them included so Vercel
+# can access assets during the build.
+
+# Ignore specific large image files (headers/artwork)
+# Ignore large image files (headers/artwork)
+#**/header/8.jpg
+#**/8.jpg
+
+# Ignore large video files
+*.mp4
+
+# Keep public flags and small assets; adjust if needed
+# If you need these assets in the deployment, host them on a CDN and update references accordingly.
